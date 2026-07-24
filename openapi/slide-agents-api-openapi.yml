@@ -1,0 +1,1414 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: hey@slide.tech
+    name: Slide Team
+    url: https://docs.slide.tech
+  description: "## Introduction\nThe Slide API is organized around REST. Our API has predictable resource-oriented URLs, accepts JSON-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.\n\n## Authentication\nWe use API tokens to authenticate requests. You can view and manage your API tokens in the [Slide Console](https://docs.slide.tech).\nWhen making HTTP requests, you'll need to include the API token in the `Authorization` header, using Bearer auth (e.g. `Authorization: Bearer YOUR_SECRET_TOKEN`).\n\nExample:\n```shell\n$ curl -H 'Authorization: Bearer YOUR_SECRET_TOKEN' 'https://api.slide.tech/v1/device'\n```\n\n## Pagination\nAll list endpoints support pagination. You can use the `limit` and `offset` query parameters to control the number of items returned and the starting index.\nList responses will include a `pagination` key that includes the `next_offset` to use for pagination.\nIf `next_offset` is not present, that indicates there are no more items to fetch.\n\nExample:\n```shell\n$ curl -H 'Authorization: Bearer YOUR_SECRET_TOKEN' \\\n    'https://api.slide.tech/v1/device?offset=0&limit=10'\n{\n    \"pagination\": {\n        \"next_offset\": 10\n    },\n    \"data\": [\n        ...\n    ]\n}\n```\n\n## Rate Limiting\nWe limit the number of requests you can make to the API within a certain time frame.\nEach API token has a pool of `50` requests. We refill this pool at a rate of `10` requests per second.\nIf you exceed the rate limit, you'll receive a response with a `429 Too Many Requests` HTTP code and a `err_rate_limit_exceeded` error code.\nPlease wait before retrying the request. We recommend you implement an exponential backoff strategy to handle rate limits.\n\n## Errors\nSlide uses conventional HTTP response codes to indicate the success or failure of an API request.\nIn general, codes in the 2xx range indicate success, codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter was omitted), and codes in the 5xx range indicate an error with Slide's servers.\n\nWe also include [error codes and details](#model/error) in the response, which may provide more context about the error.\n\nExample:\n```shell\n$ curl 'https://api.slide.tech/v1/device'\n{\n    \"codes\": [\n        \"err_missing_authentication\"\n    ],\n    \"details\": [\n        ...\n    ],\n    \"message\": \"unauthorized\"\n}\n```\n\nSome common error codes are:\n\n| Code                         | Description                                                                                                                                             |\n|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|\n| `err_endpoint_not_found`     | Requested endpoint does not exist.                                                                                                                      |\n| `err_entity_not_found`       | Requested entity does not exist.                                                                                                                        |\n| `err_validation_error`       | Bad request due to validation error. The error `details` will contain any fields that were not valid.                                                   |\n| `err_missing_authentication` | Unauthorized due to missing API token. See [authentication](#description/authentication) for more details.                                              |\n| `err_unauthorized`           | Unauthorized due to invalid API token. You've provided an invalid API token or the API token does not have permission to access the requested resource. |\n| `err_internal_server_error`  | Something went wrong. If you retry the request and it does not succeed, you may contact us at `hey@slide.tech`.                                         |\n| `err_rate_limit_exceeded`    | Rate limit exceeded. Please wait before retrying the request. See [rate limiting](#description/rate-limiting) for more details.                         |\n\n<details>\n  <summary>Show more error codes.</summary>\n\n| Code                                | Description                                                                                                           |\n|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------|\n| `err_agent_not_connected_to_device` | Agent is not connected to the device. Ensure the agent is powered on and has network connectivity.                    |\n| `err_device_not_connected_to_cloud` | Device is not connected to the cloud. Ensure the device is powered on and has network connectivity.                   |\n| `err_backup_already_running`        | A backup is already running for this agent. Please wait for the current backup to complete before starting a new one. |\n| `err_client_not_found`              | Client not found. Ensure the client ID is valid and the client exists.                                                |\n\n</details>\n\n## Eventual Consistency\n\nSlide operates an eventual consistency model, where data may not be immediately available after an operation.\nThis is due to the distributed nature of our system and the need for replication and synchronization across multiple\nsystems. Users should expect that operations may take a short period of time to propagate and become visible to all\ncomponents of the system.\n\n## Deprecations and Breaking Changes\n\n### Active Deprecations\n\n`Device.ip_addresses` and `Agent.ip_addresses` will be removed. They have been replaced by `Device.addresses` and `Agent.addresses` respectively.\n"
+  title: Slide Accounts Agents API
+  version: 1.34.0
+servers:
+- url: https://api.slide.tech
+security:
+- BearerAuth: []
+tags:
+- description: Everything about [agents](#model/agent)
+  name: Agents
+paths:
+  /v1/agent:
+    get:
+      operationId: Agents
+      parameters:
+      - $ref: '#/components/parameters/QueryDeviceID'
+      - $ref: '#/components/parameters/QueryOffset'
+      - $ref: '#/components/parameters/QueryLimit'
+      - description: Sort by a specific field
+        in: query
+        name: sort_by
+        schema:
+          default: hostname
+          enum:
+          - id
+          - hostname
+          - name
+          type: string
+      - $ref: '#/components/parameters/QuerySortAsc'
+      - $ref: '#/components/parameters/QueryClientID'
+      - description: Filter agents to before a specific pairing timestamp (RFC3339 format)
+        in: query
+        name: paired_before
+        schema:
+          format: date-time
+          type: string
+      - description: Filter agents to after a specific pairing timestamp (RFC3339 format)
+        in: query
+        name: paired_after
+        schema:
+          format: date-time
+          type: string
+      - description: Filter agents by type
+        in: query
+        name: agent_type
+        schema:
+          enum:
+          - windows
+          - linux
+          - nas
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Paginated response
+                properties:
+                  data:
+                    description: List of agents
+                    items:
+                      $ref: '#/components/schemas/Agent'
+                    title: Agents
+                    type: array
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+                required:
+                - pagination
+                - data
+                title: Paginated response
+                type: object
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: List agents
+      tags:
+      - Agents
+    post:
+      operationId: AgentPrePair
+      requestBody:
+        content:
+          application/json:
+            example: "{\n  \"display_name\": \"My Agent\",\n  \"device_id\": \"d_0123456789ab\"\n}"
+            schema:
+              properties:
+                device_id:
+                  $ref: '#/components/schemas/DeviceID'
+                display_name:
+                  $ref: '#/components/schemas/DisplayName'
+              required:
+              - display_name
+              - device_id
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentPairCode'
+          description: Created
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Create an agent for an auto-pair installation
+      tags:
+      - Agents
+  /v1/agent/pair:
+    post:
+      operationId: AgentPair
+      requestBody:
+        content:
+          application/json:
+            example: "{\n  \"pair_code\": \"ABC123\",\n  \"device_id\": \"d_0123456789ab\"\n}"
+            schema:
+              properties:
+                device_id:
+                  $ref: '#/components/schemas/DeviceID'
+                pair_code:
+                  $ref: '#/components/schemas/PairCode'
+              required:
+              - pair_code
+              - device_id
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Pair agent
+      tags:
+      - Agents
+  /v1/agent/{agent_id}:
+    get:
+      operationId: AgentByID
+      parameters:
+      - $ref: '#/components/parameters/PathAgentID'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Get agent
+      tags:
+      - Agents
+    patch:
+      operationId: AgentUpdate
+      parameters:
+      - $ref: '#/components/parameters/PathAgentID'
+      requestBody:
+        content:
+          application/json:
+            example: "{\n  \"display_name\": \"<change me or remove the field to keep unchanged>\",\n  \"vss_writer_configs\": [{\"writer_id\":\"{76fe1ac4-15f7-4bcd-987e-8e1acb462fb7}\", \"excluded\":true}, {\"writer_id\":\"{A6AD56C2-B509-4E6C-BB19-49D8F43532F0}\", \"excluded\":false}],\n  \"sealed\": false,\n  \"passphrase\": \"Super Secret Passphrase\",\n  \"file-index\": false,\n  \"backup_paused_until\": \"2025-10-31T23:59:59Z\",\n  \"backup_paused_indefinite\": true,\n  \"backup_resume\": true,\n  \"comments\": \"Agent for production server\",\n  \"backup_schedule\": {\n    \"interval_in_minutes\": 60,\n    \"start_hour\": 9,\n    \"end_hour\": 18,\n    \"days\": [0, 1, 2, 3, 4, 5, 6]\n  },\n  \"timezone\": \"America/New_York\",\n  \"local_retention_policy\": {\n    \"retention_policy_name\": \"balanced\",\n    \"retention_policy_max_age_months\": 84\n  },\n  \"volumes\": [\n    {\n      \"volume_id\": \"v_0123456789ab\",\n      \"include\": true\n    }\n  ],\n  \"volumes_include_default\": true,\n  \"alert_configs\": [\n    {\n      \"alert_type\": \"device_not_checking_in\",\n      \"pause_for_minutes\": 1440\n    },\n    {\n      \"alert_type\": \"device_out_of_date\",\n      \"pause_for_minutes\": 1440\n    },\n    {\n      \"alert_type\": \"device_storage_not_healthy\",\n      \"pause_for_minutes\": 1440\n    },\n    {\n      \"alert_type\": \"device_storage_space_low\",\n      \"pause_for_minutes\": 1440\n    },\n    {\n      \"alert_type\": \"device_storage_space_critical\",\n      \"pause_for_minutes\": 1440\n    },\n    {\n      \"alert_type\": \"agent_not_checking_in\",\n      \"pause_for_minutes\": 1440\n    },\n    {\n      \"alert_type\": \"agent_not_backing_up\",\n      \"pause_for_minutes\": 1440\n    },\n    {\n      \"alert_type\": \"agent_backup_failed\",\n      \"pause_for_minutes\": 1440\n    }\n  ],\n  \"default_restore_settings\": {\n    \"cpu_count\": 4,\n    \"memory_mb\": 8192,\n    \"network_model\": \"virtio\",\n    \"disk_bus\": \"virtio\"\n  }\n}"
+            schema:
+              properties:
+                alert_configs:
+                  description: Array of alert configurations
+                  items:
+                    $ref: '#/components/schemas/AlertConfig'
+                  type: array
+                backup_paused_indefinite:
+                  description: Set to true to pause backups indefinitely. This takes precedence over backup_paused_until. Backups will remain paused until you explicitly set backup_resume to true. Set to false to clear the indefinite pause (backups will resume, or remain paused until backup_paused_until if that is still in the future).
+                  example: true
+                  type: boolean
+                backup_paused_until:
+                  description: Pause backups until this timestamp (RFC3339 format). Backups will automatically resume after this time. To pause indefinitely instead, use backup_paused_indefinite. If both backup_paused_until and backup_paused_indefinite are set, backup_paused_indefinite takes precedence and backups remain paused until explicitly resumed via backup_resume.
+                  example: '2025-10-31T23:59:59Z'
+                  format: date-time
+                  type: string
+                backup_resume:
+                  description: Set to true to immediately resume backups. This clears both backup_paused_until and backup_paused_indefinite, and takes precedence over both if provided in the same request.
+                  example: true
+                  type: boolean
+                backup_schedule:
+                  $ref: '#/components/schemas/BackupSchedule'
+                comments:
+                  description: Optional comments for this agent.
+                  example: Agent for production server
+                  maxLength: 4000
+                  type: string
+                default_restore_settings:
+                  $ref: '#/components/schemas/DefaultRestoreSettings'
+                display_name:
+                  $ref: '#/components/schemas/DisplayName'
+                file_index:
+                  deprecated: true
+                  description: This field exists only for backward compatibility. It is a deprecated field. Use file_index_enabled instead.
+                  type: boolean
+                file_index_enabled:
+                  description: Set to false to leave file indexing off on an agent, true to enable file indexing and searching
+                  type: boolean
+                local_retention_policy:
+                  $ref: '#/components/schemas/LocalRetentionPolicy'
+                nas_smb_password:
+                  description: SMB password for the NAS share. Only applicable to NAS agents. Omit to keep the current password. Write-only.
+                  example: secretpassword
+                  type: string
+                  writeOnly: true
+                nas_smb_username:
+                  description: SMB username for the NAS share. Only applicable to NAS agents.
+                  example: backupuser
+                  type: string
+                nas_unc_path:
+                  description: UNC path to the NAS SMB share. Only applicable to NAS agents.
+                  example: \\nas01\backups
+                  type: string
+                passphrase:
+                  $ref: '#/components/schemas/Passphrase'
+                sealed:
+                  description: Set to false to unseal an agent with a user-managed passphrase. This will allow backups to occur.
+                  type: boolean
+                timezone:
+                  description: IANA timezone string (e.g., "America/New_York", "Europe/London")
+                  example: America/New_York
+                  type: string
+                volumes:
+                  description: Array of volume settings (volume_id and include flag)
+                  items:
+                    $ref: '#/components/schemas/VolumeSetting'
+                  type: array
+                volumes_include_default:
+                  description: Whether new volumes should be included by default
+                  example: true
+                  type: boolean
+                vss_writer_configs:
+                  items:
+                    $ref: '#/components/schemas/AgentVSSWriterConfig'
+                  type: array
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Update agent
+      tags:
+      - Agents
+  /v1/agent/{agent_id}/file-search:
+    get:
+      operationId: FileSearch
+      parameters:
+      - $ref: '#/components/parameters/PathAgentID'
+      - $ref: '#/components/parameters/QueryOffset'
+      - $ref: '#/components/parameters/QueryLimit'
+      - description: Sort by a specific field
+        in: query
+        name: sort_by
+        schema:
+          default: path
+          enum:
+          - path
+          - last_modified
+          - file_size
+          type: string
+      - $ref: '#/components/parameters/QuerySortAsc'
+      - description: The search for files. Must be URL encoded.
+        in: query
+        name: search_term
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    description: List of file paths that match search criteria
+                    items:
+                      $ref: '#/components/schemas/FileIndexSearch'
+                    title: Paths
+                    type: array
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+                required:
+                - pagination
+                - data
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Get the file paths on a system
+      tags:
+      - Agents
+  /v1/agent/{agent_id}/file-search/version:
+    get:
+      operationId: PathVersion
+      parameters:
+      - $ref: '#/components/parameters/PathAgentID'
+      - $ref: '#/components/parameters/QueryOffset'
+      - $ref: '#/components/parameters/QueryLimit'
+      - description: "Sort by a specific field:\n * `created_time` - the snapshot's creation time\n * `last_modified` - when the file was last modified\n * `file_size` - the file size\n"
+        in: query
+        name: sort_by
+        schema:
+          default: created_time
+          enum:
+          - created_time
+          - last_modified
+          - file_size
+          type: string
+      - $ref: '#/components/parameters/QuerySortAsc'
+      - description: The path of the file to get versions for. Must be URL encoded.
+        in: query
+        name: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    description: List of versions of the path
+                    items:
+                      $ref: '#/components/schemas/PathVersion'
+                    title: PathVersions
+                    type: array
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+                required:
+                - pagination
+                - data
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Get the versions of a path
+      tags:
+      - Agents
+  /v1/agent/{agent_id}/passphrase:
+    post:
+      operationId: AgentPassphraseAdd
+      parameters:
+      - $ref: '#/components/parameters/PathAgentID'
+      requestBody:
+        content:
+          application/json:
+            example: "{\n  \"name\": \"ABC123\",\n  \"passphrase\": \"Super Secret Passphrase\"\n}"
+            schema:
+              properties:
+                name:
+                  type: string
+                passphrase:
+                  minLength: 10
+                  type: string
+              required:
+              - name
+              - passphrase
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentPassphrase'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Add agent passphrase
+      tags:
+      - Agents
+  /v1/agent/{agent_id}/passphrase/{agent_passphrase_id}:
+    delete:
+      operationId: AgentPassphraseDelete
+      parameters:
+      - $ref: '#/components/parameters/PathAgentID'
+      - $ref: '#/components/parameters/PathAgentPassphraseID'
+      requestBody:
+        content:
+          application/json:
+            example: "{\n  \"passphrase\": \"Super Secret Passphrase\",\n}"
+            schema:
+              properties:
+                passphrase:
+                  description: The current passphrase for the agent.
+                  type: string
+              required:
+              - passphrase
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Delete agent passphrase
+      tags:
+      - Agents
+  /v1/agent/{agent_id}/service:
+    get:
+      operationId: AgentServices
+      parameters:
+      - $ref: '#/components/parameters/PathAgentID'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Agent services response
+                properties:
+                  data:
+                    description: List of services for the agent
+                    items:
+                      $ref: '#/components/schemas/AgentService'
+                    title: Agent services
+                    type: array
+                required:
+                - data
+                title: Agent services response
+                type: object
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Get agent services
+      tags:
+      - Agents
+    patch:
+      operationId: AgentServiceUpdate
+      parameters:
+      - $ref: '#/components/parameters/PathAgentID'
+      requestBody:
+        content:
+          application/json:
+            example: "{\n  \"services\": [\n    {\n      \"service_id\": \"svc_abc123\",\n      \"verify_on_boot\": true\n    }\n  ]\n}"
+            schema:
+              properties:
+                services:
+                  description: List of service configuration updates.
+                  items:
+                    $ref: '#/components/schemas/AgentServiceUpdateItem'
+                  type: array
+              required:
+              - services
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: List of services that were updated
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/AgentServiceUpdateItem'
+                    type: array
+                required:
+                - data
+                title: Agent service update response
+                type: object
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Update agent services
+      tags:
+      - Agents
+  /v1/agent/{agent_id}/service/reset:
+    post:
+      operationId: AgentServiceReset
+      parameters:
+      - $ref: '#/components/parameters/PathAgentID'
+      responses:
+        '200':
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Reset all of an agent's service verification settings to system defaults
+      tags:
+      - Agents
+  /v1/nas-agent:
+    post:
+      description: Creates a NAS agent that backs up files from an SMB share. Tests SMB credentials against the specified device before creating the agent.
+      operationId: NASAgentCreate
+      requestBody:
+        content:
+          application/json:
+            example:
+              device_id: d_abc123def456
+              display_name: NAS Backup - Finance Share
+              nas_smb_password: secretpassword
+              nas_smb_username: backupuser
+              nas_unc_path: \\nas01\finance
+              timezone: America/New_York
+            schema:
+              properties:
+                device_id:
+                  $ref: '#/components/schemas/DeviceID'
+                display_name:
+                  $ref: '#/components/schemas/DisplayName'
+                nas_smb_password:
+                  description: SMB password for the NAS share. Omit (along with nas_smb_username) to access an anonymous share. Write-only.
+                  example: secretpassword
+                  type: string
+                  writeOnly: true
+                nas_smb_username:
+                  description: SMB username for the NAS share. Omit (along with nas_smb_password) to access an anonymous share.
+                  example: backupuser
+                  type: string
+                nas_unc_path:
+                  description: UNC path to the NAS SMB share.
+                  example: \\nas01\backups
+                  type: string
+                timezone:
+                  $ref: '#/components/schemas/Timezone'
+              required:
+              - device_id
+              - display_name
+              - nas_unc_path
+              - timezone
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+          description: Created
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Create a NAS agent
+      tags:
+      - Agents
+components:
+  schemas:
+    AgentService:
+      description: Agent service object representing a Windows service monitored by service verification.
+      properties:
+        description:
+          description: Description of the Windows service.
+          example: Enables the detection, download, and installation of updates for Windows.
+          type: string
+        display_name:
+          description: Display name of the Windows service.
+          example: Windows Update
+          type: string
+        name:
+          description: Internal name of the Windows service.
+          example: wuauserv
+          type: string
+        service_id:
+          description: Unique identifier of the service.
+          example: svc_abc123
+          type: string
+        startup:
+          description: Startup type of the service.
+          enum:
+          - Automatic
+          - AutomaticDelayedStart
+          - Manual
+          - Disabled
+          example: Automatic
+          type: string
+        state:
+          description: Current state of the service.
+          enum:
+          - Stopped
+          - Running
+          - StartPending
+          - StopPending
+          - ContinuePending
+          - PausePending
+          - Paused
+          example: Running
+          type: string
+        verify_on_boot:
+          description: Whether this service is checked during boot verification.
+          example: true
+          type: boolean
+      required:
+      - service_id
+      - name
+      - display_name
+      - description
+      - state
+      - startup
+      - verify_on_boot
+      type: object
+    ClientID:
+      description: ID of a client
+      example: c_0123456789ab
+      pattern: ^c_[a-z0-9]{12}$
+      type: string
+    DefaultRestoreSettings:
+      description: Default restore VM settings
+      properties:
+        cpu_count:
+          description: Number of CPUs
+          enum:
+          - 1
+          - 2
+          - 4
+          - 8
+          - 16
+          example: 4
+          type: integer
+        disk_bus:
+          description: Disk bus type
+          enum:
+          - sata
+          - virtio
+          example: virtio
+          type: string
+        memory_mb:
+          description: Memory in MB
+          enum:
+          - 4096
+          - 6144
+          - 8192
+          - 12288
+          - 16384
+          - 24576
+          - 28672
+          - 32768
+          - 49152
+          - 65536
+          - 98304
+          - 131072
+          - 163840
+          - 196608
+          - 229376
+          - 262144
+          example: 8192
+          type: integer
+        network_model:
+          description: Network model
+          enum:
+          - virtio
+          - hypervisor_default
+          - e1000
+          - rtl8139
+          example: virtio
+          type: string
+      type: object
+    Passphrase:
+      description: User passphrase. If the agent has a user passphrase, you must provide it here.
+      example: Super Secret Passphrase
+      minLength: 10
+      type: string
+    DeviceID:
+      description: ID of a device
+      example: d_0123456789ab
+      pattern: ^d_[a-z0-9]{12}$
+      type: string
+    SnapshotID:
+      description: ID of a snapshot
+      example: s_0123456789ab
+      pattern: ^s_[a-z0-9]{12}$
+      type: string
+    Timezone:
+      description: Timezone of the agent
+      example: America/New_York
+      pattern: ^[a-zA-Z0-9/_-]+$
+      type: string
+    Volumes:
+      description: Volumes to include in the backup
+      items:
+        properties:
+          include:
+            description: Whether the volume is included in the backup
+            example: true
+            type: boolean
+          mount_points:
+            description: Mount points for this volume (e.g., ["C:", "D:"]) - present in responses only
+            example:
+            - 'C:'
+            items:
+              type: string
+            type: array
+          volume_id:
+            $ref: '#/components/schemas/VolumeID'
+        required:
+        - volume_id
+        - include
+        type: object
+      type: array
+    VolumeSetting:
+      description: Volume setting configuration
+      properties:
+        include:
+          description: Whether to include this volume in backups
+          example: true
+          type: boolean
+        mount_points:
+          description: Mount points for this volume (e.g., ["C:", "D:"])
+          example:
+          - 'C:'
+          items:
+            type: string
+          type: array
+        volume_id:
+          description: Volume ID
+          example: v_0123456789ab
+          type: string
+      required:
+      - volume_id
+      - include
+      type: object
+    VolumeID:
+      description: ID of a volume
+      example: v_0123456789ab
+      pattern: ^v_[a-z0-9]{12}$
+      type: string
+    FileIndexSearch:
+      description: A single file search result
+      properties:
+        modified_time:
+          description: the time when the file was modified in the most recent snapshot
+          example: '2024-08-23T01:40:08Z'
+          format: date-time
+          type: string
+        path:
+          description: path to a file on the protected system
+          example: C:\Users\Administrator\Downloads\SlideAgent.exe
+          type: string
+        size:
+          description: size of the file in bytes
+          example: 614352
+          format: int64
+          type: integer
+      required:
+      - path
+      - size
+      - modified_time
+      type: object
+    AgentPassphrase:
+      description: User-managed passphrase for the agent
+      properties:
+        agent_passphrase_id:
+          $ref: '#/components/schemas/AgentPassphraseID'
+        name:
+          description: Friendly name to help remember which passphrase this is.
+          type: string
+        passphrase:
+          description: Your secret passphrase that secures the agent's data.
+          type: string
+      required:
+      - name
+      type: object
+    PairCode:
+      description: Short code used to identify an unpaired agent
+      example: ABC123
+      externalDocs:
+        description: See our console documentation for more information on pairing agents
+        url: https://docs.slide.tech/getting-started/#step-3-install-slide-agent
+      pattern: ^[a-zA-Z0-9]{6}$
+      type: string
+    Hostname:
+      description: Hostname of the system
+      example: my-hostname-1
+      maxLength: 63
+      minLength: 1
+      pattern: ^[a-zA-Z0-9][a-zA-Z0-9-]{0,62}$
+      type: string
+    NetworkAddress:
+      properties:
+        ips:
+          items:
+            description: The IP addresses associated with the MAC address.
+            example: 192.168.1.104
+            title: IP Address
+            type: string
+          type: array
+        mac:
+          description: MAC address of the network interface.
+          example: 62:bb:d3:0d:db:7d
+          type: string
+      required:
+      - mac
+      - ips
+      type: object
+    DisplayName:
+      description: Customizable display name
+      example: My First Device
+      maxLength: 128
+      type: string
+    AgentPairCode:
+      description: Agent id and pair code
+      properties:
+        agent_id:
+          $ref: '#/components/schemas/AgentID'
+        display_name:
+          $ref: '#/components/schemas/DisplayName'
+        pair_code:
+          $ref: '#/components/schemas/PairCode'
+      required:
+      - agent_id
+      - display_name
+      - pair_code
+      type: object
+    NetworkAddresses:
+      description: List of network addresses
+      items:
+        $ref: '#/components/schemas/NetworkAddress'
+      type: array
+    IPAddresses:
+      deprecated: true
+      description: This field is deprecated and will be removed in the future.
+      items:
+        example: 192.168.3.53
+        format: ipv4
+        type: string
+      type: array
+    BackupSchedule:
+      description: Backup schedule configuration
+      properties:
+        days:
+          description: Days of week when backups should run
+          example:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          items:
+            description: Day of week (0=Sunday, 1=Monday, ..., 6=Saturday)
+            enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            type: integer
+          minItems: 1
+          type: array
+        end_hour:
+          description: End hour (0-23)
+          example: 18
+          maximum: 23
+          minimum: 0
+          type: integer
+        interval_in_minutes:
+          description: Backup interval in minutes
+          enum:
+          - 30
+          - 60
+          - 120
+          - 180
+          - 360
+          example: 60
+          type: integer
+        start_hour:
+          description: Start hour (0-23)
+          example: 9
+          maximum: 23
+          minimum: 0
+          type: integer
+      required:
+      - interval_in_minutes
+      - start_hour
+      - end_hour
+      - days
+      type: object
+    BootedAt:
+      description: Boot timestamp
+      example: '2024-08-23T01:25:08Z'
+      format: date-time
+      type: string
+    Comments:
+      description: Comments about the agent
+      example: This is a test agent
+      maxLength: 1024
+      type: string
+    VolumesIncludeDefault:
+      description: Whether the default volume is included in the backup
+      example: true
+      type: boolean
+    AgentVSSWriterConfig:
+      description: VSS writer configuration for the agent.
+      properties:
+        excluded:
+          description: Whether this VSS writer is excluded from participating in backups.
+          type: boolean
+        writer_id:
+          description: VSS writer ID.
+          example: '{a65faa63-5ea8-4ebc-9dbd-a0c4db26912a}'
+          type: string
+        writer_name:
+          description: VSS writer name.
+          example: SqlServerWriter
+          type: string
+      required:
+      - writer_id
+      - excluded
+      type: object
+    Error:
+      description: Error response object that represents an error that occurred during a request.
+      properties:
+        codes:
+          description: List of error codes that occurred during a request.
+          items:
+            description: A unique error code that identifies the error.
+            title: Code
+            type: string
+          title: Codes
+          type: array
+        details:
+          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
+          items:
+            description: Short detail message describing the error.
+            title: Detail
+            type: string
+          title: Details
+          type: array
+        message:
+          description: Short message describing the error.
+          title: Message
+          type: string
+      required:
+      - codes
+      - message
+      - details
+    LocalRetentionPolicy:
+      description: Local retention policy configuration
+      properties:
+        retention_policy_max_age_months:
+          description: Maximum snapshot age in months
+          enum:
+          - 1
+          - 3
+          - 6
+          - 12
+          - 24
+          - 36
+          - 84
+          example: 84
+          type: integer
+        retention_policy_name:
+          description: Retention policy name
+          enum:
+          - lean
+          - balanced
+          - comprehensive
+          example: balanced
+          type: string
+      required:
+      - retention_policy_name
+      - retention_policy_max_age_months
+      type: object
+    PathVersion:
+      description: A single version of a path
+      properties:
+        modified_time:
+          description: the time when the file was last modified in the snapshot
+          example: '2024-08-23T01:40:08Z'
+          format: date-time
+          type: string
+        size:
+          description: size of the file in bytes
+          example: 614352
+          format: int64
+          type: integer
+        snapshot_id:
+          $ref: '#/components/schemas/SnapshotID'
+      required:
+      - snapshot_id
+      - size
+      - modified_time
+      type: object
+    Agent:
+      description: Agent object that represents an agent that is paired to a device.
+      properties:
+        addresses:
+          $ref: '#/components/schemas/NetworkAddresses'
+        agent_id:
+          $ref: '#/components/schemas/AgentID'
+        agent_type:
+          description: Type of agent. Possible values are "windows", "linux", "nas". May be empty for legacy agents.
+          enum:
+          - windows
+          - linux
+          - nas
+          example: windows
+          type: string
+        agent_version:
+          description: Version of the agent
+          example: 1.2.3
+          type: string
+        alert_configs:
+          description: Alert configurations for this agent
+          items:
+            $ref: '#/components/schemas/AlertConfig'
+          type: array
+        backup_paused_indefinite:
+          description: Whether backups are paused indefinitely. When true, backups remain paused regardless of backup_paused_until and will not resume until explicitly set via backup_resume.
+          example: true
+          type: boolean
+        backup_paused_until:
+          description: Timestamp when backups will resume (RFC3339 format). If backup_paused_indefinite is also true, backups remain paused regardless of this timestamp until explicitly resumed via backup_resume.
+          example: '2025-10-31T23:59:59Z'
+          format: date-time
+          type: string
+        backup_resume:
+          description: Set to true to immediately resume backups. This clears both backup_paused_until and backup_paused_indefinite, and takes precedence over both if provided in the same request.
+          example: true
+          type: boolean
+        backup_schedule:
+          $ref: '#/components/schemas/BackupSchedule'
+        backup_schedule_active:
+          description: Whether the backup schedule is active or paused. (for responses only)
+          example: true
+          type: boolean
+        booted_at:
+          $ref: '#/components/schemas/BootedAt'
+        client_id:
+          $ref: '#/components/schemas/ClientID'
+        comments:
+          $ref: '#/components/schemas/Comments'
+        default_restore_settings:
+          $ref: '#/components/schemas/DefaultRestoreSettings'
+        device_id:
+          $ref: '#/components/schemas/DeviceID'
+        display_name:
+          $ref: '#/components/schemas/DisplayName'
+        encryption_algorithm:
+          description: Storage encryption algorithm of the agent
+          example: aes-256-gcm
+          type: string
+        file_index_enabled:
+          $ref: '#/components/schemas/FileIndexEnabled'
+        firmware_type:
+          description: Firmware type of the agent
+          example: UEFI
+          type: string
+        hostname:
+          $ref: '#/components/schemas/Hostname'
+        ip_addresses:
+          $ref: '#/components/schemas/IPAddresses'
+        last_seen_at:
+          $ref: '#/components/schemas/LastSeenAt'
+        local_retention_policy:
+          $ref: '#/components/schemas/LocalRetentionPolicy'
+        manufacturer:
+          description: Manufacturer of the agent
+          example: Microsoft Corporation
+          type: string
+        nas_smb_username:
+          description: SMB username for the NAS share. Only present for NAS agents.
+          example: backupuser
+          type: string
+        nas_unc_path:
+          description: UNC path to the NAS SMB share. Only present for NAS agents.
+          example: \\nas01\backups
+          type: string
+        os:
+          description: OS of the agent
+          example: windows
+          type: string
+        os_version:
+          description: OS version of the agent
+          example: 10.0.19042
+          type: string
+        passphrases:
+          description: User-managed passphrases for the agent. An empty list means Slide manages the agent passphrase.
+          items:
+            $ref: '#/components/schemas/AgentPassphrase'
+          type: array
+        platform:
+          description: OS platform of the agent
+          example: Microsoft Windows 10 Home
+          type: string
+        public_ip_address:
+          description: Public IP address of the agent
+          example: 74.83.124.111
+          format: ipv4
+          type: string
+        sealed:
+          description: Whether the agent's encryption key is unloaded and unavailable for backups.
+          example: false
+          type: boolean
+        timezone:
+          $ref: '#/components/schemas/Timezone'
+        volumes:
+          $ref: '#/components/schemas/Volumes'
+        volumes_include_default:
+          $ref: '#/components/schemas/VolumesIncludeDefault'
+        vss_writer_configs:
+          description: VSS writer configurations. VSS writers are always included by default.
+          example:
+          - excluded: true
+            writer_id: '{76fe1ac4-15f7-4bcd-987e-8e1acb462fb7}'
+            writer_name: Microsoft Exchange Writer
+          - excluded: false
+            writer_id: '{A6AD56C2-B509-4E6C-BB19-49D8F43532F0}'
+            writer_name: WMI Writer
+          items:
+            $ref: '#/components/schemas/AgentVSSWriterConfig'
+          type: array
+      required:
+      - agent_id
+      - device_id
+      - display_name
+      - comments
+      - backup_schedule
+      - timezone
+      - local_retention_policy
+      - volumes
+      - volumes_include_default
+      - alert_configs
+      - default_restore_settings
+      - last_seen_at
+      - hostname
+      - ip_addresses
+      - addresses
+      - public_ip_address
+      - agent_version
+      - platform
+      - os
+      - os_version
+      - firmware_type
+      - passphrases
+      - vss_writer_configs
+      - sealed
+      - file_index_enabled
+      type: object
+    AgentPassphraseID:
+      description: ID of an agent passphrase
+      example: ape_0123456789ab
+      pattern: ^ape_[a-z0-9]{12}$
+      type: string
+    AgentID:
+      description: ID of an agent
+      example: a_0123456789ab
+      pattern: ^a_[a-z0-9]{12}$
+      type: string
+    AlertConfig:
+      description: Alert configuration. For requests, use pause_for_minutes, alert_paused_indefinite or alert_resume. For responses, paused_until will be provided.
+      properties:
+        alert_active:
+          description: Whether this alert is active. (for responses only)
+          type: boolean
+        alert_paused_indefinite:
+          description: Set to true to pause this alert indefinitely.
+          example: false
+          type: boolean
+        alert_resume:
+          description: Set to true to resume this alert (clears paused_until). This takes precedence over paused_until if both are provided.
+          example: true
+          type: boolean
+        alert_type:
+          description: Type of alert
+          enum:
+          - device_not_checking_in
+          - device_out_of_date
+          - device_storage_not_healthy
+          - device_storage_space_low
+          - device_storage_space_critical
+          - agent_not_checking_in
+          - agent_not_backing_up
+          - agent_backup_failed
+          - agent_duplicate_connection
+          example: agent_backup_failed
+          type: string
+        pause_for_minutes:
+          description: Number of minutes to pause alerts (for requests). Use 'resume' to unpause, or one of the predefined durations. Use 'alert_paused_indefinite' to pause indefinitely.
+          enum:
+          - 0
+          - 30
+          - 60
+          - 120
+          - 240
+          - 480
+          - 1440
+          - 10080
+          example: 1440
+          type: integer
+        paused_until:
+          description: Timestamp when alerts will resume (for responses). RFC3339 format. If null or empty, alerts are not paused.
+          example: '2025-10-31T23:59:59Z'
+          format: date-time
+          type: string
+      required:
+      - alert_type
+      type: object
+    LastSeenAt:
+      description: Last seen timestamp
+      example: '2024-08-23T01:25:08Z'
+      format: date-time
+      type: string
+    AgentServiceUpdateItem:
+      description: A service configuration update.
+      properties:
+        service_id:
+          description: Unique identifier of the service.
+          example: svc_abc123
+          type: string
+        verify_on_boot:
+          description: Whether this service should be checked during boot verification.
+          type: boolean
+      required:
+      - service_id
+      - verify_on_boot
+      type: object
+    Pagination:
+      properties:
+        next_offset:
+          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
+          example: 10
+          format: uint32
+          type: integer
+      type: object
+    FileIndexEnabled:
+      description: Whether the file index is enabled
+      example: true
+      type: boolean
+  responses:
+    '400':
+      content:
+        application/json:
+          examples:
+            err_validation_error:
+              summary: Validation error
+              value:
+                codes:
+                - err_validation_error
+                details:
+                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
+                message: bad request
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Bad request
+    '401':
+      content:
+        application/json:
+          examples:
+            err_missing_authentication:
+              summary: Missing API token
+              value:
+                codes:
+                - err_missing_authentication
+                details:
+                - 'You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. ''Authorization: Bearer YOUR_SECRET_TOKEN'').'
+                message: unauthorized
+            err_unauthorized:
+              summary: Invalid API token
+              value:
+                codes:
+                - err_unauthorized
+                details:
+                - Invalid API token provided or you do not have permission to access this resource.
+                message: unauthorized
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Unauthorized
+    '500':
+      content:
+        application/json:
+          examples:
+            err_internal_server_error:
+              summary: Internal server error
+              value:
+                codes:
+                - err_internal_server_error
+                details:
+                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
+                message: internal server error
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Internal server error
+    '404':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Not found
+  parameters:
+    PathAgentID:
+      example: a_0123456789ab
+      in: path
+      name: agent_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/AgentID'
+    QuerySortAsc:
+      description: Sort in ascending order
+      in: query
+      name: sort_asc
+      schema:
+        default: false
+        type: boolean
+    PathAgentPassphraseID:
+      example: ape_0123456789ab
+      in: path
+      name: agent_passphrase_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/AgentPassphraseID'
+    QueryDeviceID:
+      in: query
+      name: device_id
+      schema:
+        $ref: '#/components/schemas/DeviceID'
+    QueryOffset:
+      description: Starting index for pagination
+      in: query
+      name: offset
+      schema:
+        default: 0
+        format: uint32
+        minimum: 0
+        type: integer
+    QueryLimit:
+      description: Number of items to return for pagination
+      in: query
+      name: limit
+      schema:
+        default: 10
+        format: uint32
+        maximum: 50
+        minimum: 1
+        type: integer
+    QueryClientID:
+      in: query
+      name: client_id
+      schema:
+        $ref: '#/components/schemas/ClientID'
+  securitySchemes:
+    BearerAuth:
+      bearerFormat: string
+      scheme: bearer
+      type: http

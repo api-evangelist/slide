@@ -1,0 +1,888 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: hey@slide.tech
+    name: Slide Team
+    url: https://docs.slide.tech
+  description: "## Introduction\nThe Slide API is organized around REST. Our API has predictable resource-oriented URLs, accepts JSON-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.\n\n## Authentication\nWe use API tokens to authenticate requests. You can view and manage your API tokens in the [Slide Console](https://docs.slide.tech).\nWhen making HTTP requests, you'll need to include the API token in the `Authorization` header, using Bearer auth (e.g. `Authorization: Bearer YOUR_SECRET_TOKEN`).\n\nExample:\n```shell\n$ curl -H 'Authorization: Bearer YOUR_SECRET_TOKEN' 'https://api.slide.tech/v1/device'\n```\n\n## Pagination\nAll list endpoints support pagination. You can use the `limit` and `offset` query parameters to control the number of items returned and the starting index.\nList responses will include a `pagination` key that includes the `next_offset` to use for pagination.\nIf `next_offset` is not present, that indicates there are no more items to fetch.\n\nExample:\n```shell\n$ curl -H 'Authorization: Bearer YOUR_SECRET_TOKEN' \\\n    'https://api.slide.tech/v1/device?offset=0&limit=10'\n{\n    \"pagination\": {\n        \"next_offset\": 10\n    },\n    \"data\": [\n        ...\n    ]\n}\n```\n\n## Rate Limiting\nWe limit the number of requests you can make to the API within a certain time frame.\nEach API token has a pool of `50` requests. We refill this pool at a rate of `10` requests per second.\nIf you exceed the rate limit, you'll receive a response with a `429 Too Many Requests` HTTP code and a `err_rate_limit_exceeded` error code.\nPlease wait before retrying the request. We recommend you implement an exponential backoff strategy to handle rate limits.\n\n## Errors\nSlide uses conventional HTTP response codes to indicate the success or failure of an API request.\nIn general, codes in the 2xx range indicate success, codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter was omitted), and codes in the 5xx range indicate an error with Slide's servers.\n\nWe also include [error codes and details](#model/error) in the response, which may provide more context about the error.\n\nExample:\n```shell\n$ curl 'https://api.slide.tech/v1/device'\n{\n    \"codes\": [\n        \"err_missing_authentication\"\n    ],\n    \"details\": [\n        ...\n    ],\n    \"message\": \"unauthorized\"\n}\n```\n\nSome common error codes are:\n\n| Code                         | Description                                                                                                                                             |\n|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|\n| `err_endpoint_not_found`     | Requested endpoint does not exist.                                                                                                                      |\n| `err_entity_not_found`       | Requested entity does not exist.                                                                                                                        |\n| `err_validation_error`       | Bad request due to validation error. The error `details` will contain any fields that were not valid.                                                   |\n| `err_missing_authentication` | Unauthorized due to missing API token. See [authentication](#description/authentication) for more details.                                              |\n| `err_unauthorized`           | Unauthorized due to invalid API token. You've provided an invalid API token or the API token does not have permission to access the requested resource. |\n| `err_internal_server_error`  | Something went wrong. If you retry the request and it does not succeed, you may contact us at `hey@slide.tech`.                                         |\n| `err_rate_limit_exceeded`    | Rate limit exceeded. Please wait before retrying the request. See [rate limiting](#description/rate-limiting) for more details.                         |\n\n<details>\n  <summary>Show more error codes.</summary>\n\n| Code                                | Description                                                                                                           |\n|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------|\n| `err_agent_not_connected_to_device` | Agent is not connected to the device. Ensure the agent is powered on and has network connectivity.                    |\n| `err_device_not_connected_to_cloud` | Device is not connected to the cloud. Ensure the device is powered on and has network connectivity.                   |\n| `err_backup_already_running`        | A backup is already running for this agent. Please wait for the current backup to complete before starting a new one. |\n| `err_client_not_found`              | Client not found. Ensure the client ID is valid and the client exists.                                                |\n\n</details>\n\n## Eventual Consistency\n\nSlide operates an eventual consistency model, where data may not be immediately available after an operation.\nThis is due to the distributed nature of our system and the need for replication and synchronization across multiple\nsystems. Users should expect that operations may take a short period of time to propagate and become visible to all\ncomponents of the system.\n\n## Deprecations and Breaking Changes\n\n### Active Deprecations\n\n`Device.ip_addresses` and `Agent.ip_addresses` will be removed. They have been replaced by `Device.addresses` and `Agent.addresses` respectively.\n"
+  title: Slide Accounts Devices API
+  version: 1.34.0
+servers:
+- url: https://api.slide.tech
+security:
+- BearerAuth: []
+tags:
+- description: Everything about [devices](#model/device)
+  name: Devices
+paths:
+  /v1/device:
+    get:
+      operationId: Devices
+      parameters:
+      - $ref: '#/components/parameters/QueryOffset'
+      - $ref: '#/components/parameters/QueryLimit'
+      - description: Sort by a specific field
+        in: query
+        name: sort_by
+        schema:
+          default: hostname
+          enum:
+          - hostname
+          type: string
+      - $ref: '#/components/parameters/QuerySortAsc'
+      - $ref: '#/components/parameters/QueryClientID'
+      - $ref: '#/components/parameters/QueryCreatedAfter'
+      - $ref: '#/components/parameters/QueryCreatedBefore'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Paginated response
+                properties:
+                  data:
+                    description: List of devices
+                    items:
+                      $ref: '#/components/schemas/Device'
+                    title: Devices
+                    type: array
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+                required:
+                - pagination
+                - data
+                title: Paginated response
+                type: object
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: List devices
+      tags:
+      - Devices
+  /v1/device/{device_id}:
+    get:
+      operationId: DeviceByID
+      parameters:
+      - $ref: '#/components/parameters/PathDeviceID'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Get device
+      tags:
+      - Devices
+    patch:
+      operationId: DeviceUpdate
+      parameters:
+      - $ref: '#/components/parameters/PathDeviceID'
+      requestBody:
+        content:
+          application/json:
+            example: "{\n  \"display_name\": \"<change me or remove the field to keep unchanged>\",\n  \"hostname\": \"<change me or remove the field to keep unchanged>\",\n  \"client_id\": \"<change me or remove the field to keep unchanged>\"\n}"
+            schema:
+              properties:
+                client_id:
+                  $ref: '#/components/schemas/ClientIDOrEmpty'
+                display_name:
+                  $ref: '#/components/schemas/DisplayName'
+                hostname:
+                  $ref: '#/components/schemas/Hostname'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Update device
+      tags:
+      - Devices
+  /v1/device/{device_id}/network:
+    get:
+      description: 'Get the current network configuration for a device.
+
+        '
+      operationId: DeviceNetworkGet
+      parameters:
+      - $ref: '#/components/parameters/PathDeviceID'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceNetwork'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Get device network configuration
+      tags:
+      - Devices
+    patch:
+      description: 'Update the network configuration for a device. The configuration is tested after it is applied, and rolled back if invalid.
+
+        '
+      operationId: DeviceNetworkUpdate
+      parameters:
+      - $ref: '#/components/parameters/PathDeviceID'
+      requestBody:
+        content:
+          application/json:
+            example: "{\n  \"network_mode\": \"static\",\n  \"network_address\": \"192.168.1.100/24\",\n  \"network_gateway\": \"192.168.1.1\",\n  \"dns_server_primary\": \"1.1.1.1\",\n  \"dns_server_secondary\": \"8.8.8.8\"\n}"
+            schema:
+              $ref: '#/components/schemas/DeviceNetworkUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceNetwork'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Update device network configuration
+      tags:
+      - Devices
+  /v1/device/{device_id}/shutdown/poweroff:
+    post:
+      description: 'Requests a device to power off.
+
+        '
+      operationId: DevicePowerOff
+      parameters:
+      - description: The ID of the device to power off.
+        in: path
+        name: device_id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content: {}
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+          description: Accepted
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Power off a device
+      tags:
+      - Devices
+  /v1/device/{device_id}/shutdown/reboot:
+    post:
+      description: 'Requests a device to reboot.
+
+        '
+      operationId: DeviceReboot
+      parameters:
+      - description: The ID of the device to reboot.
+        in: path
+        name: device_id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content: {}
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+          description: Accepted
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Reboot a device
+      tags:
+      - Devices
+  /v1/device/{device_id}/vlan:
+    get:
+      description: 'List all virtual interfaces (VLANs) for a device.
+
+        '
+      operationId: DeviceVLANList
+      parameters:
+      - $ref: '#/components/parameters/PathDeviceID'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: List of device VLANs
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/DeviceVLAN'
+                    type: array
+                required:
+                - data
+                title: DeviceVLANs
+                type: object
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: List device VLANs
+      tags:
+      - Devices
+    post:
+      description: 'Create a new virtual interface (VLAN) for a device.
+
+        '
+      operationId: DeviceVLANCreate
+      parameters:
+      - $ref: '#/components/parameters/PathDeviceID'
+      requestBody:
+        content:
+          application/json:
+            example: "{\n  \"vlan_tag\": 100,\n  \"name\": \"vlan100\",\n  \"network_mode\": \"static\",\n  \"ip_address\": \"192.168.100.1/24\",\n  \"gateway\": \"192.168.100.1\"\n}"
+            schema:
+              $ref: '#/components/schemas/DeviceVLANCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceVLAN'
+          description: Created
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Create device VLAN
+      tags:
+      - Devices
+  /v1/device/{device_id}/vlan/{vlan_id}:
+    delete:
+      description: 'Delete a virtual interface (VLAN) for a device.
+
+        '
+      operationId: DeviceVLANDelete
+      parameters:
+      - $ref: '#/components/parameters/PathDeviceID'
+      - $ref: '#/components/parameters/PathVLANID'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Delete device VLAN
+      tags:
+      - Devices
+    get:
+      description: 'Get a specific virtual interface (VLAN) for a device.
+
+        '
+      operationId: DeviceVLANGet
+      parameters:
+      - $ref: '#/components/parameters/PathDeviceID'
+      - $ref: '#/components/parameters/PathVLANID'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceVLAN'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Get device VLAN
+      tags:
+      - Devices
+    patch:
+      description: 'Update a virtual interface (VLAN) for a device.
+
+        '
+      operationId: DeviceVLANUpdate
+      parameters:
+      - $ref: '#/components/parameters/PathDeviceID'
+      - $ref: '#/components/parameters/PathVLANID'
+      requestBody:
+        content:
+          application/json:
+            example: "{\n  \"vlan_tag\": 100,\n  \"name\": \"vlan100-updated\",\n  \"network_mode\": \"static\",\n  \"ip_address\": \"192.168.100.2/24\",\n  \"gateway\": \"192.168.100.1\"\n}"
+            schema:
+              $ref: '#/components/schemas/DeviceVLANUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceVLAN'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      summary: Update device VLAN
+      tags:
+      - Devices
+components:
+  schemas:
+    ClientID:
+      description: ID of a client
+      example: c_0123456789ab
+      pattern: ^c_[a-z0-9]{12}$
+      type: string
+    DeviceID:
+      description: ID of a device
+      example: d_0123456789ab
+      pattern: ^d_[a-z0-9]{12}$
+      type: string
+    DeviceVLANUpdate:
+      description: Device virtual interface (VLAN) update request
+      properties:
+        gateway:
+          $ref: '#/components/schemas/VLANGateway'
+        ip_address:
+          $ref: '#/components/schemas/VLANIPAddress'
+        name:
+          $ref: '#/components/schemas/VLANName'
+        network_mode:
+          $ref: '#/components/schemas/NetworkMode'
+        network_update_pending:
+          description: Returned in response only, to indicate that the network update is in progress.
+          example: false
+          type: boolean
+        vlan_tag:
+          $ref: '#/components/schemas/VLANTag'
+      type: object
+    VLANTag:
+      description: 802.1Q VLAN tag (1-4094)
+      example: 100
+      format: uint32
+      maximum: 4094
+      minimum: 1
+      type: integer
+    DeviceNetworkGateway:
+      description: Gateway IP address. Required when network_mode is "static".
+      example: 192.168.1.1
+      format: ipv4
+      type: string
+    DeviceVLAN:
+      description: Device virtual interface (VLAN) configuration
+      properties:
+        gateway:
+          $ref: '#/components/schemas/VLANGateway'
+        ip_address:
+          $ref: '#/components/schemas/VLANIPAddress'
+        name:
+          $ref: '#/components/schemas/VLANName'
+        network_mode:
+          $ref: '#/components/schemas/NetworkMode'
+        network_update_pending:
+          description: Returned in response only, to indicate that the network update is in progress.
+          example: false
+          type: boolean
+        vlan_id:
+          description: Unique identifier for the VLAN
+          example: vlan_012345
+          type: string
+        vlan_tag:
+          $ref: '#/components/schemas/VLANTag'
+      required:
+      - vlan_id
+      - name
+      - vlan_tag
+      - network_mode
+      type: object
+    Hostname:
+      description: Hostname of the system
+      example: my-hostname-1
+      maxLength: 63
+      minLength: 1
+      pattern: ^[a-zA-Z0-9][a-zA-Z0-9-]{0,62}$
+      type: string
+    DeviceNetworkAddress:
+      description: IP address and network mask in CIDR notation (e.g., "192.168.1.100/24"). Required when network_mode is "static".
+      example: 192.168.1.100/24
+      type: string
+    DeviceNetworkUpdate:
+      description: Device network configuration update
+      properties:
+        dns_server_primary:
+          $ref: '#/components/schemas/DNSServerPrimary'
+        dns_server_secondary:
+          $ref: '#/components/schemas/DNSServerSecondary'
+        network_address:
+          $ref: '#/components/schemas/DeviceNetworkAddress'
+        network_gateway:
+          $ref: '#/components/schemas/DeviceNetworkGateway'
+        network_mode:
+          $ref: '#/components/schemas/NetworkMode'
+      type: object
+    NetworkAddress:
+      properties:
+        ips:
+          items:
+            description: The IP addresses associated with the MAC address.
+            example: 192.168.1.104
+            title: IP Address
+            type: string
+          type: array
+        mac:
+          description: MAC address of the network interface.
+          example: 62:bb:d3:0d:db:7d
+          type: string
+      required:
+      - mac
+      - ips
+      type: object
+    DisplayName:
+      description: Customizable display name
+      example: My First Device
+      maxLength: 128
+      type: string
+    NetworkAddresses:
+      description: List of network addresses
+      items:
+        $ref: '#/components/schemas/NetworkAddress'
+      type: array
+    IPAddresses:
+      deprecated: true
+      description: This field is deprecated and will be removed in the future.
+      items:
+        example: 192.168.3.53
+        format: ipv4
+        type: string
+      type: array
+    DNSServerSecondary:
+      description: Secondary DNS server IP address. Optional when network_mode is "static".
+      example: 8.8.8.8
+      format: ipv4
+      type: string
+    BootedAt:
+      description: Boot timestamp
+      example: '2024-08-23T01:25:08Z'
+      format: date-time
+      type: string
+    VLANName:
+      description: Display name for the virtual interface
+      example: vlan100
+      maxLength: 32
+      minLength: 1
+      type: string
+    ClientIDOrEmpty:
+      description: ID of a client or an empty string
+      example: c_0123456789ab
+      pattern: ^(c_[a-z0-9]{12}|)$
+      type: string
+    Error:
+      description: Error response object that represents an error that occurred during a request.
+      properties:
+        codes:
+          description: List of error codes that occurred during a request.
+          items:
+            description: A unique error code that identifies the error.
+            title: Code
+            type: string
+          title: Codes
+          type: array
+        details:
+          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
+          items:
+            description: Short detail message describing the error.
+            title: Detail
+            type: string
+          title: Details
+          type: array
+        message:
+          description: Short message describing the error.
+          title: Message
+          type: string
+      required:
+      - codes
+      - message
+      - details
+    DeviceVLANCreate:
+      description: Device virtual interface (VLAN) creation request
+      properties:
+        gateway:
+          $ref: '#/components/schemas/VLANGateway'
+        ip_address:
+          $ref: '#/components/schemas/VLANIPAddress'
+        name:
+          $ref: '#/components/schemas/VLANName'
+        network_mode:
+          $ref: '#/components/schemas/NetworkMode'
+        network_update_pending:
+          description: Returned in response only, to indicate that the network update is in progress.
+          example: false
+          type: boolean
+        vlan_tag:
+          $ref: '#/components/schemas/VLANTag'
+      required:
+      - name
+      - vlan_tag
+      - network_mode
+      type: object
+    NetworkMode:
+      description: Network mode (DHCP or static IP)
+      enum:
+      - dhcp
+      - static
+      example: static
+      type: string
+    VLANIPAddress:
+      description: IP address and network mask in CIDR notation (e.g., "192.168.100.1/24"). Required when network_mode is "static".
+      example: 192.168.100.1/24
+      type: string
+    DeviceNetwork:
+      description: Device network configuration
+      properties:
+        dns_server_primary:
+          $ref: '#/components/schemas/DNSServerPrimary'
+        dns_server_secondary:
+          $ref: '#/components/schemas/DNSServerSecondary'
+        network_address:
+          $ref: '#/components/schemas/DeviceNetworkAddress'
+        network_gateway:
+          $ref: '#/components/schemas/DeviceNetworkGateway'
+        network_mode:
+          $ref: '#/components/schemas/NetworkMode'
+        network_update_pending:
+          description: Returned in response only, to indicate that the network update is in progress.
+          example: false
+          type: boolean
+      required:
+      - network_mode
+      type: object
+    VLANGateway:
+      description: Gateway IP address. Required when network_mode is "static".
+      example: 192.168.100.1
+      format: ipv4
+      type: string
+    DNSServerPrimary:
+      description: Primary DNS server IP address. Required when network_mode is "static".
+      example: 1.1.1.1
+      format: ipv4
+      type: string
+    LastSeenAt:
+      description: Last seen timestamp
+      example: '2024-08-23T01:25:08Z'
+      format: date-time
+      type: string
+    Pagination:
+      properties:
+        next_offset:
+          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
+          example: 10
+          format: uint32
+          type: integer
+      type: object
+    Device:
+      description: Device object that represents a Slide Box.
+      properties:
+        addresses:
+          $ref: '#/components/schemas/NetworkAddresses'
+        booted_at:
+          $ref: '#/components/schemas/BootedAt'
+        client_id:
+          $ref: '#/components/schemas/ClientID'
+        device_id:
+          $ref: '#/components/schemas/DeviceID'
+        device_warranty_expiration_date:
+          description: Warranty expiration date of the device
+          example: '2029-08-23T01:25:08Z'
+          format: date-time
+          type: string
+        display_name:
+          $ref: '#/components/schemas/DisplayName'
+        hardware_model_name:
+          description: Hardware model name of the device
+          example: Slide Z1, 1 TB
+          type: string
+        hostname:
+          $ref: '#/components/schemas/Hostname'
+        image_version:
+          description: Version of the device image
+          example: 1.0.0
+          type: string
+        ip_addresses:
+          $ref: '#/components/schemas/IPAddresses'
+        last_seen_at:
+          $ref: '#/components/schemas/LastSeenAt'
+        network_update_pending:
+          description: Whether the device has a network update pending
+          example: false
+          type: boolean
+        nfr:
+          description: Whether the device is an NFR device
+          example: false
+          type: boolean
+        package_version:
+          description: Version of the Slide package
+          example: 1.2.3
+          type: string
+        public_ip_address:
+          description: Public IP address of the device
+          example: 74.83.124.111
+          format: ipv4
+          type: string
+        serial_number:
+          description: Serial number of the device
+          example: SN123456
+          type: string
+        service_model_name:
+          description: Service model name of the device
+          example: Slide Z1 Subscription, 1 TB, 1 Year Cloud Retention
+          type: string
+        service_model_name_short:
+          description: Short service model name of the device
+          example: 1 Year Cloud Retention
+          type: string
+        service_status:
+          description: Status of the service
+          enum:
+          - pending_activation
+          - active
+          - canceled
+          example: active
+          type: string
+        storage_total_bytes:
+          description: Total storage in bytes
+          example: 1099511627776
+          format: uint64
+          type: integer
+        storage_used_bytes:
+          description: Used storage in bytes
+          example: 274877906944
+          format: uint64
+          type: integer
+        total_agent_included_volume_used_bytes:
+          description: Amount of data currently on the device's Protected Systems
+          example: 274877906944
+          format: uint64
+          type: integer
+      required:
+      - device_id
+      - display_name
+      - last_seen_at
+      - hostname
+      - ip_addresses
+      - addresses
+      - public_ip_address
+      - image_version
+      - package_version
+      - storage_used_bytes
+      - storage_total_bytes
+      - total_agent_included_volume_used_bytes
+      - serial_number
+      - hardware_model_name
+      - device_warranty_expiration_date
+      - service_model_name
+      - service_model_name_short
+      - service_status
+      - nfr
+      type: object
+  parameters:
+    PathDeviceID:
+      example: d_0123456789ab
+      in: path
+      name: device_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/DeviceID'
+    QueryCreatedBefore:
+      description: Filter results to before a specific creation timestamp (RFC3339 format)
+      in: query
+      name: created_before
+      schema:
+        format: date-time
+        type: string
+    QuerySortAsc:
+      description: Sort in ascending order
+      in: query
+      name: sort_asc
+      schema:
+        default: false
+        type: boolean
+    QueryCreatedAfter:
+      description: Filter results to after a specific creation timestamp (RFC3339 format)
+      in: query
+      name: created_after
+      schema:
+        format: date-time
+        type: string
+    PathVLANID:
+      example: vlan_012345
+      in: path
+      name: vlan_id
+      required: true
+      schema:
+        description: The ID of the VLAN
+        type: string
+    QueryOffset:
+      description: Starting index for pagination
+      in: query
+      name: offset
+      schema:
+        default: 0
+        format: uint32
+        minimum: 0
+        type: integer
+    QueryLimit:
+      description: Number of items to return for pagination
+      in: query
+      name: limit
+      schema:
+        default: 10
+        format: uint32
+        maximum: 50
+        minimum: 1
+        type: integer
+    QueryClientID:
+      in: query
+      name: client_id
+      schema:
+        $ref: '#/components/schemas/ClientID'
+  responses:
+    '400':
+      content:
+        application/json:
+          examples:
+            err_validation_error:
+              summary: Validation error
+              value:
+                codes:
+                - err_validation_error
+                details:
+                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
+                message: bad request
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Bad request
+    '401':
+      content:
+        application/json:
+          examples:
+            err_missing_authentication:
+              summary: Missing API token
+              value:
+                codes:
+                - err_missing_authentication
+                details:
+                - 'You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. ''Authorization: Bearer YOUR_SECRET_TOKEN'').'
+                message: unauthorized
+            err_unauthorized:
+              summary: Invalid API token
+              value:
+                codes:
+                - err_unauthorized
+                details:
+                - Invalid API token provided or you do not have permission to access this resource.
+                message: unauthorized
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Unauthorized
+    '409':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Conflict
+    '500':
+      content:
+        application/json:
+          examples:
+            err_internal_server_error:
+              summary: Internal server error
+              value:
+                codes:
+                - err_internal_server_error
+                details:
+                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
+                message: internal server error
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Internal server error
+    '404':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Not found
+  securitySchemes:
+    BearerAuth:
+      bearerFormat: string
+      scheme: bearer
+      type: http
