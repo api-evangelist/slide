@@ -1,0 +1,48 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/slide-openapi-original.json
+description: >-
+  Error catalog for the Slide API, derived from the shared 4xx/5xx responses
+  and the Error schema in the OpenAPI. Slide does not use RFC 9457
+  problem+json; instead every error returns a JSON envelope with a machine
+  codes[] array, a human message, and a details[] array that may describe the
+  action to take before retrying.
+format: custom-json
+envelope:
+  content_type: application/json
+  fields:
+    codes: List of unique string error codes identifying what went wrong (e.g. err_validation_error).
+    message: Short human-readable message describing the error.
+    details: List of detail strings; may contain action(s) to take before retrying.
+  required: [codes, message, details]
+  example:
+    codes: [err_validation_error]
+    details:
+    - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
+    message: bad request
+statuses:
+- status: 400
+  title: Bad request
+  meaning: The request was malformed or failed validation (bad path/query params or body).
+  remediation: Fix the offending parameters listed in details[] and retry.
+- status: 401
+  title: Unauthorized
+  meaning: Missing or invalid API token in the Authorization Bearer header.
+  remediation: Provide a valid Bearer API token created in the Slide Console.
+- status: 404
+  title: Not found
+  meaning: The referenced resource does not exist or is not visible to the caller.
+  remediation: Verify the resource id and that the token's user has access.
+- status: 409
+  title: Conflict
+  meaning: The request conflicts with the current state of the resource.
+  remediation: Reconcile state (e.g. resource already exists or a competing operation is in progress) and retry.
+- status: 500
+  title: Internal server error
+  meaning: An unexpected error occurred on the Slide side.
+  remediation: Retry with backoff; contact hey@slide.tech if it persists.
+codes:
+- code: err_validation_error
+  status: 400
+  meaning: One or more request parameters failed validation.
+  source: openapi shared 400 response example

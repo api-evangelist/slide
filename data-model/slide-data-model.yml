@@ -1,0 +1,149 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/slide-openapi-original.json
+description: >-
+  Entity-relationship model for the Slide API, derived from OpenAPI component
+  schemas (id-reference fields) and path nesting. Resource ids are opaque,
+  type-prefixed strings of the form <prefix>_[a-z0-9]{12}.
+id_prefixes:
+  a_: Agent
+  ape_: AgentPassphrase
+  al_: Alert
+  aud_: Audit
+  act_: AuditAction
+  b_: Backup
+  c_: Client
+  d_: Device
+  fr_: FileRestore
+  frp_: FileRestorePush
+  ie_: ImageExport
+  ipsec_: NetworkIPSecConn
+  net_: Network
+  pfw_: NetworkPortForward
+  s_: Snapshot
+  u_: User
+  r_: Role
+  virt_: VirtualMachine
+  vlan_: DeviceVLAN
+  wgp_: NetworkWGPeer
+  svc_: AgentService
+entities:
+- name: Account
+  id: account_id
+- name: Client
+  id: client_id
+  relationships:
+  - belongs_to: Account
+- name: Device
+  id: device_id
+  relationships:
+  - belongs_to: Client
+    via: client_id
+- name: Agent
+  id: agent_id
+  relationships:
+  - belongs_to: Device
+    via: device_id
+  - belongs_to: Client
+    via: client_id
+- name: AgentPassphrase
+  id: agent_passphrase_id
+  relationships:
+  - belongs_to: Agent
+- name: AgentService
+  id: service_id
+  relationships:
+  - belongs_to: Agent
+- name: Snapshot
+  id: snapshot_id
+  relationships:
+  - belongs_to: Agent
+    via: agent_id
+- name: Backup
+  id: backup_id
+  relationships:
+  - belongs_to: Agent
+    via: agent_id
+  - has_one: Snapshot
+    via: snapshot_id
+- name: FileRestore
+  id: file_restore_id
+  relationships:
+  - belongs_to: Snapshot
+    via: snapshot_id
+  - belongs_to: Agent
+    via: agent_id
+  - belongs_to: Device
+    via: device_id
+- name: FileRestorePush
+  id: file_restore_push_id
+  relationships:
+  - belongs_to: FileRestore
+    via: file_restore_id
+- name: ImageExport
+  id: image_export_id
+  relationships:
+  - belongs_to: Snapshot
+    via: snapshot_id
+  - belongs_to: Agent
+    via: agent_id
+  - belongs_to: Device
+    via: device_id
+- name: VirtualMachine
+  id: virt_id
+  relationships:
+  - belongs_to: Snapshot
+    via: snapshot_id
+  - belongs_to: Agent
+    via: agent_id
+  - belongs_to: Device
+    via: device_id
+- name: Network
+  id: network_id
+  relationships:
+  - belongs_to: Client
+    via: client_id
+  - has_one: Device
+    via: bridge_device_id
+  - has_many: VirtualMachine
+    via: connected_virt_ids
+- name: NetworkIPSecConn
+  id: ipsec_id
+  relationships:
+  - belongs_to: Network
+- name: NetworkPortForward
+  id: port_forward_id
+  relationships:
+  - belongs_to: Network
+- name: NetworkWGPeer
+  id: wg_peer_id
+  relationships:
+  - belongs_to: Network
+- name: DeviceNetwork
+  relationships:
+  - belongs_to: Device
+- name: DeviceVLAN
+  id: vlan_id
+  relationships:
+  - belongs_to: Device
+- name: Alert
+  id: alert_id
+  relationships:
+  - belongs_to: Agent
+    via: agent_id
+  - belongs_to: Device
+    via: device_id
+- name: Audit
+  id: audit_id
+  relationships:
+  - belongs_to: Account
+    via: account_id
+  - belongs_to: Client
+    via: client_id
+  - belongs_to: User
+    via: user_id
+- name: User
+  id: user_id
+  relationships:
+  - has_one: Role
+    via: role_id

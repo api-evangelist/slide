@@ -1,22 +1,307 @@
 aid: slide
 name: Slide
-description: Slide is a company surfaced as a portfolio company of general-catalyst and added to the API
-  Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Slide is a modern, security-first Business Continuity and Disaster Recovery
+  (BCDR) platform built exclusively for Managed Service Providers (MSPs).
+  Founded by Datto creator Austin McChord, Slide pairs on-premise Slide Box
+  appliances with the Slide Cloud to deliver always-encrypted, block-level
+  backup, snapshot management, file and image restores, and virtualization.
+  Its open REST API (api.slide.tech) gives MSPs full programmatic control to
+  integrate, extend, and automate agents, devices, backups, snapshots,
+  restores, networks, clients, users, alerts, and audit logs within their
+  existing tooling. The platform uses AES-256 and ZFS native encryption,
+  offers month-to-month subscriptions, and is SOC 2 Type 1 certified.
 url: https://raw.githubusercontent.com/api-evangelist/slide/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://images.prismic.io/slide/aiG5lQeQX7-eWv32_image-3-.png
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - general-catalyst
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profiled
+x-tier-reason: api-provider
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
+x-enrichment:
+  date: '2026-07-21'
+  status: enriched
+  artifacts_added: 17
+  pass: local-v1
 tags:
 - Company
-apis: []
+- Backup
+- Disaster Recovery
+- Business Continuity
+- BCDR
+- Managed Service Providers
+- MSP
+- Data Protection
+- Cloud Storage
+- Virtualization
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- aid: slide:slide-accounts-api
+  name: Slide Accounts API
+  description: Everything about [accounts](#model/account)
+  humanURL: https://docs.slide.tech/api/
+  baseURL: https://api.slide.tech
+  tags:
+  - Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/slide-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.slide.tech/
+  - type: APIReference
+    url: https://docs.slide.tech/api/
+- aid: slide:slide-agents-api
+  name: Slide Agents API
+  description: Everything about [agents](#model/agent)
+  humanURL: https://docs.slide.tech/api/
+  baseURL: https://api.slide.tech
+  tags:
+  - Agents
+  properties:
+  - type: OpenAPI
+    url: openapi/slide-agents-api-openapi.yml
+  - type: Documentation
+    url: https://docs.slide.tech/
+  - type: APIReference
+    url: https://docs.slide.tech/api/
+- aid: slide:slide-alerts-api
+  name: Slide Alerts API
+  description: Everything about [alerts](#model/alert)
+  humanURL: https://docs.slide.tech/api/
+  baseURL: https://api.slide.tech
+  tags:
+  - Alerts
+  properties:
+  - type: OpenAPI
+    url: openapi/slide-alerts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.slide.tech/
+  - type: APIReference
+    url: https://docs.slide.tech/api/
+- aid: slide:slide-audits-api
+  name: Slide Audits API
+  description: The Audits API from Slide — 4 operation(s) for audits.
+  humanURL: https://docs.slide.tech/api/
+  baseURL: https://api.slide.tech
+  tags:
+  - Audits
+  properties:
+  - type: OpenAPI
+    url: openapi/slide-audits-api-openapi.yml
+  - type: Documentation
+    url: https://docs.slide.tech/
+  - type: APIReference
+    url: https://docs.slide.tech/api/
+- aid: slide:slide-backups-api
+  name: Slide Backups API
+  description: Everything about [backups](#model/backup)
+  humanURL: https://docs.slide.tech/api/
+  baseURL: https://api.slide.tech
+  tags:
+  - Backups
+  properties:
+  - type: OpenAPI
+    url: openapi/slide-backups-api-openapi.yml
+  - type: Documentation
+    url: https://docs.slide.tech/
+  - type: APIReference
+    url: https://docs.slide.tech/api/
+- aid: slide:slide-clients-api
+  name: Slide Clients API
+  description: Everything about [clients](#model/client)
+  humanURL: https://docs.slide.tech/api/
+  baseURL: https://api.slide.tech
+  tags:
+  - Clients
+  properties:
+  - type: OpenAPI
+    url: openapi/slide-clients-api-openapi.yml
+  - type: Documentation
+    url: https://docs.slide.tech/
+  - type: APIReference
+    url: https://docs.slide.tech/api/
+- aid: slide:slide-devices-api
+  name: Slide Devices API
+  description: Everything about [devices](#model/device)
+  humanURL: https://docs.slide.tech/api/
+  baseURL: https://api.slide.tech
+  tags:
+  - Devices
+  properties:
+  - type: OpenAPI
+    url: openapi/slide-devices-api-openapi.yml
+  - type: Documentation
+    url: https://docs.slide.tech/
+  - type: APIReference
+    url: https://docs.slide.tech/api/
+- aid: slide:slide-networks-api
+  name: Slide Networks API
+  description: Everything about [networks](#model/network)
+  humanURL: https://docs.slide.tech/api/
+  baseURL: https://api.slide.tech
+  tags:
+  - Networks
+  properties:
+  - type: OpenAPI
+    url: openapi/slide-networks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.slide.tech/
+  - type: APIReference
+    url: https://docs.slide.tech/api/
+- aid: slide:slide-restores-file-api
+  name: Slide Restores (File) API
+  description: Everything about [file restores](#model/filerestore)
+  humanURL: https://docs.slide.tech/api/
+  baseURL: https://api.slide.tech
+  tags:
+  - Restores (File)
+  properties:
+  - type: OpenAPI
+    url: openapi/slide-restores-file-api-openapi.yml
+  - type: Documentation
+    url: https://docs.slide.tech/
+  - type: APIReference
+    url: https://docs.slide.tech/api/
+- aid: slide:slide-restores-image-api
+  name: Slide Restores (Image) API
+  description: Everything about [image exports](#model/imageexport)
+  humanURL: https://docs.slide.tech/api/
+  baseURL: https://api.slide.tech
+  tags:
+  - Restores (Image)
+  properties:
+  - type: OpenAPI
+    url: openapi/slide-restores-image-api-openapi.yml
+  - type: Documentation
+    url: https://docs.slide.tech/
+  - type: APIReference
+    url: https://docs.slide.tech/api/
+- aid: slide:slide-restores-push-api
+  name: Slide Restores (Push) API
+  description: Everything about [push file restores](#model/filerestorepush)
+  humanURL: https://docs.slide.tech/api/
+  baseURL: https://api.slide.tech
+  tags:
+  - Restores (Push)
+  properties:
+  - type: OpenAPI
+    url: openapi/slide-restores-push-api-openapi.yml
+  - type: Documentation
+    url: https://docs.slide.tech/
+  - type: APIReference
+    url: https://docs.slide.tech/api/
+- aid: slide:slide-restores-virtual-machine-api
+  name: Slide Restores (Virtual Machine) API
+  description: Everything about [virtual machines](#model/virtualmachine)
+  humanURL: https://docs.slide.tech/api/
+  baseURL: https://api.slide.tech
+  tags:
+  - Restores (Virtual Machine)
+  properties:
+  - type: OpenAPI
+    url: openapi/slide-restores-virtual-machine-api-openapi.yml
+  - type: Documentation
+    url: https://docs.slide.tech/
+  - type: APIReference
+    url: https://docs.slide.tech/api/
+- aid: slide:slide-snapshots-api
+  name: Slide Snapshots API
+  description: Everything about [snapshots](#model/snapshot)
+  humanURL: https://docs.slide.tech/api/
+  baseURL: https://api.slide.tech
+  tags:
+  - Snapshots
+  properties:
+  - type: OpenAPI
+    url: openapi/slide-snapshots-api-openapi.yml
+  - type: Documentation
+    url: https://docs.slide.tech/
+  - type: APIReference
+    url: https://docs.slide.tech/api/
+- aid: slide:slide-users-api
+  name: Slide Users API
+  description: Everything about [users](#model/user)
+  humanURL: https://docs.slide.tech/api/
+  baseURL: https://api.slide.tech
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/slide-users-api-openapi.yml
+  - type: Documentation
+    url: https://docs.slide.tech/
+  - type: APIReference
+    url: https://docs.slide.tech/api/
+common:
+- type: DomainSecurity
+  url: security/slide-domain-security.yml
+- type: Authentication
+  url: authentication/slide-authentication.yml
+- type: Website
+  url: https://slide.tech
+- type: DeveloperPortal
+  url: https://docs.slide.tech
+- type: Documentation
+  url: https://docs.slide.tech
+- type: APIReference
+  url: https://docs.slide.tech/api/
+- type: GettingStarted
+  url: https://docs.slide.tech/getting-started/
+- type: Support
+  url: https://discord.com/invite/Ggb3xv3kWG
+- type: StatusPage
+  url: https://status.slide.tech
+- type: ChangeLog
+  url: https://docs.slide.tech/releases/
+- type: Deprecation
+  url: https://docs.slide.tech/deprecations/
+- type: Login
+  url: https://console.slide.tech/
+- type: TermsOfService
+  url: https://slide.tech/legal/terms-and-conditions
+- type: PrivacyPolicy
+  url: https://slide.tech/legal/privacy-policy
+- type: Compliance
+  url: https://docs.slide.tech/security-and-trust/
+- type: ErrorCatalog
+  url: errors/slide-error-codes.yml
+- type: Conventions
+  url: conventions/slide-conventions.yml
+- type: DataModel
+  url: data-model/slide-data-model.yml
+- type: Lifecycle
+  url: lifecycle/slide-lifecycle.yml
+- type: ChangeLog
+  url: changelog/slide-changelog.yml
+- type: MCPServer
+  url: mcp/slide-mcp.yml
+- type: Overlay
+  url: overlays/slide-openapi-overlay.yaml
+- type: Conformance
+  url: conformance/slide-conformance.yml
+- type: TrustCenter
+  url: security/slide-trust-center.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/slide-llms.txt

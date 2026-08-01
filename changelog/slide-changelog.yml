@@ -1,0 +1,36 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.slide.tech/releases/
+description: >-
+  Slide publishes a single combined release log covering the API, Console,
+  Agent, and Box products. This captures the API version track and the current
+  releases of each component.
+scheme: semver
+docs: https://docs.slide.tech/releases/
+current_releases:
+  api: 1.34.0
+  console: 1.71.0
+  agent: 1.25.3
+  box: 30.0.4
+api_version_history:
+- '1.34.0'
+- '1.33.0'
+- '1.32.0'
+- '1.31.0'
+- '1.30.0'
+- '1.29.0'
+- '1.28.0'
+- '1.27.0'
+- '1.26.0'
+- '1.25.0'
+- '1.24.0'
+- '1.23.0'
+- '1.22.1'
+- '1.21.3'
+- '1.20.1'
+- '1.20.0'
+notes: >-
+  The releases page lists the full history back to API v0.0.1. The API track
+  follows semver; the enumerated list is the recent window. Deprecations and
+  breaking changes are tracked separately at
+  https://docs.slide.tech/deprecations/.

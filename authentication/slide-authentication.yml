@@ -1,0 +1,23 @@
+generated: '2026-07-21'
+method: searched
+source: openapi/slide-openapi-original.json
+docs: https://docs.slide.tech/api/
+summary:
+  types:
+  - http
+  api_key_in: []
+  oauth2_flows: []
+notes: >-
+  Slide authenticates every request with a static Bearer API token supplied in
+  the Authorization header (Authorization: Bearer YOUR_SECRET_TOKEN). Tokens are
+  created and managed in the Slide Console; they are user-based and inherit the
+  role and permissions of the user that created them. There is no OAuth flow and
+  no scope system.
+schemes:
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: string
+  token_source: Slide Console (user-scoped API tokens)
+  sources:
+  - openapi/slide-openapi-original.json

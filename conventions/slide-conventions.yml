@@ -1,0 +1,69 @@
+generated: '2026-07-21'
+method: searched
+source: https://api.slide.tech/openapi.json
+docs: https://docs.slide.tech/api/
+description: >-
+  Cross-cutting request/response conventions for the Slide API, captured from
+  the OpenAPI description and the API reference.
+authentication:
+  style: bearer-token
+  header: Authorization
+  format: 'Bearer YOUR_SECRET_TOKEN'
+  notes: >-
+    API tokens are created and managed in the Slide Console. Tokens are
+    user-based and inherit the role and permissions of the user that created
+    them.
+  scheme_ref: authentication/slide-authentication.yml
+base_url: https://api.slide.tech
+versioning:
+  style: uri-path
+  current_path: /v1
+  api_release: 1.34.0
+  notes: All endpoints are namespaced under /v1; the API is versioned semver (see releases).
+pagination:
+  style: offset
+  request_params:
+    limit: Maximum number of items to return.
+    offset: Zero-based starting index.
+  response_field: pagination
+  cursor_field: pagination.next_offset
+  notes: >-
+    All list endpoints support pagination. List responses include a
+    `pagination` object with `next_offset`; when `next_offset` is absent there
+    are no more items to fetch.
+filtering_sorting:
+  common_params:
+  - sort_by
+  - search_term
+  - device_id
+  - agent_type
+  - start_time_after
+  - start_time_before
+  - end_time_after
+  - end_time_before
+  - paired_after
+  - paired_before
+  - audit_time_after
+  - audit_time_before
+  notes: Many list endpoints accept time-window (*_after/*_before) and free-text (search_term) filters.
+idempotency:
+  supported: false
+  notes: >-
+    The Slide API does not document an idempotency-key mechanism; write
+    operations are not advertised as idempotent-by-key. Retries of POST
+    operations may create duplicate resources.
+identifiers:
+  style: prefixed-opaque
+  pattern: '<prefix>_[a-z0-9]{12}'
+  notes: Resource ids carry a type prefix (e.g. d_ device, a_ agent, b_ backup). See data-model/slide-data-model.yml.
+error_envelope:
+  content_type: application/json
+  shape: '{ codes: [string], message: string, details: [string] }'
+  ref: errors/slide-error-codes.yml
+rate_limiting:
+  documented: false
+  notes: No public rate-limit policy or rate-limit response headers are documented.
+transport:
+  tls: >-
+    TLS 1.3 required as of 2026-02-02 (TLS 1.2 deprecated); see
+    lifecycle/slide-lifecycle.yml.

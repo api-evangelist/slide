@@ -1,0 +1,31 @@
+# Slide
+
+> Slide is a modern, security-first Business Continuity and Disaster Recovery (BCDR) platform built exclusively for Managed Service Providers (MSPs). Its open REST API (https://api.slide.tech) gives full programmatic control over agents, devices, backups, snapshots, restores, networks, clients, users, alerts, and audit logs. Authentication is a Bearer API token created in the Slide Console; list endpoints use limit/offset pagination.
+
+## APIs
+
+- [Slide API reference](https://docs.slide.tech/api/): REST API for the Slide BCDR platform (base URL https://api.slide.tech, /v1).
+- [OpenAPI specification](https://api.slide.tech/openapi.json): OpenAPI 3.0.0 document, 83 operations across 14 resource groups.
+
+## Docs
+
+- [Developer documentation](https://docs.slide.tech/): Product, console, and API documentation.
+- [Getting started](https://docs.slide.tech/getting-started/): Set up an account, install the Slide Agent, and create API tokens.
+- [Releases](https://docs.slide.tech/releases/): Combined release log for API, Console, Agent, and Box.
+- [Deprecations](https://docs.slide.tech/deprecations/): Deprecation and breaking-change notices (removed 1-3 months after notice).
+- [Security and Trust](https://docs.slide.tech/security-and-trust/): SOC 2 Type 1, AES-256/ZFS encryption, penetration testing.
+- [System status](https://status.slide.tech): Real-time service status.
+
+## Conventions
+
+- Auth: `Authorization: Bearer YOUR_SECRET_TOKEN` (user-scoped API tokens).
+- Pagination: `limit` and `offset` query params; follow `pagination.next_offset`.
+- Errors: JSON envelope `{ codes: [string], message: string, details: [string] }` (not RFC 9457).
+- Identifiers: opaque type-prefixed ids, e.g. `d_` device, `a_` agent, `b_` backup, `s_` snapshot.
+- No documented idempotency-key or public rate-limit policy.
+- TLS 1.3 required as of 2026-02-02.
+
+## Resource groups
+
+- Accounts, Agents, Alerts, Audits, Backups, Clients, Devices, Networks, Snapshots, Users
+- Restores: File, Image, Virtual Machine, Push

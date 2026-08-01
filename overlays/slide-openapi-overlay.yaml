@@ -1,0 +1,24 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Slide API
+  version: 1.0.0
+extends: openapi/slide-openapi-original.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: slide
+    x-apievangelist-category: [Backup, Disaster Recovery, BCDR, MSP]
+    x-apievangelist-auth: bearer-token
+    x-apievangelist-pagination: offset (limit/offset, pagination.next_offset)
+    x-apievangelist-error-catalog: errors/slide-error-codes.yml
+    x-apievangelist-data-model: data-model/slide-data-model.yml
+    x-apievangelist-conventions: conventions/slide-conventions.yml
+    x-apievangelist-lifecycle: lifecycle/slide-lifecycle.yml
+    x-apievangelist-trust-center: security/slide-trust-center.yml
+- target: $.info
+  update:
+    x-apievangelist-notes: >-
+      Slide does not document an idempotency-key mechanism or a public
+      rate-limit policy. Errors use a custom codes/message/details JSON
+      envelope rather than RFC 9457 problem+json. TLS 1.3 is required as of
+      2026-02-02.

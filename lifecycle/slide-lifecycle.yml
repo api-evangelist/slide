@@ -1,0 +1,29 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.slide.tech/releases/
+description: Versioning, deprecation, and operational-transparency posture for the Slide API.
+versioning:
+  scheme: uri-path
+  current_path: /v1
+  api_release: 1.34.0
+  release_notes: https://docs.slide.tech/releases/
+  notes: >-
+    All endpoints live under /v1. Slide publishes a combined release log
+    covering API, Console, Agent, and Box components with semver versions.
+deprecation:
+  policy_url: https://docs.slide.tech/deprecations/
+  policy: >-
+    Deprecated commands and options are removed 1-3 months after the
+    deprecation notice, depending on the severity and prominence of the change.
+  active:
+  - name: TLS 1.2 support removal
+    active_since: '2025-12-02'
+    effective: '2026-02-02'
+    detail: >-
+      Support for TLS 1.2 is being removed; starting 2026-02-02 only TLS 1.3 is
+      accepted across all Slide services (Console, Agent, and Box communication).
+  sunset_header: false
+status_page: https://status.slide.tech
+sla:
+  documented: false
+deprecated_operations: []

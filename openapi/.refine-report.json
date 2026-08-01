@@ -1,0 +1,40 @@
+{
+  "provider": "slide",
+  "sources": [
+    "slide-accounts-api-openapi.yml",
+    "slide-agents-api-openapi.yml",
+    "slide-alerts-api-openapi.yml",
+    "slide-audits-api-openapi.yml",
+    "slide-backups-api-openapi.yml",
+    "slide-clients-api-openapi.yml",
+    "slide-devices-api-openapi.yml",
+    "slide-networks-api-openapi.yml",
+    "slide-restores-file-api-openapi.yml",
+    "slide-restores-image-api-openapi.yml",
+    "slide-restores-push-api-openapi.yml",
+    "slide-restores-virtual-machine-api-openapi.yml",
+    "slide-snapshots-api-openapi.yml",
+    "slide-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "slide-accounts-api-openapi.yml",
+    "slide-agents-api-openapi.yml",
+    "slide-alerts-api-openapi.yml",
+    "slide-audits-api-openapi.yml",
+    "slide-backups-api-openapi.yml",
+    "slide-clients-api-openapi.yml",
+    "slide-devices-api-openapi.yml",
+    "slide-networks-api-openapi.yml",
+    "slide-restores-file-api-openapi.yml",
+    "slide-restores-image-api-openapi.yml",
+    "slide-restores-push-api-openapi.yml",
+    "slide-restores-virtual-machine-api-openapi.yml",
+    "slide-snapshots-api-openapi.yml",
+    "slide-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

@@ -1,0 +1,16 @@
+generated: '2026-07-21'
+method: generated
+source: openapi/slide-openapi-original.json
+skills:
+- file: slide-pair-agent-and-backup.md
+  name: Pair a Slide protection agent and start a backup
+  api: openapi/slide-openapi-original.json
+  operations: [AgentPrePair, AgentPair, Agents, AgentByID, BackupStart, Backups, BackupByID]
+- file: slide-file-restore.md
+  name: Restore files from a Slide snapshot
+  api: openapi/slide-openapi-original.json
+  operations: [Snapshots, SnapshotByID, FileRestoreCreate, FileRestores, FileRestoreByID, FileRestoreBrowse, FileRestorePushCreate, FileRestorePushStatus, FileRestoreDelete]
+- file: slide-virtualize-snapshot.md
+  name: Virtualize a Slide snapshot for disaster recovery
+  api: openapi/slide-openapi-original.json
+  operations: [Snapshots, SnapshotByID, VirtCreate, Virts, VirtByID, VirtUpdate, VirtDelete]

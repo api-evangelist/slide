@@ -1,0 +1,29 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.slide.tech/security-and-trust/
+description: >-
+  Slide's security and trust posture, captured from the Security & Trust page.
+url: https://docs.slide.tech/security-and-trust/
+certifications:
+- SOC 2 Type 1 (Security and Availability Trust Services Criteria)
+future_certifications:
+- SOC 2 Type 2
+- HIPAA
+auditor: A-Lign
+continuous_monitoring: Vanta
+data_protection:
+- AES-256 encryption at rest and in transit on local appliances and in the Slide Cloud.
+- ZFS native encryption with copy-on-write and end-to-end checksumming for durability and immutability.
+- MSP-controlled encryption passphrases.
+- Immutable snapshots protecting against accidental or malicious deletion.
+product_security:
+- Automated code analysis for early vulnerability detection.
+- Third-party penetration testing.
+- Continuous vulnerability scanning.
+corporate_security:
+- Centrally managed, monitored employee devices with full disk encryption and endpoint protection.
+- Secure remote access via WireGuard VPN.
+status_page: https://status.slide.tech
+evidence:
+- source: https://docs.slide.tech/security-and-trust/
+  keywords: [soc 2, aes-256, zfs, penetration testing, vanta, a-lign, wireguard]

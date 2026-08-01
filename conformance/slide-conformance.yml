@@ -1,0 +1,39 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/slide-openapi-original.json
+docs: https://docs.slide.tech/security-and-trust/
+description: >-
+  Standards conformance for the Slide API, derived from the OpenAPI
+  (security schemes, error/pagination conventions) and the Security & Trust
+  page (compliance program).
+standards:
+- id: rest
+  conforms: true
+  evidence: Resource-oriented URLs, JSON bodies, standard HTTP verbs and status codes.
+- id: openapi-3.0
+  conforms: true
+  evidence: Provider publishes an OpenAPI 3.0.0 document at api.slide.tech/openapi.json.
+- id: http-bearer-auth
+  conforms: true
+  evidence: components.securitySchemes.BearerAuth (type http, scheme bearer).
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 security scheme; authentication is a static Bearer API token.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors use a custom JSON envelope (codes/message/details), not application/problem+json.
+- id: offset-pagination
+  conforms: true
+  evidence: All list endpoints support limit/offset with a pagination.next_offset cursor.
+- id: soc2-type-1
+  conforms: true
+  evidence: SOC 2 Type 1 (Security & Availability) certification completed; auditor A-Lign, monitored via Vanta.
+- id: soc2-type-2
+  conforms: false
+  evidence: Stated as a future commitment on the Security & Trust page.
+- id: hipaa
+  conforms: false
+  evidence: Stated as a future commitment on the Security & Trust page (not yet certified).
+- id: tls-1.3
+  conforms: true
+  evidence: TLS 1.3 required across all services as of 2026-02-02 (TLS 1.2 deprecated).
