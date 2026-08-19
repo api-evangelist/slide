@@ -1,0 +1,1729 @@
+{
+  "item": [
+    {
+      "id": "92a5cb8f-d101-4b5f-8852-13c4c75169e9",
+      "name": "Restores (File)",
+      "description": {
+        "content": "Everything about [file restores](#model/filerestore)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1277c5eb-64a0-4b18-816b-bd9f882a7021",
+          "name": "List file restores",
+          "request": {
+            "name": "List file restores",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "restore",
+                "file"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Starting index for pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Number of items to return for pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_by",
+                  "value": "id",
+                  "description": "Sort by a specific field"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_asc",
+                  "value": "false",
+                  "description": "Sort in ascending order"
+                },
+                {
+                  "disabled": false,
+                  "key": "created_after",
+                  "value": "<dateTime>",
+                  "description": "Filter results to after a specific creation timestamp (RFC3339 format)"
+                },
+                {
+                  "disabled": false,
+                  "key": "created_before",
+                  "value": "<dateTime>",
+                  "description": "Filter results to before a specific creation timestamp (RFC3339 format)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ada3961b-db8d-4934-bfe1-e1d61a83f8b8",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "id"
+                    },
+                    {
+                      "key": "sort_asc",
+                      "value": "false"
+                    },
+                    {
+                      "key": "created_after",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "created_before",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pagination\": {\n    \"next_offset\": 10\n  },\n  \"data\": [\n    {\n      \"file_restore_id\": \"fr_0123456789ab\",\n      \"device_id\": \"d_0123456789ab\",\n      \"agent_id\": \"a_0123456789ab\",\n      \"snapshot_id\": \"s_0123456789ab\",\n      \"created_at\": \"2024-08-23T01:25:08Z\",\n      \"purpose\": \"disaster\",\n      \"expires_at\": \"2024-08-23T01:25:08Z\"\n    },\n    {\n      \"file_restore_id\": \"fr_0123456789ab\",\n      \"device_id\": \"d_0123456789ab\",\n      \"agent_id\": \"a_0123456789ab\",\n      \"snapshot_id\": \"s_0123456789ab\",\n      \"created_at\": \"2024-08-23T01:25:08Z\",\n      \"purpose\": \"disaster\",\n      \"expires_at\": \"2024-08-23T01:25:08Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a0734f7-013d-4888-a730-3029fe9fbed2",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "id"
+                    },
+                    {
+                      "key": "sort_asc",
+                      "value": "false"
+                    },
+                    {
+                      "key": "created_after",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "created_before",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_validation_error\"\n  ],\n  \"details\": [\n    \"parameter \\\"device_id\\\" in path has an error: string doesn't match the regular expression \\\"^d_[a-z0-9]{12}$\\\"\"\n  ],\n  \"message\": \"bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c0a77a7f-9c55-4337-96ac-0362fb5f99b5",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "id"
+                    },
+                    {
+                      "key": "sort_asc",
+                      "value": "false"
+                    },
+                    {
+                      "key": "created_after",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "created_before",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_missing_authentication\"\n  ],\n  \"details\": [\n    \"You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN').\"\n  ],\n  \"message\": \"unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4aa11e73-eb05-41ac-9447-f2fb00aa0b60",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "id"
+                    },
+                    {
+                      "key": "sort_asc",
+                      "value": "false"
+                    },
+                    {
+                      "key": "created_after",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "created_before",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_internal_server_error\"\n  ],\n  \"details\": [\n    \"Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.\"\n  ],\n  \"message\": \"internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f6b2bf19-2f1f-4672-9f67-ccb991249f73",
+          "name": "Create file restore",
+          "request": {
+            "name": "Create file restore",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "restore",
+                "file"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"snapshot_id\": \"<string>\",\n  \"device_id\": \"<string>\",\n  \"passphrase\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d614c00f-6851-4af7-a1f7-75fbcfc7e66d",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device_id\": \"d_0123456789ab\",\n  \"snapshot_id\": \"s_0123456789ab\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"file_restore_id\": \"fr_0123456789ab\",\n  \"device_id\": \"d_0123456789ab\",\n  \"agent_id\": \"a_0123456789ab\",\n  \"snapshot_id\": \"s_0123456789ab\",\n  \"created_at\": \"2024-08-23T01:25:08Z\",\n  \"purpose\": \"disaster\",\n  \"expires_at\": \"2024-08-23T01:25:08Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "06291964-0a70-4a2a-bc30-58d78b965e2e",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device_id\": \"d_0123456789ab\",\n  \"snapshot_id\": \"s_0123456789ab\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_validation_error\"\n  ],\n  \"details\": [\n    \"parameter \\\"device_id\\\" in path has an error: string doesn't match the regular expression \\\"^d_[a-z0-9]{12}$\\\"\"\n  ],\n  \"message\": \"bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e8954c66-7616-45e3-8480-518c0a6bf4b5",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device_id\": \"d_0123456789ab\",\n  \"snapshot_id\": \"s_0123456789ab\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_missing_authentication\"\n  ],\n  \"details\": [\n    \"You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN').\"\n  ],\n  \"message\": \"unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "88f45110-8de7-4dd0-8e3f-10db84ad7e6e",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device_id\": \"d_0123456789ab\",\n  \"snapshot_id\": \"s_0123456789ab\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0055dd8b-ffeb-4f49-82f0-c6d1146f92b0",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device_id\": \"d_0123456789ab\",\n  \"snapshot_id\": \"s_0123456789ab\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_internal_server_error\"\n  ],\n  \"details\": [\n    \"Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.\"\n  ],\n  \"message\": \"internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "268b0221-da8a-4d33-904b-66159a6863f2",
+          "name": "Delete file restore",
+          "request": {
+            "name": "Delete file restore",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "restore",
+                "file",
+                ":file_restore_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "file_restore_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f5aa07ee-964c-478d-b171-b28df62efd75",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file",
+                    ":file_restore_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_restore_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "42c04a9b-19fd-4a1d-a83e-fb84b3f7f7a8",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file",
+                    ":file_restore_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_restore_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_validation_error\"\n  ],\n  \"details\": [\n    \"parameter \\\"device_id\\\" in path has an error: string doesn't match the regular expression \\\"^d_[a-z0-9]{12}$\\\"\"\n  ],\n  \"message\": \"bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "af512dc9-10b5-4559-bfa9-4983bf2ed36a",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file",
+                    ":file_restore_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_restore_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_missing_authentication\"\n  ],\n  \"details\": [\n    \"You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN').\"\n  ],\n  \"message\": \"unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9e768cc-8605-4047-be80-3c7ff0d9f289",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file",
+                    ":file_restore_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_restore_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c419e7ab-9213-402a-9a99-05c22c539192",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file",
+                    ":file_restore_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_restore_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_internal_server_error\"\n  ],\n  \"details\": [\n    \"Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.\"\n  ],\n  \"message\": \"internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c0172c64-8dbd-4d57-975d-17b237094d88",
+          "name": "Get file restore",
+          "request": {
+            "name": "Get file restore",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "restore",
+                "file",
+                ":file_restore_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "file_restore_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "074a9cc1-5360-41d1-84ca-6d2cdae85aa9",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file",
+                    ":file_restore_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_restore_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"file_restore_id\": \"fr_0123456789ab\",\n  \"device_id\": \"d_0123456789ab\",\n  \"agent_id\": \"a_0123456789ab\",\n  \"snapshot_id\": \"s_0123456789ab\",\n  \"created_at\": \"2024-08-23T01:25:08Z\",\n  \"purpose\": \"disaster\",\n  \"expires_at\": \"2024-08-23T01:25:08Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "07f486ab-473e-4f94-a3ed-d0477f3b2af5",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file",
+                    ":file_restore_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_restore_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_validation_error\"\n  ],\n  \"details\": [\n    \"parameter \\\"device_id\\\" in path has an error: string doesn't match the regular expression \\\"^d_[a-z0-9]{12}$\\\"\"\n  ],\n  \"message\": \"bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bb0e4ce2-f1dc-439f-bd3b-17085d59458a",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file",
+                    ":file_restore_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_restore_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_missing_authentication\"\n  ],\n  \"details\": [\n    \"You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN').\"\n  ],\n  \"message\": \"unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e7a98e41-73ba-4476-9d12-8375cf03409f",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file",
+                    ":file_restore_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_restore_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cf5fa046-c0b3-4e86-9652-34025a0e0786",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file",
+                    ":file_restore_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_restore_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_internal_server_error\"\n  ],\n  \"details\": [\n    \"Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.\"\n  ],\n  \"message\": \"internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "453989bc-42b9-4598-929d-9bf3b97153c3",
+          "name": "Browse file restore",
+          "request": {
+            "name": "Browse file restore",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "restore",
+                "file",
+                ":file_restore_id",
+                "browse"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Starting index for pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Number of items to return for pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "path",
+                  "value": "<string>",
+                  "description": "Path to browse"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "file_restore_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e2343764-50ed-4f80-b095-147361b5d333",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file",
+                    ":file_restore_id",
+                    "browse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "path",
+                      "value": "C"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_restore_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pagination\": {\n    \"next_offset\": 10\n  },\n  \"data\": [\n    {\n      \"name\": \"desktop.ini\",\n      \"path\": \"C/Users/john/Desktop/desktop.ini\",\n      \"size\": 1024,\n      \"type\": \"file\",\n      \"modified_at\": \"2024-08-23T01:25:08Z\",\n      \"download_uris\": [\n        {\n          \"type\": \"cloud\",\n          \"uri\": \"http://wrwwrtwMlztgosuXBtUVPdMlnQ.ypQ5Y\"\n        },\n        {\n          \"type\": \"local\",\n          \"uri\": \"https://wFbalFLgglFmkdfhGgzheMAbIKfOxcXg.wvrpRsh7n\"\n        }\n      ],\n      \"symlink_target_path\": \"C/Users/john/Desktop/desktop.ini\"\n    },\n    {\n      \"name\": \"desktop.ini\",\n      \"path\": \"C/Users/john/Desktop/desktop.ini\",\n      \"size\": 1024,\n      \"type\": \"file\",\n      \"modified_at\": \"2024-08-23T01:25:08Z\",\n      \"download_uris\": [\n        {\n          \"type\": \"local\",\n          \"uri\": \"https://yKzFMtnUgiHPnkhPNARqfFUuNDlkM.cpkKZSwUn6HM23OYTMJTHoTIqTQFc\"\n        },\n        {\n          \"type\": \"cloud\",\n          \"uri\": \"http://fcYJq.gbmj6DveDkNu8h\"\n        }\n      ],\n      \"symlink_target_path\": \"C/Users/john/Desktop/desktop.ini\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c92eca80-f3fa-45d0-b256-921d405915c2",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file",
+                    ":file_restore_id",
+                    "browse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "path",
+                      "value": "C"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_restore_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_validation_error\"\n  ],\n  \"details\": [\n    \"parameter \\\"device_id\\\" in path has an error: string doesn't match the regular expression \\\"^d_[a-z0-9]{12}$\\\"\"\n  ],\n  \"message\": \"bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1e1065cc-fa07-4fa7-834b-056bb3670cef",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file",
+                    ":file_restore_id",
+                    "browse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "path",
+                      "value": "C"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_restore_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_missing_authentication\"\n  ],\n  \"details\": [\n    \"You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN').\"\n  ],\n  \"message\": \"unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "83caba39-ab12-49c3-95c3-2966b5994c88",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file",
+                    ":file_restore_id",
+                    "browse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "path",
+                      "value": "C"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_restore_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "943e103e-9991-4e5c-9b9c-f2064a278116",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "restore",
+                    "file",
+                    ":file_restore_id",
+                    "browse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "path",
+                      "value": "C"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_restore_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_internal_server_error\"\n  ],\n  \"details\": [\n    \"Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.\"\n  ],\n  \"message\": \"internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.slide.tech",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e9c6d9aa-3d45-44b2-ab98-61a8dd18d64c",
+    "name": "Slide Accounts Restores (File) API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "## Introduction\nThe Slide API is organized around REST. Our API has predictable resource-oriented URLs, accepts JSON-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.\n\n## Authentication\nWe use API tokens to authenticate requests. You can view and manage your API tokens in the [Slide Console](https://docs.slide.tech).\nWhen making HTTP requests, you'll need to include the API token in the `Authorization` header, using Bearer auth (e.g. `Authorization: Bearer YOUR_SECRET_TOKEN`).\n\nExample:\n```shell\n$ curl -H 'Authorization: Bearer YOUR_SECRET_TOKEN' 'https://api.slide.tech/v1/device'\n```\n\n## Pagination\nAll list endpoints support pagination. You can use the `limit` and `offset` query parameters to control the number of items returned and the starting index.\nList responses will include a `pagination` key that includes the `next_offset` to use for pagination.\nIf `next_offset` is not present, that indicates there are no more items to fetch.\n\nExample:\n```shell\n$ curl -H 'Authorization: Bearer YOUR_SECRET_TOKEN' \\\n    'https://api.slide.tech/v1/device?offset=0&limit=10'\n{\n    \"pagination\": {\n        \"next_offset\": 10\n    },\n    \"data\": [\n        ...\n    ]\n}\n```\n\n## Rate Limiting\nWe limit the number of requests you can make to the API within a certain time frame.\nEach API token has a pool of `50` requests. We refill this pool at a rate of `10` requests per second.\nIf you exceed the rate limit, you'll receive a response with a `429 Too Many Requests` HTTP code and a `err_rate_limit_exceeded` error code.\nPlease wait before retrying the request. We recommend you implement an exponential backoff strategy to handle rate limits.\n\n## Errors\nSlide uses conventional HTTP response codes to indicate the success or failure of an API request.\nIn general, codes in the 2xx range indicate success, codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter was omitted), and codes in the 5xx range indicate an error with Slide's servers.\n\nWe also include [error codes and details](#model/error) in the response, which may provide more context about the error.\n\nExample:\n```shell\n$ curl 'https://api.slide.tech/v1/device'\n{\n    \"codes\": [\n        \"err_missing_authentication\"\n    ],\n    \"details\": [\n        ...\n    ],\n    \"message\": \"unauthorized\"\n}\n```\n\nSome common error codes are:\n\n| Code                         | Description                                                                                                                                             |\n|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|\n| `err_endpoint_not_found`     | Requested endpoint does not exist.                                                                                                                      |\n| `err_entity_not_found`       | Requested entity does not exist.                                                                                                                        |\n| `err_validation_error`       | Bad request due to validation error. The error `details` will contain any fields that were not valid.                                                   |\n| `err_missing_authentication` | Unauthorized due to missing API token. See [authentication](#description/authentication) for more details.                                              |\n| `err_unauthorized`           | Unauthorized due to invalid API token. You've provided an invalid API token or the API token does not have permission to access the requested resource. |\n| `err_internal_server_error`  | Something went wrong. If you retry the request and it does not succeed, you may contact us at `hey@slide.tech`.                                         |\n| `err_rate_limit_exceeded`    | Rate limit exceeded. Please wait before retrying the request. See [rate limiting](#description/rate-limiting) for more details.                         |\n\n<details>\n  <summary>Show more error codes.</summary>\n\n| Code                                | Description                                                                                                           |\n|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------|\n| `err_agent_not_connected_to_device` | Agent is not connected to the device. Ensure the agent is powered on and has network connectivity.                    |\n| `err_device_not_connected_to_cloud` | Device is not connected to the cloud. Ensure the device is powered on and has network connectivity.                   |\n| `err_backup_already_running`        | A backup is already running for this agent. Please wait for the current backup to complete before starting a new one. |\n| `err_client_not_found`              | Client not found. Ensure the client ID is valid and the client exists.                                                |\n\n</details>\n\n## Eventual Consistency\n\nSlide operates an eventual consistency model, where data may not be immediately available after an operation.\nThis is due to the distributed nature of our system and the need for replication and synchronization across multiple\nsystems. Users should expect that operations may take a short period of time to propagate and become visible to all\ncomponents of the system.\n\n## Deprecations and Breaking Changes\n\n### Active Deprecations\n\n`Device.ip_addresses` and `Agent.ip_addresses` will be removed. They have been replaced by `Device.addresses` and `Agent.addresses` respectively.\n\n\nContact Support:\n Name: Slide Team\n Email: hey@slide.tech",
+      "type": "text/plain"
+    }
+  }
+}

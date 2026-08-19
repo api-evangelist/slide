@@ -1,0 +1,367 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Slide Accounts Networks API",
+    "version": "1.34.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Networks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List networks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/network",
+            "params": [
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Starting index for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return for pagination"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Sort by a specific field"
+              },
+              {
+                "name": "sort_asc",
+                "value": "",
+                "type": "query",
+                "description": "Sort in ascending order"
+              },
+              {
+                "name": "created_after",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to after a specific creation timestamp (RFC3339 format)"
+              },
+              {
+                "name": "created_before",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to before a specific creation timestamp (RFC3339 format)"
+              }
+            ]
+          },
+          "docs": "List networks"
+        },
+        {
+          "info": {
+            "name": "Create network",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.slide.tech/v1/network",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create network"
+        },
+        {
+          "info": {
+            "name": "Get network",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/network/:network_id",
+            "params": [
+              {
+                "name": "network_id",
+                "value": "net_012345",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get network"
+        },
+        {
+          "info": {
+            "name": "Update network",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.slide.tech/v1/network/:network_id",
+            "params": [
+              {
+                "name": "network_id",
+                "value": "net_012345",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update network"
+        },
+        {
+          "info": {
+            "name": "Delete network",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.slide.tech/v1/network/:network_id",
+            "params": [
+              {
+                "name": "network_id",
+                "value": "net_012345",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete network"
+        },
+        {
+          "info": {
+            "name": "Create IPsec connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.slide.tech/v1/network/:network_id/ipsec",
+            "params": [
+              {
+                "name": "network_id",
+                "value": "net_012345",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create IPsec connection"
+        },
+        {
+          "info": {
+            "name": "Update IPsec connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.slide.tech/v1/network/:network_id/ipsec/:ipsec_id",
+            "params": [
+              {
+                "name": "network_id",
+                "value": "net_012345",
+                "type": "path"
+              },
+              {
+                "name": "ipsec_id",
+                "value": "ipsec_0123456789ab",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update IPsec connection"
+        },
+        {
+          "info": {
+            "name": "Delete IPsec connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.slide.tech/v1/network/:network_id/ipsec/:ipsec_id",
+            "params": [
+              {
+                "name": "network_id",
+                "value": "net_012345",
+                "type": "path"
+              },
+              {
+                "name": "ipsec_id",
+                "value": "ipsec_0123456789ab",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete IPsec connection"
+        },
+        {
+          "info": {
+            "name": "Create port forward",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.slide.tech/v1/network/:network_id/port-forward",
+            "params": [
+              {
+                "name": "network_id",
+                "value": "net_012345",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create port forward"
+        },
+        {
+          "info": {
+            "name": "Update port forward",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.slide.tech/v1/network/:network_id/port-forward/:port_forward_id",
+            "params": [
+              {
+                "name": "network_id",
+                "value": "net_012345",
+                "type": "path"
+              },
+              {
+                "name": "port_forward_id",
+                "value": "pfw_0123456789ab",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update port forward"
+        },
+        {
+          "info": {
+            "name": "Delete port forward",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.slide.tech/v1/network/:network_id/port-forward/:port_forward_id",
+            "params": [
+              {
+                "name": "network_id",
+                "value": "net_012345",
+                "type": "path"
+              },
+              {
+                "name": "port_forward_id",
+                "value": "pfw_0123456789ab",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete port forward"
+        },
+        {
+          "info": {
+            "name": "Create WireGuard peer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.slide.tech/v1/network/:network_id/wg-peer",
+            "params": [
+              {
+                "name": "network_id",
+                "value": "net_012345",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create WireGuard peer"
+        },
+        {
+          "info": {
+            "name": "Update WireGuard peer",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.slide.tech/v1/network/:network_id/wg-peer/:wg_peer_id",
+            "params": [
+              {
+                "name": "network_id",
+                "value": "net_012345",
+                "type": "path"
+              },
+              {
+                "name": "wg_peer_id",
+                "value": "wgp_0123456789ab",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update WireGuard peer"
+        },
+        {
+          "info": {
+            "name": "Delete WireGuard peer",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.slide.tech/v1/network/:network_id/wg-peer/:wg_peer_id",
+            "params": [
+              {
+                "name": "network_id",
+                "value": "net_012345",
+                "type": "path"
+              },
+              {
+                "name": "wg_peer_id",
+                "value": "wgp_0123456789ab",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete WireGuard peer"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

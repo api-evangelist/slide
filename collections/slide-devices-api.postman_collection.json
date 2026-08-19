@@ -1,0 +1,4338 @@
+{
+  "item": [
+    {
+      "id": "1d26b687-8809-4540-8173-a7bb43d029df",
+      "name": "Devices",
+      "description": {
+        "content": "Everything about [devices](#model/device)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "da24e141-fba2-422e-aebc-78cc4d9f7b41",
+          "name": "List devices",
+          "request": {
+            "name": "List devices",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "device"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Starting index for pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Number of items to return for pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_by",
+                  "value": "hostname",
+                  "description": "Sort by a specific field"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_asc",
+                  "value": "false",
+                  "description": "Sort in ascending order"
+                },
+                {
+                  "disabled": false,
+                  "key": "client_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "created_after",
+                  "value": "<dateTime>",
+                  "description": "Filter results to after a specific creation timestamp (RFC3339 format)"
+                },
+                {
+                  "disabled": false,
+                  "key": "created_before",
+                  "value": "<dateTime>",
+                  "description": "Filter results to before a specific creation timestamp (RFC3339 format)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7564c471-56a9-4a5c-abb1-f22632106811",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "hostname"
+                    },
+                    {
+                      "key": "sort_asc",
+                      "value": "false"
+                    },
+                    {
+                      "key": "client_id",
+                      "value": "c_0123456789ab"
+                    },
+                    {
+                      "key": "created_after",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "created_before",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pagination\": {\n    \"next_offset\": 10\n  },\n  \"data\": [\n    {\n      \"device_id\": \"d_0123456789ab\",\n      \"display_name\": \"My First Device\",\n      \"last_seen_at\": \"2024-08-23T01:25:08Z\",\n      \"hostname\": \"my-hostname-1\",\n      \"ip_addresses\": [\n        \"192.168.3.53\",\n        \"192.168.3.53\"\n      ],\n      \"addresses\": [\n        {\n          \"mac\": \"62:bb:d3:0d:db:7d\",\n          \"ips\": [\n            \"192.168.1.104\",\n            \"192.168.1.104\"\n          ]\n        },\n        {\n          \"mac\": \"62:bb:d3:0d:db:7d\",\n          \"ips\": [\n            \"192.168.1.104\",\n            \"192.168.1.104\"\n          ]\n        }\n      ],\n      \"public_ip_address\": \"74.83.124.111\",\n      \"image_version\": \"1.0.0\",\n      \"package_version\": \"1.2.3\",\n      \"storage_used_bytes\": 274877906944,\n      \"storage_total_bytes\": 1099511627776,\n      \"total_agent_included_volume_used_bytes\": 274877906944,\n      \"serial_number\": \"SN123456\",\n      \"hardware_model_name\": \"Slide Z1, 1 TB\",\n      \"device_warranty_expiration_date\": \"2029-08-23T01:25:08Z\",\n      \"service_model_name\": \"Slide Z1 Subscription, 1 TB, 1 Year Cloud Retention\",\n      \"service_model_name_short\": \"1 Year Cloud Retention\",\n      \"service_status\": \"active\",\n      \"nfr\": false,\n      \"booted_at\": \"2024-08-23T01:25:08Z\",\n      \"client_id\": \"c_0123456789ab\",\n      \"network_update_pending\": false\n    },\n    {\n      \"device_id\": \"d_0123456789ab\",\n      \"display_name\": \"My First Device\",\n      \"last_seen_at\": \"2024-08-23T01:25:08Z\",\n      \"hostname\": \"my-hostname-1\",\n      \"ip_addresses\": [\n        \"192.168.3.53\",\n        \"192.168.3.53\"\n      ],\n      \"addresses\": [\n        {\n          \"mac\": \"62:bb:d3:0d:db:7d\",\n          \"ips\": [\n            \"192.168.1.104\",\n            \"192.168.1.104\"\n          ]\n        },\n        {\n          \"mac\": \"62:bb:d3:0d:db:7d\",\n          \"ips\": [\n            \"192.168.1.104\",\n            \"192.168.1.104\"\n          ]\n        }\n      ],\n      \"public_ip_address\": \"74.83.124.111\",\n      \"image_version\": \"1.0.0\",\n      \"package_version\": \"1.2.3\",\n      \"storage_used_bytes\": 274877906944,\n      \"storage_total_bytes\": 1099511627776,\n      \"total_agent_included_volume_used_bytes\": 274877906944,\n      \"serial_number\": \"SN123456\",\n      \"hardware_model_name\": \"Slide Z1, 1 TB\",\n      \"device_warranty_expiration_date\": \"2029-08-23T01:25:08Z\",\n      \"service_model_name\": \"Slide Z1 Subscription, 1 TB, 1 Year Cloud Retention\",\n      \"service_model_name_short\": \"1 Year Cloud Retention\",\n      \"service_status\": \"active\",\n      \"nfr\": false,\n      \"booted_at\": \"2024-08-23T01:25:08Z\",\n      \"client_id\": \"c_0123456789ab\",\n      \"network_update_pending\": false\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2cb7642d-dba2-49cf-bcf2-1e4c24f0e885",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "hostname"
+                    },
+                    {
+                      "key": "sort_asc",
+                      "value": "false"
+                    },
+                    {
+                      "key": "client_id",
+                      "value": "c_0123456789ab"
+                    },
+                    {
+                      "key": "created_after",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "created_before",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_validation_error\"\n  ],\n  \"details\": [\n    \"parameter \\\"device_id\\\" in path has an error: string doesn't match the regular expression \\\"^d_[a-z0-9]{12}$\\\"\"\n  ],\n  \"message\": \"bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fea00878-f9f8-4b7b-9876-3d6597a89a6a",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "hostname"
+                    },
+                    {
+                      "key": "sort_asc",
+                      "value": "false"
+                    },
+                    {
+                      "key": "client_id",
+                      "value": "c_0123456789ab"
+                    },
+                    {
+                      "key": "created_after",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "created_before",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_missing_authentication\"\n  ],\n  \"details\": [\n    \"You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN').\"\n  ],\n  \"message\": \"unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "229d4a95-f1e8-469e-99e1-1ca0d66cc33a",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "hostname"
+                    },
+                    {
+                      "key": "sort_asc",
+                      "value": "false"
+                    },
+                    {
+                      "key": "client_id",
+                      "value": "c_0123456789ab"
+                    },
+                    {
+                      "key": "created_after",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "created_before",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_internal_server_error\"\n  ],\n  \"details\": [\n    \"Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.\"\n  ],\n  \"message\": \"internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "596838c8-2b1e-4c7a-aad4-8d285303dff7",
+          "name": "Get device",
+          "request": {
+            "name": "Get device",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "device",
+                ":device_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "device_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a48c4ff1-d1d3-4875-a277-b4a681f5a3ca",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"device_id\": \"d_0123456789ab\",\n  \"display_name\": \"My First Device\",\n  \"last_seen_at\": \"2024-08-23T01:25:08Z\",\n  \"hostname\": \"my-hostname-1\",\n  \"ip_addresses\": [\n    \"192.168.3.53\",\n    \"192.168.3.53\"\n  ],\n  \"addresses\": [\n    {\n      \"mac\": \"62:bb:d3:0d:db:7d\",\n      \"ips\": [\n        \"192.168.1.104\",\n        \"192.168.1.104\"\n      ]\n    },\n    {\n      \"mac\": \"62:bb:d3:0d:db:7d\",\n      \"ips\": [\n        \"192.168.1.104\",\n        \"192.168.1.104\"\n      ]\n    }\n  ],\n  \"public_ip_address\": \"74.83.124.111\",\n  \"image_version\": \"1.0.0\",\n  \"package_version\": \"1.2.3\",\n  \"storage_used_bytes\": 274877906944,\n  \"storage_total_bytes\": 1099511627776,\n  \"total_agent_included_volume_used_bytes\": 274877906944,\n  \"serial_number\": \"SN123456\",\n  \"hardware_model_name\": \"Slide Z1, 1 TB\",\n  \"device_warranty_expiration_date\": \"2029-08-23T01:25:08Z\",\n  \"service_model_name\": \"Slide Z1 Subscription, 1 TB, 1 Year Cloud Retention\",\n  \"service_model_name_short\": \"1 Year Cloud Retention\",\n  \"service_status\": \"active\",\n  \"nfr\": false,\n  \"booted_at\": \"2024-08-23T01:25:08Z\",\n  \"client_id\": \"c_0123456789ab\",\n  \"network_update_pending\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ab65fc1-73b9-4cc7-bc9b-6ff8fbf309c0",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_validation_error\"\n  ],\n  \"details\": [\n    \"parameter \\\"device_id\\\" in path has an error: string doesn't match the regular expression \\\"^d_[a-z0-9]{12}$\\\"\"\n  ],\n  \"message\": \"bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "20320528-fdae-4bce-aeba-b3c5be6037a9",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_missing_authentication\"\n  ],\n  \"details\": [\n    \"You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN').\"\n  ],\n  \"message\": \"unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fbb1f120-7e42-475f-a3b0-761ae9e330c6",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "222db7a4-ca99-47a5-a612-d6af539216d9",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_internal_server_error\"\n  ],\n  \"details\": [\n    \"Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.\"\n  ],\n  \"message\": \"internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f738832d-fe38-430c-8909-ca6d537fe1fa",
+          "name": "Update device",
+          "request": {
+            "name": "Update device",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "device",
+                ":device_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "device_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"client_id\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"hostname\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8c13623c-a210-460e-8b5c-3e76f811c526",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"display_name\": \"<change me or remove the field to keep unchanged>\",\n  \"hostname\": \"<change me or remove the field to keep unchanged>\",\n  \"client_id\": \"<change me or remove the field to keep unchanged>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"device_id\": \"d_0123456789ab\",\n  \"display_name\": \"My First Device\",\n  \"last_seen_at\": \"2024-08-23T01:25:08Z\",\n  \"hostname\": \"my-hostname-1\",\n  \"ip_addresses\": [\n    \"192.168.3.53\",\n    \"192.168.3.53\"\n  ],\n  \"addresses\": [\n    {\n      \"mac\": \"62:bb:d3:0d:db:7d\",\n      \"ips\": [\n        \"192.168.1.104\",\n        \"192.168.1.104\"\n      ]\n    },\n    {\n      \"mac\": \"62:bb:d3:0d:db:7d\",\n      \"ips\": [\n        \"192.168.1.104\",\n        \"192.168.1.104\"\n      ]\n    }\n  ],\n  \"public_ip_address\": \"74.83.124.111\",\n  \"image_version\": \"1.0.0\",\n  \"package_version\": \"1.2.3\",\n  \"storage_used_bytes\": 274877906944,\n  \"storage_total_bytes\": 1099511627776,\n  \"total_agent_included_volume_used_bytes\": 274877906944,\n  \"serial_number\": \"SN123456\",\n  \"hardware_model_name\": \"Slide Z1, 1 TB\",\n  \"device_warranty_expiration_date\": \"2029-08-23T01:25:08Z\",\n  \"service_model_name\": \"Slide Z1 Subscription, 1 TB, 1 Year Cloud Retention\",\n  \"service_model_name_short\": \"1 Year Cloud Retention\",\n  \"service_status\": \"active\",\n  \"nfr\": false,\n  \"booted_at\": \"2024-08-23T01:25:08Z\",\n  \"client_id\": \"c_0123456789ab\",\n  \"network_update_pending\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa2f8b23-2cc9-4584-bffc-3a074a780383",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"display_name\": \"<change me or remove the field to keep unchanged>\",\n  \"hostname\": \"<change me or remove the field to keep unchanged>\",\n  \"client_id\": \"<change me or remove the field to keep unchanged>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_validation_error\"\n  ],\n  \"details\": [\n    \"parameter \\\"device_id\\\" in path has an error: string doesn't match the regular expression \\\"^d_[a-z0-9]{12}$\\\"\"\n  ],\n  \"message\": \"bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "306635d9-f931-4f7d-a1ed-3ca3d2eaec8b",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"display_name\": \"<change me or remove the field to keep unchanged>\",\n  \"hostname\": \"<change me or remove the field to keep unchanged>\",\n  \"client_id\": \"<change me or remove the field to keep unchanged>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_missing_authentication\"\n  ],\n  \"details\": [\n    \"You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN').\"\n  ],\n  \"message\": \"unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f23f39ec-aede-4a2d-b6a5-3ef71d535cac",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"display_name\": \"<change me or remove the field to keep unchanged>\",\n  \"hostname\": \"<change me or remove the field to keep unchanged>\",\n  \"client_id\": \"<change me or remove the field to keep unchanged>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f146be1a-03a4-4a9c-9cb7-ec6fe31dbdca",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"display_name\": \"<change me or remove the field to keep unchanged>\",\n  \"hostname\": \"<change me or remove the field to keep unchanged>\",\n  \"client_id\": \"<change me or remove the field to keep unchanged>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_internal_server_error\"\n  ],\n  \"details\": [\n    \"Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.\"\n  ],\n  \"message\": \"internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "06d5e1f5-adeb-4db1-8961-569ebc2dacc3",
+          "name": "Get device network configuration",
+          "request": {
+            "name": "Get device network configuration",
+            "description": {
+              "content": "Get the current network configuration for a device.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "device",
+                ":device_id",
+                "network"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "device_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "09b83780-ecd8-496a-9123-d4bab3bfd9e5",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"network_mode\": \"static\",\n  \"dns_server_primary\": \"1.1.1.1\",\n  \"dns_server_secondary\": \"8.8.8.8\",\n  \"network_address\": \"192.168.1.100/24\",\n  \"network_gateway\": \"192.168.1.1\",\n  \"network_update_pending\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ae98df15-06c6-46f5-a9f2-7d75d38fda4a",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_validation_error\"\n  ],\n  \"details\": [\n    \"parameter \\\"device_id\\\" in path has an error: string doesn't match the regular expression \\\"^d_[a-z0-9]{12}$\\\"\"\n  ],\n  \"message\": \"bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d4774b21-b4b2-4669-ab1e-a2f732b01368",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_missing_authentication\"\n  ],\n  \"details\": [\n    \"You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN').\"\n  ],\n  \"message\": \"unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f440237a-82e3-40ff-bbf7-ee92c6d8ce1e",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "924e4729-9a5a-43df-9120-ca12d8e50125",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_internal_server_error\"\n  ],\n  \"details\": [\n    \"Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.\"\n  ],\n  \"message\": \"internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4a3d23d6-7ff8-4261-a3e5-07618aa26a43",
+          "name": "Update device network configuration",
+          "request": {
+            "name": "Update device network configuration",
+            "description": {
+              "content": "Update the network configuration for a device. The configuration is tested after it is applied, and rolled back if invalid.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "device",
+                ":device_id",
+                "network"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "device_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dns_server_primary\": \"<ipv4>\",\n  \"dns_server_secondary\": \"<ipv4>\",\n  \"network_address\": \"<string>\",\n  \"network_gateway\": \"<ipv4>\",\n  \"network_mode\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7f371b0f-f46a-41f3-97c4-1bb1930d0782",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"network_mode\": \"static\",\n  \"network_address\": \"192.168.1.100/24\",\n  \"network_gateway\": \"192.168.1.1\",\n  \"dns_server_primary\": \"1.1.1.1\",\n  \"dns_server_secondary\": \"8.8.8.8\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"network_mode\": \"static\",\n  \"dns_server_primary\": \"1.1.1.1\",\n  \"dns_server_secondary\": \"8.8.8.8\",\n  \"network_address\": \"192.168.1.100/24\",\n  \"network_gateway\": \"192.168.1.1\",\n  \"network_update_pending\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ca867f04-44cd-446c-828c-7e3c8be2ebcf",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"network_mode\": \"static\",\n  \"network_address\": \"192.168.1.100/24\",\n  \"network_gateway\": \"192.168.1.1\",\n  \"dns_server_primary\": \"1.1.1.1\",\n  \"dns_server_secondary\": \"8.8.8.8\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_validation_error\"\n  ],\n  \"details\": [\n    \"parameter \\\"device_id\\\" in path has an error: string doesn't match the regular expression \\\"^d_[a-z0-9]{12}$\\\"\"\n  ],\n  \"message\": \"bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6a06562e-4ab3-4ba5-ae42-013c280219a8",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"network_mode\": \"static\",\n  \"network_address\": \"192.168.1.100/24\",\n  \"network_gateway\": \"192.168.1.1\",\n  \"dns_server_primary\": \"1.1.1.1\",\n  \"dns_server_secondary\": \"8.8.8.8\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_missing_authentication\"\n  ],\n  \"details\": [\n    \"You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN').\"\n  ],\n  \"message\": \"unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8c4c0358-d33a-4bbe-b57f-b6b39d52159e",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"network_mode\": \"static\",\n  \"network_address\": \"192.168.1.100/24\",\n  \"network_gateway\": \"192.168.1.1\",\n  \"dns_server_primary\": \"1.1.1.1\",\n  \"dns_server_secondary\": \"8.8.8.8\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9c3c526d-235e-4db1-b3b2-39329ab7fc8b",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"network_mode\": \"static\",\n  \"network_address\": \"192.168.1.100/24\",\n  \"network_gateway\": \"192.168.1.1\",\n  \"dns_server_primary\": \"1.1.1.1\",\n  \"dns_server_secondary\": \"8.8.8.8\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_internal_server_error\"\n  ],\n  \"details\": [\n    \"Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.\"\n  ],\n  \"message\": \"internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6b407b78-ad8f-415b-bfa4-7369ddd71495",
+          "name": "Power off a device",
+          "request": {
+            "name": "Power off a device",
+            "description": {
+              "content": "Requests a device to power off.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "device",
+                ":device_id",
+                "shutdown",
+                "poweroff"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "device_id",
+                  "description": "(Required) The ID of the device to power off."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": ""
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            }
+          },
+          "response": [
+            {
+              "id": "f860c032-28b8-4dc5-abd3-cd5eb589f631",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "shutdown",
+                    "poweroff"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) The ID of the device to power off."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"device_id\": \"d_0123456789ab\",\n  \"display_name\": \"My First Device\",\n  \"last_seen_at\": \"2024-08-23T01:25:08Z\",\n  \"hostname\": \"my-hostname-1\",\n  \"ip_addresses\": [\n    \"192.168.3.53\",\n    \"192.168.3.53\"\n  ],\n  \"addresses\": [\n    {\n      \"mac\": \"62:bb:d3:0d:db:7d\",\n      \"ips\": [\n        \"192.168.1.104\",\n        \"192.168.1.104\"\n      ]\n    },\n    {\n      \"mac\": \"62:bb:d3:0d:db:7d\",\n      \"ips\": [\n        \"192.168.1.104\",\n        \"192.168.1.104\"\n      ]\n    }\n  ],\n  \"public_ip_address\": \"74.83.124.111\",\n  \"image_version\": \"1.0.0\",\n  \"package_version\": \"1.2.3\",\n  \"storage_used_bytes\": 274877906944,\n  \"storage_total_bytes\": 1099511627776,\n  \"total_agent_included_volume_used_bytes\": 274877906944,\n  \"serial_number\": \"SN123456\",\n  \"hardware_model_name\": \"Slide Z1, 1 TB\",\n  \"device_warranty_expiration_date\": \"2029-08-23T01:25:08Z\",\n  \"service_model_name\": \"Slide Z1 Subscription, 1 TB, 1 Year Cloud Retention\",\n  \"service_model_name_short\": \"1 Year Cloud Retention\",\n  \"service_status\": \"active\",\n  \"nfr\": false,\n  \"booted_at\": \"2024-08-23T01:25:08Z\",\n  \"client_id\": \"c_0123456789ab\",\n  \"network_update_pending\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b61741fb-d292-4ba4-80f9-147cc435ae62",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "shutdown",
+                    "poweroff"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) The ID of the device to power off."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_validation_error\"\n  ],\n  \"details\": [\n    \"parameter \\\"device_id\\\" in path has an error: string doesn't match the regular expression \\\"^d_[a-z0-9]{12}$\\\"\"\n  ],\n  \"message\": \"bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b7ad09b4-024b-4b8f-8935-92a015914480",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "shutdown",
+                    "poweroff"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) The ID of the device to power off."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_missing_authentication\"\n  ],\n  \"details\": [\n    \"You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN').\"\n  ],\n  \"message\": \"unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3c7df7e1-836c-480f-baa4-6f164f505608",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "shutdown",
+                    "poweroff"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) The ID of the device to power off."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6cb82bc3-2411-4190-93be-377674348ab4",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "shutdown",
+                    "poweroff"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) The ID of the device to power off."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_internal_server_error\"\n  ],\n  \"details\": [\n    \"Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.\"\n  ],\n  \"message\": \"internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e16d8360-9c32-4508-9d78-e303b6322a56",
+          "name": "Reboot a device",
+          "request": {
+            "name": "Reboot a device",
+            "description": {
+              "content": "Requests a device to reboot.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "device",
+                ":device_id",
+                "shutdown",
+                "reboot"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "device_id",
+                  "description": "(Required) The ID of the device to reboot."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": ""
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            }
+          },
+          "response": [
+            {
+              "id": "7a495d0b-3679-4ff1-bb35-e7dddbacec1c",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "shutdown",
+                    "reboot"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) The ID of the device to reboot."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"device_id\": \"d_0123456789ab\",\n  \"display_name\": \"My First Device\",\n  \"last_seen_at\": \"2024-08-23T01:25:08Z\",\n  \"hostname\": \"my-hostname-1\",\n  \"ip_addresses\": [\n    \"192.168.3.53\",\n    \"192.168.3.53\"\n  ],\n  \"addresses\": [\n    {\n      \"mac\": \"62:bb:d3:0d:db:7d\",\n      \"ips\": [\n        \"192.168.1.104\",\n        \"192.168.1.104\"\n      ]\n    },\n    {\n      \"mac\": \"62:bb:d3:0d:db:7d\",\n      \"ips\": [\n        \"192.168.1.104\",\n        \"192.168.1.104\"\n      ]\n    }\n  ],\n  \"public_ip_address\": \"74.83.124.111\",\n  \"image_version\": \"1.0.0\",\n  \"package_version\": \"1.2.3\",\n  \"storage_used_bytes\": 274877906944,\n  \"storage_total_bytes\": 1099511627776,\n  \"total_agent_included_volume_used_bytes\": 274877906944,\n  \"serial_number\": \"SN123456\",\n  \"hardware_model_name\": \"Slide Z1, 1 TB\",\n  \"device_warranty_expiration_date\": \"2029-08-23T01:25:08Z\",\n  \"service_model_name\": \"Slide Z1 Subscription, 1 TB, 1 Year Cloud Retention\",\n  \"service_model_name_short\": \"1 Year Cloud Retention\",\n  \"service_status\": \"active\",\n  \"nfr\": false,\n  \"booted_at\": \"2024-08-23T01:25:08Z\",\n  \"client_id\": \"c_0123456789ab\",\n  \"network_update_pending\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "49f9c292-7eb3-41b1-bd76-75e1ed648174",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "shutdown",
+                    "reboot"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) The ID of the device to reboot."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_validation_error\"\n  ],\n  \"details\": [\n    \"parameter \\\"device_id\\\" in path has an error: string doesn't match the regular expression \\\"^d_[a-z0-9]{12}$\\\"\"\n  ],\n  \"message\": \"bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b5a4cdfc-7e81-457e-bdfb-4eec8aef0d3b",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "shutdown",
+                    "reboot"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) The ID of the device to reboot."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_missing_authentication\"\n  ],\n  \"details\": [\n    \"You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN').\"\n  ],\n  \"message\": \"unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e785dde9-f503-44d4-835c-e7b2dafd1e8c",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "shutdown",
+                    "reboot"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) The ID of the device to reboot."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "53e6e1f7-a644-4d82-a750-a5de8de90e45",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "shutdown",
+                    "reboot"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) The ID of the device to reboot."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_internal_server_error\"\n  ],\n  \"details\": [\n    \"Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.\"\n  ],\n  \"message\": \"internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a3b39e4a-d0d0-447c-a9fc-f1484f3d63ff",
+          "name": "List device VLANs",
+          "request": {
+            "name": "List device VLANs",
+            "description": {
+              "content": "List all virtual interfaces (VLANs) for a device.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "device",
+                ":device_id",
+                "vlan"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "device_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8306557f-2df1-401b-be6a-7750d530bd11",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"vlan_id\": \"vlan_012345\",\n      \"name\": \"vlan100\",\n      \"vlan_tag\": 100,\n      \"network_mode\": \"static\",\n      \"gateway\": \"192.168.100.1\",\n      \"ip_address\": \"192.168.100.1/24\",\n      \"network_update_pending\": false\n    },\n    {\n      \"vlan_id\": \"vlan_012345\",\n      \"name\": \"vlan100\",\n      \"vlan_tag\": 100,\n      \"network_mode\": \"static\",\n      \"gateway\": \"192.168.100.1\",\n      \"ip_address\": \"192.168.100.1/24\",\n      \"network_update_pending\": false\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a10ee40b-2451-4d92-aefc-00d001eb1433",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_validation_error\"\n  ],\n  \"details\": [\n    \"parameter \\\"device_id\\\" in path has an error: string doesn't match the regular expression \\\"^d_[a-z0-9]{12}$\\\"\"\n  ],\n  \"message\": \"bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "15478a05-f898-4121-a715-8a2a056ad9eb",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_missing_authentication\"\n  ],\n  \"details\": [\n    \"You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN').\"\n  ],\n  \"message\": \"unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e57164ff-1ebe-4faa-87b2-2e887f37e845",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d2e3721a-664b-4eb7-af51-7b02a0b4ccb4",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_internal_server_error\"\n  ],\n  \"details\": [\n    \"Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.\"\n  ],\n  \"message\": \"internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "96c921cf-2592-47f5-8fe2-510736189172",
+          "name": "Create device VLAN",
+          "request": {
+            "name": "Create device VLAN",
+            "description": {
+              "content": "Create a new virtual interface (VLAN) for a device.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "device",
+                ":device_id",
+                "vlan"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "device_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"vlan_tag\": \"<uint32>\",\n  \"network_mode\": \"<string>\",\n  \"gateway\": \"<ipv4>\",\n  \"ip_address\": \"<string>\",\n  \"network_update_pending\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "045b2b52-014c-4af1-90e0-022fe1f70f95",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vlan_tag\": 100,\n  \"name\": \"vlan100\",\n  \"network_mode\": \"static\",\n  \"ip_address\": \"192.168.100.1/24\",\n  \"gateway\": \"192.168.100.1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"vlan_id\": \"vlan_012345\",\n  \"name\": \"vlan100\",\n  \"vlan_tag\": 100,\n  \"network_mode\": \"static\",\n  \"gateway\": \"192.168.100.1\",\n  \"ip_address\": \"192.168.100.1/24\",\n  \"network_update_pending\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c20ac6de-b76c-40a3-9cd8-9bf45cf79faf",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vlan_tag\": 100,\n  \"name\": \"vlan100\",\n  \"network_mode\": \"static\",\n  \"ip_address\": \"192.168.100.1/24\",\n  \"gateway\": \"192.168.100.1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_validation_error\"\n  ],\n  \"details\": [\n    \"parameter \\\"device_id\\\" in path has an error: string doesn't match the regular expression \\\"^d_[a-z0-9]{12}$\\\"\"\n  ],\n  \"message\": \"bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "95403ae1-a184-4ccd-b417-3d24abeab63a",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vlan_tag\": 100,\n  \"name\": \"vlan100\",\n  \"network_mode\": \"static\",\n  \"ip_address\": \"192.168.100.1/24\",\n  \"gateway\": \"192.168.100.1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_missing_authentication\"\n  ],\n  \"details\": [\n    \"You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN').\"\n  ],\n  \"message\": \"unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3bae8d7d-cd69-466d-aba9-becba72feaaf",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vlan_tag\": 100,\n  \"name\": \"vlan100\",\n  \"network_mode\": \"static\",\n  \"ip_address\": \"192.168.100.1/24\",\n  \"gateway\": \"192.168.100.1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3b9ecacf-e859-4ab1-90c3-dbec8f495be3",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vlan_tag\": 100,\n  \"name\": \"vlan100\",\n  \"network_mode\": \"static\",\n  \"ip_address\": \"192.168.100.1/24\",\n  \"gateway\": \"192.168.100.1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_internal_server_error\"\n  ],\n  \"details\": [\n    \"Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.\"\n  ],\n  \"message\": \"internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "06c211ca-8819-4460-bba7-6920a0df2c76",
+          "name": "Delete device VLAN",
+          "request": {
+            "name": "Delete device VLAN",
+            "description": {
+              "content": "Delete a virtual interface (VLAN) for a device.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "device",
+                ":device_id",
+                "vlan",
+                ":vlan_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "device_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "vlan_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6d45fde6-4eff-4fba-83c1-36120539c608",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan",
+                    ":vlan_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vlan_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cf7910f9-937e-44c4-ba54-ae909afd3b9d",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan",
+                    ":vlan_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vlan_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_validation_error\"\n  ],\n  \"details\": [\n    \"parameter \\\"device_id\\\" in path has an error: string doesn't match the regular expression \\\"^d_[a-z0-9]{12}$\\\"\"\n  ],\n  \"message\": \"bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "527c8e7a-49a8-4cba-8d2a-a3d4968b82fb",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan",
+                    ":vlan_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vlan_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_missing_authentication\"\n  ],\n  \"details\": [\n    \"You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN').\"\n  ],\n  \"message\": \"unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6047361f-068f-4fe2-9f86-0388801512cd",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan",
+                    ":vlan_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vlan_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c40c058d-c704-4631-97bd-d2654ba4cf17",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan",
+                    ":vlan_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vlan_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1877267b-74d3-4677-bc93-64235b0c34d0",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan",
+                    ":vlan_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vlan_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_internal_server_error\"\n  ],\n  \"details\": [\n    \"Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.\"\n  ],\n  \"message\": \"internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0a7778e9-1d3d-4e43-b431-bed9f06faf62",
+          "name": "Get device VLAN",
+          "request": {
+            "name": "Get device VLAN",
+            "description": {
+              "content": "Get a specific virtual interface (VLAN) for a device.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "device",
+                ":device_id",
+                "vlan",
+                ":vlan_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "device_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "vlan_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2c78c9fa-d8af-4274-9f45-b3982301c320",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan",
+                    ":vlan_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vlan_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"vlan_id\": \"vlan_012345\",\n  \"name\": \"vlan100\",\n  \"vlan_tag\": 100,\n  \"network_mode\": \"static\",\n  \"gateway\": \"192.168.100.1\",\n  \"ip_address\": \"192.168.100.1/24\",\n  \"network_update_pending\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f934a564-88d2-4f66-81ac-8ea0504f43ad",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan",
+                    ":vlan_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vlan_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_validation_error\"\n  ],\n  \"details\": [\n    \"parameter \\\"device_id\\\" in path has an error: string doesn't match the regular expression \\\"^d_[a-z0-9]{12}$\\\"\"\n  ],\n  \"message\": \"bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8376a9ac-fa90-4211-b6d1-d32d1b83e081",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan",
+                    ":vlan_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vlan_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_missing_authentication\"\n  ],\n  \"details\": [\n    \"You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN').\"\n  ],\n  \"message\": \"unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8ee51ab3-4ec8-4d95-833d-1e3bc03867ca",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan",
+                    ":vlan_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vlan_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c0c87319-7767-4c89-9139-49717afc4558",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan",
+                    ":vlan_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vlan_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_internal_server_error\"\n  ],\n  \"details\": [\n    \"Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.\"\n  ],\n  \"message\": \"internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5319bc0e-500f-45ba-907a-159ebb2a82fb",
+          "name": "Update device VLAN",
+          "request": {
+            "name": "Update device VLAN",
+            "description": {
+              "content": "Update a virtual interface (VLAN) for a device.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "device",
+                ":device_id",
+                "vlan",
+                ":vlan_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "device_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "vlan_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"gateway\": \"<ipv4>\",\n  \"ip_address\": \"<string>\",\n  \"name\": \"<string>\",\n  \"network_mode\": \"<string>\",\n  \"network_update_pending\": \"<boolean>\",\n  \"vlan_tag\": \"<uint32>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "149c4ed1-5c10-4a97-8067-7cc0dd6aa0e2",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan",
+                    ":vlan_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vlan_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vlan_tag\": 100,\n  \"name\": \"vlan100-updated\",\n  \"network_mode\": \"static\",\n  \"ip_address\": \"192.168.100.2/24\",\n  \"gateway\": \"192.168.100.1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"vlan_id\": \"vlan_012345\",\n  \"name\": \"vlan100\",\n  \"vlan_tag\": 100,\n  \"network_mode\": \"static\",\n  \"gateway\": \"192.168.100.1\",\n  \"ip_address\": \"192.168.100.1/24\",\n  \"network_update_pending\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc6a699e-8430-41d8-8a50-f9a07381750d",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan",
+                    ":vlan_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vlan_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vlan_tag\": 100,\n  \"name\": \"vlan100-updated\",\n  \"network_mode\": \"static\",\n  \"ip_address\": \"192.168.100.2/24\",\n  \"gateway\": \"192.168.100.1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_validation_error\"\n  ],\n  \"details\": [\n    \"parameter \\\"device_id\\\" in path has an error: string doesn't match the regular expression \\\"^d_[a-z0-9]{12}$\\\"\"\n  ],\n  \"message\": \"bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "31de05b7-a969-446e-931a-d4629807d9f0",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan",
+                    ":vlan_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vlan_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vlan_tag\": 100,\n  \"name\": \"vlan100-updated\",\n  \"network_mode\": \"static\",\n  \"ip_address\": \"192.168.100.2/24\",\n  \"gateway\": \"192.168.100.1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_missing_authentication\"\n  ],\n  \"details\": [\n    \"You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN').\"\n  ],\n  \"message\": \"unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "da42c4f8-e421-4bcc-96f5-08630777b667",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan",
+                    ":vlan_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vlan_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vlan_tag\": 100,\n  \"name\": \"vlan100-updated\",\n  \"network_mode\": \"static\",\n  \"ip_address\": \"192.168.100.2/24\",\n  \"gateway\": \"192.168.100.1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"message\": \"string\",\n  \"details\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b4621e36-3d85-4fb7-8843-e2be2b7bb315",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "device",
+                    ":device_id",
+                    "vlan",
+                    ":vlan_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "device_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vlan_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vlan_tag\": 100,\n  \"name\": \"vlan100-updated\",\n  \"network_mode\": \"static\",\n  \"ip_address\": \"192.168.100.2/24\",\n  \"gateway\": \"192.168.100.1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"codes\": [\n    \"err_internal_server_error\"\n  ],\n  \"details\": [\n    \"Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.\"\n  ],\n  \"message\": \"internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.slide.tech",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "be7144bd-53f2-49ee-8b62-130bfc2e9cbd",
+    "name": "Slide Accounts Devices API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "## Introduction\nThe Slide API is organized around REST. Our API has predictable resource-oriented URLs, accepts JSON-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.\n\n## Authentication\nWe use API tokens to authenticate requests. You can view and manage your API tokens in the [Slide Console](https://docs.slide.tech).\nWhen making HTTP requests, you'll need to include the API token in the `Authorization` header, using Bearer auth (e.g. `Authorization: Bearer YOUR_SECRET_TOKEN`).\n\nExample:\n```shell\n$ curl -H 'Authorization: Bearer YOUR_SECRET_TOKEN' 'https://api.slide.tech/v1/device'\n```\n\n## Pagination\nAll list endpoints support pagination. You can use the `limit` and `offset` query parameters to control the number of items returned and the starting index.\nList responses will include a `pagination` key that includes the `next_offset` to use for pagination.\nIf `next_offset` is not present, that indicates there are no more items to fetch.\n\nExample:\n```shell\n$ curl -H 'Authorization: Bearer YOUR_SECRET_TOKEN' \\\n    'https://api.slide.tech/v1/device?offset=0&limit=10'\n{\n    \"pagination\": {\n        \"next_offset\": 10\n    },\n    \"data\": [\n        ...\n    ]\n}\n```\n\n## Rate Limiting\nWe limit the number of requests you can make to the API within a certain time frame.\nEach API token has a pool of `50` requests. We refill this pool at a rate of `10` requests per second.\nIf you exceed the rate limit, you'll receive a response with a `429 Too Many Requests` HTTP code and a `err_rate_limit_exceeded` error code.\nPlease wait before retrying the request. We recommend you implement an exponential backoff strategy to handle rate limits.\n\n## Errors\nSlide uses conventional HTTP response codes to indicate the success or failure of an API request.\nIn general, codes in the 2xx range indicate success, codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter was omitted), and codes in the 5xx range indicate an error with Slide's servers.\n\nWe also include [error codes and details](#model/error) in the response, which may provide more context about the error.\n\nExample:\n```shell\n$ curl 'https://api.slide.tech/v1/device'\n{\n    \"codes\": [\n        \"err_missing_authentication\"\n    ],\n    \"details\": [\n        ...\n    ],\n    \"message\": \"unauthorized\"\n}\n```\n\nSome common error codes are:\n\n| Code                         | Description                                                                                                                                             |\n|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|\n| `err_endpoint_not_found`     | Requested endpoint does not exist.                                                                                                                      |\n| `err_entity_not_found`       | Requested entity does not exist.                                                                                                                        |\n| `err_validation_error`       | Bad request due to validation error. The error `details` will contain any fields that were not valid.                                                   |\n| `err_missing_authentication` | Unauthorized due to missing API token. See [authentication](#description/authentication) for more details.                                              |\n| `err_unauthorized`           | Unauthorized due to invalid API token. You've provided an invalid API token or the API token does not have permission to access the requested resource. |\n| `err_internal_server_error`  | Something went wrong. If you retry the request and it does not succeed, you may contact us at `hey@slide.tech`.                                         |\n| `err_rate_limit_exceeded`    | Rate limit exceeded. Please wait before retrying the request. See [rate limiting](#description/rate-limiting) for more details.                         |\n\n<details>\n  <summary>Show more error codes.</summary>\n\n| Code                                | Description                                                                                                           |\n|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------|\n| `err_agent_not_connected_to_device` | Agent is not connected to the device. Ensure the agent is powered on and has network connectivity.                    |\n| `err_device_not_connected_to_cloud` | Device is not connected to the cloud. Ensure the device is powered on and has network connectivity.                   |\n| `err_backup_already_running`        | A backup is already running for this agent. Please wait for the current backup to complete before starting a new one. |\n| `err_client_not_found`              | Client not found. Ensure the client ID is valid and the client exists.                                                |\n\n</details>\n\n## Eventual Consistency\n\nSlide operates an eventual consistency model, where data may not be immediately available after an operation.\nThis is due to the distributed nature of our system and the need for replication and synchronization across multiple\nsystems. Users should expect that operations may take a short period of time to propagate and become visible to all\ncomponents of the system.\n\n## Deprecations and Breaking Changes\n\n### Active Deprecations\n\n`Device.ip_addresses` and `Agent.ip_addresses` will be removed. They have been replaced by `Device.addresses` and `Agent.addresses` respectively.\n\n\nContact Support:\n Name: Slide Team\n Email: hey@slide.tech",
+      "type": "text/plain"
+    }
+  }
+}

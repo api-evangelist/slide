@@ -1,0 +1,309 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Slide Accounts Devices API",
+    "version": "1.34.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Devices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List devices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/device",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Starting index for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return for pagination"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Sort by a specific field"
+              },
+              {
+                "name": "sort_asc",
+                "value": "",
+                "type": "query",
+                "description": "Sort in ascending order"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "created_after",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to after a specific creation timestamp (RFC3339 format)"
+              },
+              {
+                "name": "created_before",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to before a specific creation timestamp (RFC3339 format)"
+              }
+            ]
+          },
+          "docs": "List devices"
+        },
+        {
+          "info": {
+            "name": "Get device",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/device/:device_id",
+            "params": [
+              {
+                "name": "device_id",
+                "value": "d_0123456789ab",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get device"
+        },
+        {
+          "info": {
+            "name": "Update device",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.slide.tech/v1/device/:device_id",
+            "params": [
+              {
+                "name": "device_id",
+                "value": "d_0123456789ab",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update device"
+        },
+        {
+          "info": {
+            "name": "Get device network configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/device/:device_id/network",
+            "params": [
+              {
+                "name": "device_id",
+                "value": "d_0123456789ab",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get the current network configuration for a device.\n"
+        },
+        {
+          "info": {
+            "name": "Update device network configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.slide.tech/v1/device/:device_id/network",
+            "params": [
+              {
+                "name": "device_id",
+                "value": "d_0123456789ab",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the network configuration for a device. The configuration is tested after it is applied, and rolled back if invalid.\n"
+        },
+        {
+          "info": {
+            "name": "Power off a device",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.slide.tech/v1/device/:device_id/shutdown/poweroff",
+            "params": [
+              {
+                "name": "device_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the device to power off."
+              }
+            ]
+          },
+          "docs": "Requests a device to power off.\n"
+        },
+        {
+          "info": {
+            "name": "Reboot a device",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.slide.tech/v1/device/:device_id/shutdown/reboot",
+            "params": [
+              {
+                "name": "device_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the device to reboot."
+              }
+            ]
+          },
+          "docs": "Requests a device to reboot.\n"
+        },
+        {
+          "info": {
+            "name": "List device VLANs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/device/:device_id/vlan",
+            "params": [
+              {
+                "name": "device_id",
+                "value": "d_0123456789ab",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List all virtual interfaces (VLANs) for a device.\n"
+        },
+        {
+          "info": {
+            "name": "Create device VLAN",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.slide.tech/v1/device/:device_id/vlan",
+            "params": [
+              {
+                "name": "device_id",
+                "value": "d_0123456789ab",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new virtual interface (VLAN) for a device.\n"
+        },
+        {
+          "info": {
+            "name": "Get device VLAN",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/device/:device_id/vlan/:vlan_id",
+            "params": [
+              {
+                "name": "device_id",
+                "value": "d_0123456789ab",
+                "type": "path"
+              },
+              {
+                "name": "vlan_id",
+                "value": "vlan_012345",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a specific virtual interface (VLAN) for a device.\n"
+        },
+        {
+          "info": {
+            "name": "Update device VLAN",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.slide.tech/v1/device/:device_id/vlan/:vlan_id",
+            "params": [
+              {
+                "name": "device_id",
+                "value": "d_0123456789ab",
+                "type": "path"
+              },
+              {
+                "name": "vlan_id",
+                "value": "vlan_012345",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a virtual interface (VLAN) for a device.\n"
+        },
+        {
+          "info": {
+            "name": "Delete device VLAN",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.slide.tech/v1/device/:device_id/vlan/:vlan_id",
+            "params": [
+              {
+                "name": "device_id",
+                "value": "d_0123456789ab",
+                "type": "path"
+              },
+              {
+                "name": "vlan_id",
+                "value": "vlan_012345",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a virtual interface (VLAN) for a device.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

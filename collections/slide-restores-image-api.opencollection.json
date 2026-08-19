@@ -1,0 +1,176 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Slide Accounts Restores (Image) API",
+    "version": "1.34.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Restores (Image)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List image exports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/restore/image",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Starting index for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return for pagination"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Sort by a specific field"
+              },
+              {
+                "name": "sort_asc",
+                "value": "",
+                "type": "query",
+                "description": "Sort in ascending order"
+              },
+              {
+                "name": "created_after",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to after a specific creation timestamp (RFC3339 format)"
+              },
+              {
+                "name": "created_before",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to before a specific creation timestamp (RFC3339 format)"
+              }
+            ]
+          },
+          "docs": "List image exports"
+        },
+        {
+          "info": {
+            "name": "Create image export",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.slide.tech/v1/restore/image",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create image export"
+        },
+        {
+          "info": {
+            "name": "Get image export",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/restore/image/:image_export_id",
+            "params": [
+              {
+                "name": "image_export_id",
+                "value": "ie_0123456789ab",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get image export"
+        },
+        {
+          "info": {
+            "name": "Update image export",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.slide.tech/v1/restore/image/:image_export_id",
+            "params": [
+              {
+                "name": "image_export_id",
+                "value": "ie_0123456789ab",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update image export"
+        },
+        {
+          "info": {
+            "name": "Delete image export",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.slide.tech/v1/restore/image/:image_export_id",
+            "params": [
+              {
+                "name": "image_export_id",
+                "value": "ie_0123456789ab",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete image export"
+        },
+        {
+          "info": {
+            "name": "Browse image export",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/restore/image/:image_export_id/browse",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Starting index for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return for pagination"
+              },
+              {
+                "name": "image_export_id",
+                "value": "ie_0123456789ab",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Browse image export"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

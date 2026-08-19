@@ -1,0 +1,109 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Slide Accounts Users API",
+    "version": "1.34.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/user",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Starting index for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return for pagination"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Sort by a specific field"
+              },
+              {
+                "name": "sort_asc",
+                "value": "",
+                "type": "query",
+                "description": "Sort in ascending order"
+              },
+              {
+                "name": "created_after",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to after a specific creation timestamp (RFC3339 format)"
+              },
+              {
+                "name": "created_before",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to before a specific creation timestamp (RFC3339 format)"
+              }
+            ]
+          },
+          "docs": "List users"
+        },
+        {
+          "info": {
+            "name": "Get user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/user/:user_id",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "u_0123456789ab",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get user"
+        },
+        {
+          "info": {
+            "name": "Get user avatar",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/user/:user_id/avatar",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "u_0123456789ab",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get user avatar"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

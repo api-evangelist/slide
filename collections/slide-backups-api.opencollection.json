@@ -1,0 +1,133 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Slide Accounts Backups API",
+    "version": "1.34.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Backups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List backups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/backup",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "snapshot_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "device_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Starting index for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return for pagination"
+              },
+              {
+                "name": "backup_started_after",
+                "value": "",
+                "type": "query",
+                "description": "Filter snapshots created after a specific backup start time (RFC3339 format)"
+              },
+              {
+                "name": "backup_started_before",
+                "value": "",
+                "type": "query",
+                "description": "Filter snapshots created before a specific backup start time (RFC3339 format)"
+              },
+              {
+                "name": "backup_ended_after",
+                "value": "",
+                "type": "query",
+                "description": "Filter snapshots completed after a specific backup end time (RFC3339 format)"
+              },
+              {
+                "name": "backup_ended_before",
+                "value": "",
+                "type": "query",
+                "description": "Filter snapshots completed before a specific backup end time (RFC3339 format)"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Sort by a specific field"
+              },
+              {
+                "name": "sort_asc",
+                "value": "",
+                "type": "query",
+                "description": "Sort in ascending order"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of backups.\n\nBackup record history details:\n- The last 10 backups will always be available.\n- Successful backups are removed when the related snapshot is removed.\n- Unsuccessful backups older than 30 days are removed."
+        },
+        {
+          "info": {
+            "name": "Start backup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.slide.tech/v1/backup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start backup"
+        },
+        {
+          "info": {
+            "name": "Get backup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/backup/:backup_id",
+            "params": [
+              {
+                "name": "backup_id",
+                "value": "b_0123456789ab",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get backup"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

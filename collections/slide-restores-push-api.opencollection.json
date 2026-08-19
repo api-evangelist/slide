@@ -1,0 +1,162 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Slide Accounts Restores (Push) API",
+    "version": "1.34.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Restores (Push)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List push operations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/restore/file/:file_restore_id/push",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Starting index for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return for pagination"
+              },
+              {
+                "name": "file_restore_id",
+                "value": "fr_0123456789ab",
+                "type": "path"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Sort by a specific field"
+              },
+              {
+                "name": "sort_asc",
+                "value": "",
+                "type": "query",
+                "description": "Sort in ascending order"
+              },
+              {
+                "name": "start_time_before",
+                "value": "",
+                "type": "query",
+                "description": "Filter file restore pushes to before a specific start timestamp (RFC3339 format)"
+              },
+              {
+                "name": "start_time_after",
+                "value": "",
+                "type": "query",
+                "description": "Filter file restore pushes to after a specific start timestamp (RFC3339 format)"
+              },
+              {
+                "name": "end_time_before",
+                "value": "",
+                "type": "query",
+                "description": "Filter file restore pushes to before a specific end timestamp (RFC3339 format)"
+              },
+              {
+                "name": "end_time_after",
+                "value": "",
+                "type": "query",
+                "description": "Filter file restore pushes to after a specific end timestamp (RFC3339 format)"
+              }
+            ]
+          },
+          "docs": "List push operations"
+        },
+        {
+          "info": {
+            "name": "Push a file to the protected system",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.slide.tech/v1/restore/file/:file_restore_id/push",
+            "params": [
+              {
+                "name": "file_restore_id",
+                "value": "fr_0123456789ab",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Push a file to the protected system"
+        },
+        {
+          "info": {
+            "name": "Get Status of push operation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/restore/file/:file_restore_id/push/:file_restore_push_id",
+            "params": [
+              {
+                "name": "file_restore_id",
+                "value": "fr_0123456789ab",
+                "type": "path"
+              },
+              {
+                "name": "file_restore_push_id",
+                "value": "frp_0123456789ab",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Status of push operation"
+        },
+        {
+          "info": {
+            "name": "Update a push operation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.slide.tech/v1/restore/file/:file_restore_id/push/:file_restore_push_id",
+            "params": [
+              {
+                "name": "file_restore_id",
+                "value": "fr_0123456789ab",
+                "type": "path"
+              },
+              {
+                "name": "file_restore_push_id",
+                "value": "frp_0123456789ab",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a push operation"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -2,428 +2,433 @@ generated: '2026-07-21'
 method: derived
 status: candidate
 source: openapi/slide-openapi-original.json
-description: >-
-  Candidate MCP server for the Slide API. No official hosted MCP server was
-  found; this tool list is derived one-to-one from the OpenAPI operations so
-  it can seed an MCP wrapper. Not an official Slide product.
+description: Candidate MCP server for the Slide API. No official hosted MCP server was found; this tool
+  list is derived one-to-one from the OpenAPI operations so it can seed an MCP wrapper. Not an official
+  Slide product.
 server:
   name: slide
   transport: http
   base_url: https://api.slide.tech
   auth: bearer-token
 tools:
-  - name: Accounts
-    description: List accounts
-    method: GET
-    path: /v1/account
-    source_operation: openapi/slide-openapi-original.json#Accounts
-  - name: AccountByID
-    description: Get account
-    method: GET
-    path: /v1/account/{account_id}
-    source_operation: openapi/slide-openapi-original.json#AccountByID
-  - name: AccountUpdate
-    description: Update account
-    method: PATCH
-    path: /v1/account/{account_id}
-    source_operation: openapi/slide-openapi-original.json#AccountUpdate
-  - name: Agents
-    description: List agents
-    method: GET
-    path: /v1/agent
-    source_operation: openapi/slide-openapi-original.json#Agents
-  - name: AgentPrePair
-    description: Create an agent for an auto-pair installation
-    method: POST
-    path: /v1/agent
-    source_operation: openapi/slide-openapi-original.json#AgentPrePair
-  - name: AgentPair
-    description: Pair agent
-    method: POST
-    path: /v1/agent/pair
-    source_operation: openapi/slide-openapi-original.json#AgentPair
-  - name: AgentByID
-    description: Get agent
-    method: GET
-    path: /v1/agent/{agent_id}
-    source_operation: openapi/slide-openapi-original.json#AgentByID
-  - name: AgentUpdate
-    description: Update agent
-    method: PATCH
-    path: /v1/agent/{agent_id}
-    source_operation: openapi/slide-openapi-original.json#AgentUpdate
-  - name: FileSearch
-    description: Get the file paths on a system
-    method: GET
-    path: /v1/agent/{agent_id}/file-search
-    source_operation: openapi/slide-openapi-original.json#FileSearch
-  - name: PathVersion
-    description: Get the versions of a path
-    method: GET
-    path: /v1/agent/{agent_id}/file-search/version
-    source_operation: openapi/slide-openapi-original.json#PathVersion
-  - name: AgentPassphraseAdd
-    description: Add agent passphrase
-    method: POST
-    path: /v1/agent/{agent_id}/passphrase
-    source_operation: openapi/slide-openapi-original.json#AgentPassphraseAdd
-  - name: AgentPassphraseDelete
-    description: Delete agent passphrase
-    method: DELETE
-    path: /v1/agent/{agent_id}/passphrase/{agent_passphrase_id}
-    source_operation: openapi/slide-openapi-original.json#AgentPassphraseDelete
-  - name: AgentServices
-    description: Get agent services
-    method: GET
-    path: /v1/agent/{agent_id}/service
-    source_operation: openapi/slide-openapi-original.json#AgentServices
-  - name: AgentServiceUpdate
-    description: Update agent services
-    method: PATCH
-    path: /v1/agent/{agent_id}/service
-    source_operation: openapi/slide-openapi-original.json#AgentServiceUpdate
-  - name: AgentServiceReset
-    description: Reset all of an agent's service verification settings to system defaults
-    method: POST
-    path: /v1/agent/{agent_id}/service/reset
-    source_operation: openapi/slide-openapi-original.json#AgentServiceReset
-  - name: Alerts
-    description: List alerts
-    method: GET
-    path: /v1/alert
-    source_operation: openapi/slide-openapi-original.json#Alerts
-  - name: AlertByID
-    description: Get alert
-    method: GET
-    path: /v1/alert/{alert_id}
-    source_operation: openapi/slide-openapi-original.json#AlertByID
-  - name: AlertUpdate
-    description: Update alert
-    method: PATCH
-    path: /v1/alert/{alert_id}
-    source_operation: openapi/slide-openapi-original.json#AlertUpdate
-  - name: Audits
-    description: List audit logs
-    method: GET
-    path: /v1/audit
-    source_operation: openapi/slide-openapi-original.json#Audits
-  - name: AuditActions
-    description: List audit actions
-    method: GET
-    path: /v1/audit/action
-    source_operation: openapi/slide-openapi-original.json#AuditActions
-  - name: AuditResources
-    description: List audit resource types
-    method: GET
-    path: /v1/audit/resource
-    source_operation: openapi/slide-openapi-original.json#AuditResources
-  - name: AuditByID
-    description: Get audit log
-    method: GET
-    path: /v1/audit/{audit_id}
-    source_operation: openapi/slide-openapi-original.json#AuditByID
-  - name: Backups
-    description: List backups
-    method: GET
-    path: /v1/backup
-    source_operation: openapi/slide-openapi-original.json#Backups
-  - name: BackupStart
-    description: Start backup
-    method: POST
-    path: /v1/backup
-    source_operation: openapi/slide-openapi-original.json#BackupStart
-  - name: BackupByID
-    description: Get backup
-    method: GET
-    path: /v1/backup/{backup_id}
-    source_operation: openapi/slide-openapi-original.json#BackupByID
-  - name: Clients
-    description: List clients
-    method: GET
-    path: /v1/client
-    source_operation: openapi/slide-openapi-original.json#Clients
-  - name: ClientCreate
-    description: Create client
-    method: POST
-    path: /v1/client
-    source_operation: openapi/slide-openapi-original.json#ClientCreate
-  - name: ClientDelete
-    description: Delete client
-    method: DELETE
-    path: /v1/client/{client_id}
-    source_operation: openapi/slide-openapi-original.json#ClientDelete
-  - name: ClientByID
-    description: Get client
-    method: GET
-    path: /v1/client/{client_id}
-    source_operation: openapi/slide-openapi-original.json#ClientByID
-  - name: ClientUpdate
-    description: Update client
-    method: PATCH
-    path: /v1/client/{client_id}
-    source_operation: openapi/slide-openapi-original.json#ClientUpdate
-  - name: Devices
-    description: List devices
-    method: GET
-    path: /v1/device
-    source_operation: openapi/slide-openapi-original.json#Devices
-  - name: DeviceByID
-    description: Get device
-    method: GET
-    path: /v1/device/{device_id}
-    source_operation: openapi/slide-openapi-original.json#DeviceByID
-  - name: DeviceUpdate
-    description: Update device
-    method: PATCH
-    path: /v1/device/{device_id}
-    source_operation: openapi/slide-openapi-original.json#DeviceUpdate
-  - name: DeviceNetworkGet
-    description: Get device network configuration
-    method: GET
-    path: /v1/device/{device_id}/network
-    source_operation: openapi/slide-openapi-original.json#DeviceNetworkGet
-  - name: DeviceNetworkUpdate
-    description: Update device network configuration
-    method: PATCH
-    path: /v1/device/{device_id}/network
-    source_operation: openapi/slide-openapi-original.json#DeviceNetworkUpdate
-  - name: DevicePowerOff
-    description: Power off a device
-    method: POST
-    path: /v1/device/{device_id}/shutdown/poweroff
-    source_operation: openapi/slide-openapi-original.json#DevicePowerOff
-  - name: DeviceReboot
-    description: Reboot a device
-    method: POST
-    path: /v1/device/{device_id}/shutdown/reboot
-    source_operation: openapi/slide-openapi-original.json#DeviceReboot
-  - name: DeviceVLANList
-    description: List device VLANs
-    method: GET
-    path: /v1/device/{device_id}/vlan
-    source_operation: openapi/slide-openapi-original.json#DeviceVLANList
-  - name: DeviceVLANCreate
-    description: Create device VLAN
-    method: POST
-    path: /v1/device/{device_id}/vlan
-    source_operation: openapi/slide-openapi-original.json#DeviceVLANCreate
-  - name: DeviceVLANDelete
-    description: Delete device VLAN
-    method: DELETE
-    path: /v1/device/{device_id}/vlan/{vlan_id}
-    source_operation: openapi/slide-openapi-original.json#DeviceVLANDelete
-  - name: DeviceVLANGet
-    description: Get device VLAN
-    method: GET
-    path: /v1/device/{device_id}/vlan/{vlan_id}
-    source_operation: openapi/slide-openapi-original.json#DeviceVLANGet
-  - name: DeviceVLANUpdate
-    description: Update device VLAN
-    method: PATCH
-    path: /v1/device/{device_id}/vlan/{vlan_id}
-    source_operation: openapi/slide-openapi-original.json#DeviceVLANUpdate
-  - name: NASAgentCreate
-    description: Create a NAS agent
-    method: POST
-    path: /v1/nas-agent
-    source_operation: openapi/slide-openapi-original.json#NASAgentCreate
-  - name: Networks
-    description: List networks
-    method: GET
-    path: /v1/network
-    source_operation: openapi/slide-openapi-original.json#Networks
-  - name: NetworkCreate
-    description: Create network
-    method: POST
-    path: /v1/network
-    source_operation: openapi/slide-openapi-original.json#NetworkCreate
-  - name: NetworkDelete
-    description: Delete network
-    method: DELETE
-    path: /v1/network/{network_id}
-    source_operation: openapi/slide-openapi-original.json#NetworkDelete
-  - name: NetworkByID
-    description: Get network
-    method: GET
-    path: /v1/network/{network_id}
-    source_operation: openapi/slide-openapi-original.json#NetworkByID
-  - name: NetworkUpdate
-    description: Update network
-    method: PATCH
-    path: /v1/network/{network_id}
-    source_operation: openapi/slide-openapi-original.json#NetworkUpdate
-  - name: NetworkIPSecConnCreate
-    description: Create IPsec connection
-    method: POST
-    path: /v1/network/{network_id}/ipsec
-    source_operation: openapi/slide-openapi-original.json#NetworkIPSecConnCreate
-  - name: NetworkIPSecConnDelete
-    description: Delete IPsec connection
-    method: DELETE
-    path: /v1/network/{network_id}/ipsec/{ipsec_id}
-    source_operation: openapi/slide-openapi-original.json#NetworkIPSecConnDelete
-  - name: NetworkIPSecConnUpdate
-    description: Update IPsec connection
-    method: PATCH
-    path: /v1/network/{network_id}/ipsec/{ipsec_id}
-    source_operation: openapi/slide-openapi-original.json#NetworkIPSecConnUpdate
-  - name: NetworkPortForwardCreate
-    description: Create port forward
-    method: POST
-    path: /v1/network/{network_id}/port-forward
-    source_operation: openapi/slide-openapi-original.json#NetworkPortForwardCreate
-  - name: NetworkPortForwardDelete
-    description: Delete port forward
-    method: DELETE
-    path: /v1/network/{network_id}/port-forward/{port_forward_id}
-    source_operation: openapi/slide-openapi-original.json#NetworkPortForwardDelete
-  - name: NetworkPortForwardUpdate
-    description: Update port forward
-    method: PATCH
-    path: /v1/network/{network_id}/port-forward/{port_forward_id}
-    source_operation: openapi/slide-openapi-original.json#NetworkPortForwardUpdate
-  - name: NetworkWGPeerCreate
-    description: Create WireGuard peer
-    method: POST
-    path: /v1/network/{network_id}/wg-peer
-    source_operation: openapi/slide-openapi-original.json#NetworkWGPeerCreate
-  - name: NetworkWGPeerDelete
-    description: Delete WireGuard peer
-    method: DELETE
-    path: /v1/network/{network_id}/wg-peer/{wg_peer_id}
-    source_operation: openapi/slide-openapi-original.json#NetworkWGPeerDelete
-  - name: NetworkWGPeerUpdate
-    description: Update WireGuard peer
-    method: PATCH
-    path: /v1/network/{network_id}/wg-peer/{wg_peer_id}
-    source_operation: openapi/slide-openapi-original.json#NetworkWGPeerUpdate
-  - name: FileRestores
-    description: List file restores
-    method: GET
-    path: /v1/restore/file
-    source_operation: openapi/slide-openapi-original.json#FileRestores
-  - name: FileRestoreCreate
-    description: Create file restore
-    method: POST
-    path: /v1/restore/file
-    source_operation: openapi/slide-openapi-original.json#FileRestoreCreate
-  - name: FileRestoreDelete
-    description: Delete file restore
-    method: DELETE
-    path: /v1/restore/file/{file_restore_id}
-    source_operation: openapi/slide-openapi-original.json#FileRestoreDelete
-  - name: FileRestoreByID
-    description: Get file restore
-    method: GET
-    path: /v1/restore/file/{file_restore_id}
-    source_operation: openapi/slide-openapi-original.json#FileRestoreByID
-  - name: FileRestoreBrowse
-    description: Browse file restore
-    method: GET
-    path: /v1/restore/file/{file_restore_id}/browse
-    source_operation: openapi/slide-openapi-original.json#FileRestoreBrowse
-  - name: FileRestorePushes
-    description: List push operations
-    method: GET
-    path: /v1/restore/file/{file_restore_id}/push
-    source_operation: openapi/slide-openapi-original.json#FileRestorePushes
-  - name: FileRestorePushCreate
-    description: Push a file to the protected system
-    method: POST
-    path: /v1/restore/file/{file_restore_id}/push
-    source_operation: openapi/slide-openapi-original.json#FileRestorePushCreate
-  - name: FileRestorePushStatus
-    description: Get Status of push operation
-    method: GET
-    path: /v1/restore/file/{file_restore_id}/push/{file_restore_push_id}
-    source_operation: openapi/slide-openapi-original.json#FileRestorePushStatus
-  - name: FileRestorePushUpdate
-    description: Update a push operation
-    method: PATCH
-    path: /v1/restore/file/{file_restore_id}/push/{file_restore_push_id}
-    source_operation: openapi/slide-openapi-original.json#FileRestorePushUpdate
-  - name: Images
-    description: List image exports
-    method: GET
-    path: /v1/restore/image
-    source_operation: openapi/slide-openapi-original.json#Images
-  - name: ImageCreate
-    description: Create image export
-    method: POST
-    path: /v1/restore/image
-    source_operation: openapi/slide-openapi-original.json#ImageCreate
-  - name: ImageDelete
-    description: Delete image export
-    method: DELETE
-    path: /v1/restore/image/{image_export_id}
-    source_operation: openapi/slide-openapi-original.json#ImageDelete
-  - name: ImageByID
-    description: Get image export
-    method: GET
-    path: /v1/restore/image/{image_export_id}
-    source_operation: openapi/slide-openapi-original.json#ImageByID
-  - name: ImageUpdate
-    description: Update image export
-    method: PATCH
-    path: /v1/restore/image/{image_export_id}
-    source_operation: openapi/slide-openapi-original.json#ImageUpdate
-  - name: ImageBrowse
-    description: Browse image export
-    method: GET
-    path: /v1/restore/image/{image_export_id}/browse
-    source_operation: openapi/slide-openapi-original.json#ImageBrowse
-  - name: Virts
-    description: List virtual machines
-    method: GET
-    path: /v1/restore/virt
-    source_operation: openapi/slide-openapi-original.json#Virts
-  - name: VirtCreate
-    description: Create virtual machine
-    method: POST
-    path: /v1/restore/virt
-    source_operation: openapi/slide-openapi-original.json#VirtCreate
-  - name: VirtDelete
-    description: Delete virtual machine
-    method: DELETE
-    path: /v1/restore/virt/{virt_id}
-    source_operation: openapi/slide-openapi-original.json#VirtDelete
-  - name: VirtByID
-    description: Get virtual machine
-    method: GET
-    path: /v1/restore/virt/{virt_id}
-    source_operation: openapi/slide-openapi-original.json#VirtByID
-  - name: VirtUpdate
-    description: Update virtual machine
-    method: PATCH
-    path: /v1/restore/virt/{virt_id}
-    source_operation: openapi/slide-openapi-original.json#VirtUpdate
-  - name: Snapshots
-    description: List snapshots
-    method: GET
-    path: /v1/snapshot
-    source_operation: openapi/slide-openapi-original.json#Snapshots
-  - name: SnapshotByID
-    description: Get snapshot
-    method: GET
-    path: /v1/snapshot/{snapshot_id}
-    source_operation: openapi/slide-openapi-original.json#SnapshotByID
-  - name: SnapshotServiceVerification
-    description: Get service verification results for a snapshot
-    method: GET
-    path: /v1/snapshot/{snapshot_id}/service-verification
-    source_operation: openapi/slide-openapi-original.json#SnapshotServiceVerification
-  - name: Users
-    description: List users
-    method: GET
-    path: /v1/user
-    source_operation: openapi/slide-openapi-original.json#Users
-  - name: UserByID
-    description: Get user
-    method: GET
-    path: /v1/user/{user_id}
-    source_operation: openapi/slide-openapi-original.json#UserByID
-  - name: UserAvatarByID
-    description: Get user avatar
-    method: GET
-    path: /v1/user/{user_id}/avatar
-    source_operation: openapi/slide-openapi-original.json#UserAvatarByID
+- name: Accounts
+  description: List accounts
+  method: GET
+  path: /v1/account
+  source_operation: openapi/slide-openapi-original.json#Accounts
+- name: AccountByID
+  description: Get account
+  method: GET
+  path: /v1/account/{account_id}
+  source_operation: openapi/slide-openapi-original.json#AccountByID
+- name: AccountUpdate
+  description: Update account
+  method: PATCH
+  path: /v1/account/{account_id}
+  source_operation: openapi/slide-openapi-original.json#AccountUpdate
+- name: Agents
+  description: List agents
+  method: GET
+  path: /v1/agent
+  source_operation: openapi/slide-openapi-original.json#Agents
+- name: AgentPrePair
+  description: Create an agent for an auto-pair installation
+  method: POST
+  path: /v1/agent
+  source_operation: openapi/slide-openapi-original.json#AgentPrePair
+- name: AgentPair
+  description: Pair agent
+  method: POST
+  path: /v1/agent/pair
+  source_operation: openapi/slide-openapi-original.json#AgentPair
+- name: AgentByID
+  description: Get agent
+  method: GET
+  path: /v1/agent/{agent_id}
+  source_operation: openapi/slide-openapi-original.json#AgentByID
+- name: AgentUpdate
+  description: Update agent
+  method: PATCH
+  path: /v1/agent/{agent_id}
+  source_operation: openapi/slide-openapi-original.json#AgentUpdate
+- name: FileSearch
+  description: Get the file paths on a system
+  method: GET
+  path: /v1/agent/{agent_id}/file-search
+  source_operation: openapi/slide-openapi-original.json#FileSearch
+- name: PathVersion
+  description: Get the versions of a path
+  method: GET
+  path: /v1/agent/{agent_id}/file-search/version
+  source_operation: openapi/slide-openapi-original.json#PathVersion
+- name: AgentPassphraseAdd
+  description: Add agent passphrase
+  method: POST
+  path: /v1/agent/{agent_id}/passphrase
+  source_operation: openapi/slide-openapi-original.json#AgentPassphraseAdd
+- name: AgentPassphraseDelete
+  description: Delete agent passphrase
+  method: DELETE
+  path: /v1/agent/{agent_id}/passphrase/{agent_passphrase_id}
+  source_operation: openapi/slide-openapi-original.json#AgentPassphraseDelete
+- name: AgentServices
+  description: Get agent services
+  method: GET
+  path: /v1/agent/{agent_id}/service
+  source_operation: openapi/slide-openapi-original.json#AgentServices
+- name: AgentServiceUpdate
+  description: Update agent services
+  method: PATCH
+  path: /v1/agent/{agent_id}/service
+  source_operation: openapi/slide-openapi-original.json#AgentServiceUpdate
+- name: AgentServiceReset
+  description: Reset all of an agent's service verification settings to system defaults
+  method: POST
+  path: /v1/agent/{agent_id}/service/reset
+  source_operation: openapi/slide-openapi-original.json#AgentServiceReset
+- name: Alerts
+  description: List alerts
+  method: GET
+  path: /v1/alert
+  source_operation: openapi/slide-openapi-original.json#Alerts
+- name: AlertByID
+  description: Get alert
+  method: GET
+  path: /v1/alert/{alert_id}
+  source_operation: openapi/slide-openapi-original.json#AlertByID
+- name: AlertUpdate
+  description: Update alert
+  method: PATCH
+  path: /v1/alert/{alert_id}
+  source_operation: openapi/slide-openapi-original.json#AlertUpdate
+- name: Audits
+  description: List audit logs
+  method: GET
+  path: /v1/audit
+  source_operation: openapi/slide-openapi-original.json#Audits
+- name: AuditActions
+  description: List audit actions
+  method: GET
+  path: /v1/audit/action
+  source_operation: openapi/slide-openapi-original.json#AuditActions
+- name: AuditResources
+  description: List audit resource types
+  method: GET
+  path: /v1/audit/resource
+  source_operation: openapi/slide-openapi-original.json#AuditResources
+- name: AuditByID
+  description: Get audit log
+  method: GET
+  path: /v1/audit/{audit_id}
+  source_operation: openapi/slide-openapi-original.json#AuditByID
+- name: Backups
+  description: List backups
+  method: GET
+  path: /v1/backup
+  source_operation: openapi/slide-openapi-original.json#Backups
+- name: BackupStart
+  description: Start backup
+  method: POST
+  path: /v1/backup
+  source_operation: openapi/slide-openapi-original.json#BackupStart
+- name: BackupByID
+  description: Get backup
+  method: GET
+  path: /v1/backup/{backup_id}
+  source_operation: openapi/slide-openapi-original.json#BackupByID
+- name: Clients
+  description: List clients
+  method: GET
+  path: /v1/client
+  source_operation: openapi/slide-openapi-original.json#Clients
+- name: ClientCreate
+  description: Create client
+  method: POST
+  path: /v1/client
+  source_operation: openapi/slide-openapi-original.json#ClientCreate
+- name: ClientDelete
+  description: Delete client
+  method: DELETE
+  path: /v1/client/{client_id}
+  source_operation: openapi/slide-openapi-original.json#ClientDelete
+- name: ClientByID
+  description: Get client
+  method: GET
+  path: /v1/client/{client_id}
+  source_operation: openapi/slide-openapi-original.json#ClientByID
+- name: ClientUpdate
+  description: Update client
+  method: PATCH
+  path: /v1/client/{client_id}
+  source_operation: openapi/slide-openapi-original.json#ClientUpdate
+- name: Devices
+  description: List devices
+  method: GET
+  path: /v1/device
+  source_operation: openapi/slide-openapi-original.json#Devices
+- name: DeviceByID
+  description: Get device
+  method: GET
+  path: /v1/device/{device_id}
+  source_operation: openapi/slide-openapi-original.json#DeviceByID
+- name: DeviceUpdate
+  description: Update device
+  method: PATCH
+  path: /v1/device/{device_id}
+  source_operation: openapi/slide-openapi-original.json#DeviceUpdate
+- name: DeviceNetworkGet
+  description: Get device network configuration
+  method: GET
+  path: /v1/device/{device_id}/network
+  source_operation: openapi/slide-openapi-original.json#DeviceNetworkGet
+- name: DeviceNetworkUpdate
+  description: Update device network configuration
+  method: PATCH
+  path: /v1/device/{device_id}/network
+  source_operation: openapi/slide-openapi-original.json#DeviceNetworkUpdate
+- name: DevicePowerOff
+  description: Power off a device
+  method: POST
+  path: /v1/device/{device_id}/shutdown/poweroff
+  source_operation: openapi/slide-openapi-original.json#DevicePowerOff
+- name: DeviceReboot
+  description: Reboot a device
+  method: POST
+  path: /v1/device/{device_id}/shutdown/reboot
+  source_operation: openapi/slide-openapi-original.json#DeviceReboot
+- name: DeviceVLANList
+  description: List device VLANs
+  method: GET
+  path: /v1/device/{device_id}/vlan
+  source_operation: openapi/slide-openapi-original.json#DeviceVLANList
+- name: DeviceVLANCreate
+  description: Create device VLAN
+  method: POST
+  path: /v1/device/{device_id}/vlan
+  source_operation: openapi/slide-openapi-original.json#DeviceVLANCreate
+- name: DeviceVLANDelete
+  description: Delete device VLAN
+  method: DELETE
+  path: /v1/device/{device_id}/vlan/{vlan_id}
+  source_operation: openapi/slide-openapi-original.json#DeviceVLANDelete
+- name: DeviceVLANGet
+  description: Get device VLAN
+  method: GET
+  path: /v1/device/{device_id}/vlan/{vlan_id}
+  source_operation: openapi/slide-openapi-original.json#DeviceVLANGet
+- name: DeviceVLANUpdate
+  description: Update device VLAN
+  method: PATCH
+  path: /v1/device/{device_id}/vlan/{vlan_id}
+  source_operation: openapi/slide-openapi-original.json#DeviceVLANUpdate
+- name: NASAgentCreate
+  description: Create a NAS agent
+  method: POST
+  path: /v1/nas-agent
+  source_operation: openapi/slide-openapi-original.json#NASAgentCreate
+- name: Networks
+  description: List networks
+  method: GET
+  path: /v1/network
+  source_operation: openapi/slide-openapi-original.json#Networks
+- name: NetworkCreate
+  description: Create network
+  method: POST
+  path: /v1/network
+  source_operation: openapi/slide-openapi-original.json#NetworkCreate
+- name: NetworkDelete
+  description: Delete network
+  method: DELETE
+  path: /v1/network/{network_id}
+  source_operation: openapi/slide-openapi-original.json#NetworkDelete
+- name: NetworkByID
+  description: Get network
+  method: GET
+  path: /v1/network/{network_id}
+  source_operation: openapi/slide-openapi-original.json#NetworkByID
+- name: NetworkUpdate
+  description: Update network
+  method: PATCH
+  path: /v1/network/{network_id}
+  source_operation: openapi/slide-openapi-original.json#NetworkUpdate
+- name: NetworkIPSecConnCreate
+  description: Create IPsec connection
+  method: POST
+  path: /v1/network/{network_id}/ipsec
+  source_operation: openapi/slide-openapi-original.json#NetworkIPSecConnCreate
+- name: NetworkIPSecConnDelete
+  description: Delete IPsec connection
+  method: DELETE
+  path: /v1/network/{network_id}/ipsec/{ipsec_id}
+  source_operation: openapi/slide-openapi-original.json#NetworkIPSecConnDelete
+- name: NetworkIPSecConnUpdate
+  description: Update IPsec connection
+  method: PATCH
+  path: /v1/network/{network_id}/ipsec/{ipsec_id}
+  source_operation: openapi/slide-openapi-original.json#NetworkIPSecConnUpdate
+- name: NetworkPortForwardCreate
+  description: Create port forward
+  method: POST
+  path: /v1/network/{network_id}/port-forward
+  source_operation: openapi/slide-openapi-original.json#NetworkPortForwardCreate
+- name: NetworkPortForwardDelete
+  description: Delete port forward
+  method: DELETE
+  path: /v1/network/{network_id}/port-forward/{port_forward_id}
+  source_operation: openapi/slide-openapi-original.json#NetworkPortForwardDelete
+- name: NetworkPortForwardUpdate
+  description: Update port forward
+  method: PATCH
+  path: /v1/network/{network_id}/port-forward/{port_forward_id}
+  source_operation: openapi/slide-openapi-original.json#NetworkPortForwardUpdate
+- name: NetworkWGPeerCreate
+  description: Create WireGuard peer
+  method: POST
+  path: /v1/network/{network_id}/wg-peer
+  source_operation: openapi/slide-openapi-original.json#NetworkWGPeerCreate
+- name: NetworkWGPeerDelete
+  description: Delete WireGuard peer
+  method: DELETE
+  path: /v1/network/{network_id}/wg-peer/{wg_peer_id}
+  source_operation: openapi/slide-openapi-original.json#NetworkWGPeerDelete
+- name: NetworkWGPeerUpdate
+  description: Update WireGuard peer
+  method: PATCH
+  path: /v1/network/{network_id}/wg-peer/{wg_peer_id}
+  source_operation: openapi/slide-openapi-original.json#NetworkWGPeerUpdate
+- name: FileRestores
+  description: List file restores
+  method: GET
+  path: /v1/restore/file
+  source_operation: openapi/slide-openapi-original.json#FileRestores
+- name: FileRestoreCreate
+  description: Create file restore
+  method: POST
+  path: /v1/restore/file
+  source_operation: openapi/slide-openapi-original.json#FileRestoreCreate
+- name: FileRestoreDelete
+  description: Delete file restore
+  method: DELETE
+  path: /v1/restore/file/{file_restore_id}
+  source_operation: openapi/slide-openapi-original.json#FileRestoreDelete
+- name: FileRestoreByID
+  description: Get file restore
+  method: GET
+  path: /v1/restore/file/{file_restore_id}
+  source_operation: openapi/slide-openapi-original.json#FileRestoreByID
+- name: FileRestoreBrowse
+  description: Browse file restore
+  method: GET
+  path: /v1/restore/file/{file_restore_id}/browse
+  source_operation: openapi/slide-openapi-original.json#FileRestoreBrowse
+- name: FileRestorePushes
+  description: List push operations
+  method: GET
+  path: /v1/restore/file/{file_restore_id}/push
+  source_operation: openapi/slide-openapi-original.json#FileRestorePushes
+- name: FileRestorePushCreate
+  description: Push a file to the protected system
+  method: POST
+  path: /v1/restore/file/{file_restore_id}/push
+  source_operation: openapi/slide-openapi-original.json#FileRestorePushCreate
+- name: FileRestorePushStatus
+  description: Get Status of push operation
+  method: GET
+  path: /v1/restore/file/{file_restore_id}/push/{file_restore_push_id}
+  source_operation: openapi/slide-openapi-original.json#FileRestorePushStatus
+- name: FileRestorePushUpdate
+  description: Update a push operation
+  method: PATCH
+  path: /v1/restore/file/{file_restore_id}/push/{file_restore_push_id}
+  source_operation: openapi/slide-openapi-original.json#FileRestorePushUpdate
+- name: Images
+  description: List image exports
+  method: GET
+  path: /v1/restore/image
+  source_operation: openapi/slide-openapi-original.json#Images
+- name: ImageCreate
+  description: Create image export
+  method: POST
+  path: /v1/restore/image
+  source_operation: openapi/slide-openapi-original.json#ImageCreate
+- name: ImageDelete
+  description: Delete image export
+  method: DELETE
+  path: /v1/restore/image/{image_export_id}
+  source_operation: openapi/slide-openapi-original.json#ImageDelete
+- name: ImageByID
+  description: Get image export
+  method: GET
+  path: /v1/restore/image/{image_export_id}
+  source_operation: openapi/slide-openapi-original.json#ImageByID
+- name: ImageUpdate
+  description: Update image export
+  method: PATCH
+  path: /v1/restore/image/{image_export_id}
+  source_operation: openapi/slide-openapi-original.json#ImageUpdate
+- name: ImageBrowse
+  description: Browse image export
+  method: GET
+  path: /v1/restore/image/{image_export_id}/browse
+  source_operation: openapi/slide-openapi-original.json#ImageBrowse
+- name: Virts
+  description: List virtual machines
+  method: GET
+  path: /v1/restore/virt
+  source_operation: openapi/slide-openapi-original.json#Virts
+- name: VirtCreate
+  description: Create virtual machine
+  method: POST
+  path: /v1/restore/virt
+  source_operation: openapi/slide-openapi-original.json#VirtCreate
+- name: VirtDelete
+  description: Delete virtual machine
+  method: DELETE
+  path: /v1/restore/virt/{virt_id}
+  source_operation: openapi/slide-openapi-original.json#VirtDelete
+- name: VirtByID
+  description: Get virtual machine
+  method: GET
+  path: /v1/restore/virt/{virt_id}
+  source_operation: openapi/slide-openapi-original.json#VirtByID
+- name: VirtUpdate
+  description: Update virtual machine
+  method: PATCH
+  path: /v1/restore/virt/{virt_id}
+  source_operation: openapi/slide-openapi-original.json#VirtUpdate
+- name: Snapshots
+  description: List snapshots
+  method: GET
+  path: /v1/snapshot
+  source_operation: openapi/slide-openapi-original.json#Snapshots
+- name: SnapshotByID
+  description: Get snapshot
+  method: GET
+  path: /v1/snapshot/{snapshot_id}
+  source_operation: openapi/slide-openapi-original.json#SnapshotByID
+- name: SnapshotServiceVerification
+  description: Get service verification results for a snapshot
+  method: GET
+  path: /v1/snapshot/{snapshot_id}/service-verification
+  source_operation: openapi/slide-openapi-original.json#SnapshotServiceVerification
+- name: Users
+  description: List users
+  method: GET
+  path: /v1/user
+  source_operation: openapi/slide-openapi-original.json#Users
+- name: UserByID
+  description: Get user
+  method: GET
+  path: /v1/user/{user_id}
+  source_operation: openapi/slide-openapi-original.json#UserByID
+- name: UserAvatarByID
+  description: Get user avatar
+  method: GET
+  path: /v1/user/{user_id}/avatar
+  source_operation: openapi/slide-openapi-original.json#UserAvatarByID
+deployment:
+  mode: none
+  verified: derived
+  tools: 83
+  checked: '2026-08-12'
+  source: catalog MCP census

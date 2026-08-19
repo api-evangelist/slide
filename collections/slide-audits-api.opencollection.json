@@ -1,0 +1,175 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Slide Accounts Audits API",
+    "version": "1.34.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Audits",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List audit logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/audit",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Starting index for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return for pagination"
+              },
+              {
+                "name": "audit_action_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "audit_resource_type_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Sort by a specific field"
+              },
+              {
+                "name": "sort_asc",
+                "value": "",
+                "type": "query",
+                "description": "Sort in ascending order"
+              },
+              {
+                "name": "audit_time_before",
+                "value": "",
+                "type": "query",
+                "description": "Filter audit logs to before a specific audit timestamp (RFC3339 format)"
+              },
+              {
+                "name": "audit_time_after",
+                "value": "",
+                "type": "query",
+                "description": "Filter audit logs to after a specific audit timestamp (RFC3339 format)"
+              }
+            ]
+          },
+          "docs": "List audit logs"
+        },
+        {
+          "info": {
+            "name": "List audit actions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/audit/action",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Starting index for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return for pagination"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Sort by a specific field"
+              },
+              {
+                "name": "sort_asc",
+                "value": "",
+                "type": "query",
+                "description": "Sort in ascending order"
+              }
+            ]
+          },
+          "docs": "List audit actions"
+        },
+        {
+          "info": {
+            "name": "List audit resource types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/audit/resource",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Starting index for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return for pagination"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Sort by a specific field"
+              },
+              {
+                "name": "sort_asc",
+                "value": "",
+                "type": "query",
+                "description": "Sort in ascending order"
+              }
+            ]
+          },
+          "docs": "List audit resource types"
+        },
+        {
+          "info": {
+            "name": "Get audit log",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.slide.tech/v1/audit/:audit_id",
+            "params": [
+              {
+                "name": "audit_id",
+                "value": "aud_0123456789ab",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get audit log"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
