@@ -12,6 +12,18 @@ description: >-
   existing tooling. The platform uses AES-256 and ZFS native encryption,
   offers month-to-month subscriptions, and is SOC 2 Type 1 certified.
 url: https://raw.githubusercontent.com/api-evangelist/slide/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
