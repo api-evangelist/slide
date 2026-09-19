@@ -119,6 +119,8 @@ apis:
   humanURL: https://docs.slide.tech/api/
   baseURL: https://api.slide.tech
   tags:
+  - Audit
+  tags_raw:
   - Audits
   properties:
   - type: OpenAPI
