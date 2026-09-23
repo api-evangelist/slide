@@ -1,18 +1,20 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   contact:
     email: hey@slide.tech
     name: Slide Team
     url: https://docs.slide.tech
-  description: "## Introduction\nThe Slide API is organized around REST. Our API has predictable resource-oriented URLs, accepts JSON-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.\n\n## Authentication\nWe use API tokens to authenticate requests. You can view and manage your API tokens in the [Slide Console](https://docs.slide.tech).\nWhen making HTTP requests, you'll need to include the API token in the `Authorization` header, using Bearer auth (e.g. `Authorization: Bearer YOUR_SECRET_TOKEN`).\n\nExample:\n```shell\n$ curl -H 'Authorization: Bearer YOUR_SECRET_TOKEN' 'https://api.slide.tech/v1/device'\n```\n\n## Pagination\nAll list endpoints support pagination. You can use the `limit` and `offset` query parameters to control the number of items returned and the starting index.\nList responses will include a `pagination` key that includes the `next_offset` to use for pagination.\nIf `next_offset` is not present, that indicates there are no more items to fetch.\n\nExample:\n```shell\n$ curl -H 'Authorization: Bearer YOUR_SECRET_TOKEN' \\\n    'https://api.slide.tech/v1/device?offset=0&limit=10'\n{\n    \"pagination\": {\n        \"next_offset\": 10\n    },\n    \"data\": [\n        ...\n    ]\n}\n```\n\n## Rate Limiting\nWe limit the number of requests you can make to the API within a certain time frame.\nEach API token has a pool of `50` requests. We refill this pool at a rate of `10` requests per second.\nIf you exceed the rate limit, you'll receive a response with a `429 Too Many Requests` HTTP code and a `err_rate_limit_exceeded` error code.\nPlease wait before retrying the request. We recommend you implement an exponential backoff strategy to handle rate limits.\n\n## Errors\nSlide uses conventional HTTP response codes to indicate the success or failure of an API request.\nIn general, codes in the 2xx range indicate success, codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter was omitted), and codes in the 5xx range indicate an error with Slide's servers.\n\nWe also include [error codes and details](#model/error) in the response, which may provide more context about the error.\n\nExample:\n```shell\n$ curl 'https://api.slide.tech/v1/device'\n{\n    \"codes\": [\n        \"err_missing_authentication\"\n    ],\n    \"details\": [\n        ...\n    ],\n    \"message\": \"unauthorized\"\n}\n```\n\nSome common error codes are:\n\n| Code                         | Description                                                                                                                                             |\n|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|\n| `err_endpoint_not_found`     | Requested endpoint does not exist.                                                                                                                      |\n| `err_entity_not_found`       | Requested entity does not exist.                                                                                                                        |\n| `err_validation_error`       | Bad request due to validation error. The error `details` will contain any fields that were not valid.                                                   |\n| `err_missing_authentication` | Unauthorized due to missing API token. See [authentication](#description/authentication) for more details.                                              |\n| `err_unauthorized`           | Unauthorized due to invalid API token. You've provided an invalid API token or the API token does not have permission to access the requested resource. |\n| `err_internal_server_error`  | Something went wrong. If you retry the request and it does not succeed, you may contact us at `hey@slide.tech`.                                         |\n| `err_rate_limit_exceeded`    | Rate limit exceeded. Please wait before retrying the request. See [rate limiting](#description/rate-limiting) for more details.                         |\n\n<details>\n  <summary>Show more error codes.</summary>\n\n| Code                                | Description                                                                                                           |\n|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------|\n| `err_agent_not_connected_to_device` | Agent is not connected to the device. Ensure the agent is powered on and has network connectivity.                    |\n| `err_device_not_connected_to_cloud` | Device is not connected to the cloud. Ensure the device is powered on and has network connectivity.                   |\n| `err_backup_already_running`        | A backup is already running for this agent. Please wait for the current backup to complete before starting a new one. |\n| `err_client_not_found`              | Client not found. Ensure the client ID is valid and the client exists.                                                |\n\n</details>\n\n## Eventual Consistency\n\nSlide operates an eventual consistency model, where data may not be immediately available after an operation.\nThis is due to the distributed nature of our system and the need for replication and synchronization across multiple\nsystems. Users should expect that operations may take a short period of time to propagate and become visible to all\ncomponents of the system.\n\n## Deprecations and Breaking Changes\n\n### Active Deprecations\n\n`Device.ip_addresses` and `Agent.ip_addresses` will be removed. They have been replaced by `Device.addresses` and `Agent.addresses` respectively.\n"
-  title: Slide Accounts Agents API
+  description: '## Introduction
+
+    The Slide API is organized around REST.'
+  title: Slide Agents API
   version: 1.34.0
 servers:
 - url: https://api.slide.tech
 security:
 - BearerAuth: []
 tags:
-- description: Everything about [agents](#model/agent)
+- description: Everything about agents
   name: Agents
 paths:
   /v1/agent:
@@ -612,6 +614,105 @@ paths:
       - Agents
 components:
   schemas:
+    AgentPairCode:
+      description: Agent id and pair code
+      properties:
+        agent_id:
+          $ref: '#/components/schemas/AgentID'
+        display_name:
+          $ref: '#/components/schemas/DisplayName'
+        pair_code:
+          $ref: '#/components/schemas/PairCode'
+      required:
+      - agent_id
+      - display_name
+      - pair_code
+      type: object
+    Hostname:
+      description: Hostname of the system
+      example: my-hostname-1
+      maxLength: 63
+      minLength: 1
+      pattern: ^[a-zA-Z0-9][a-zA-Z0-9-]{0,62}$
+      type: string
+    NetworkAddress:
+      properties:
+        ips:
+          items:
+            description: The IP addresses associated with the MAC address.
+            example: 192.168.1.104
+            title: IP Address
+            type: string
+          type: array
+        mac:
+          description: MAC address of the network interface.
+          example: 62:bb:d3:0d:db:7d
+          type: string
+      required:
+      - mac
+      - ips
+      type: object
+    ClientID:
+      description: ID of a client
+      example: c_0123456789ab
+      pattern: ^c_[a-z0-9]{12}$
+      type: string
+    LastSeenAt:
+      description: Last seen timestamp
+      example: '2024-08-23T01:25:08Z'
+      format: date-time
+      type: string
+    AgentPassphrase:
+      description: User-managed passphrase for the agent
+      properties:
+        agent_passphrase_id:
+          $ref: '#/components/schemas/AgentPassphraseID'
+        name:
+          description: Friendly name to help remember which passphrase this is.
+          type: string
+        passphrase:
+          description: Your secret passphrase that secures the agent's data.
+          type: string
+      required:
+      - name
+      type: object
+    FileIndexSearch:
+      description: A single file search result
+      properties:
+        modified_time:
+          description: the time when the file was modified in the most recent snapshot
+          example: '2024-08-23T01:40:08Z'
+          format: date-time
+          type: string
+        path:
+          description: path to a file on the protected system
+          example: C:\Users\Administrator\Downloads\SlideAgent.exe
+          type: string
+        size:
+          description: size of the file in bytes
+          example: 614352
+          format: int64
+          type: integer
+      required:
+      - path
+      - size
+      - modified_time
+      type: object
+    AgentPassphraseID:
+      description: ID of an agent passphrase
+      example: ape_0123456789ab
+      pattern: ^ape_[a-z0-9]{12}$
+      type: string
+    DisplayName:
+      description: Customizable display name
+      example: My First Device
+      maxLength: 128
+      type: string
+    Timezone:
+      description: Timezone of the agent
+      example: America/New_York
+      pattern: ^[a-zA-Z0-9/_-]+$
+      type: string
     AgentService:
       description: Agent service object representing a Windows service monitored by service verification.
       properties:
@@ -665,103 +766,67 @@ components:
       - startup
       - verify_on_boot
       type: object
-    ClientID:
-      description: ID of a client
-      example: c_0123456789ab
-      pattern: ^c_[a-z0-9]{12}$
-      type: string
-    DefaultRestoreSettings:
-      description: Default restore VM settings
+    AlertConfig:
+      description: Alert configuration. For requests, use pause_for_minutes, alert_paused_indefinite or alert_resume. For responses, paused_until will be provided.
       properties:
-        cpu_count:
-          description: Number of CPUs
+        alert_active:
+          description: Whether this alert is active. (for responses only)
+          type: boolean
+        alert_paused_indefinite:
+          description: Set to true to pause this alert indefinitely.
+          example: false
+          type: boolean
+        alert_resume:
+          description: Set to true to resume this alert (clears paused_until). This takes precedence over paused_until if both are provided.
+          example: true
+          type: boolean
+        alert_type:
+          description: Type of alert
           enum:
-          - 1
-          - 2
-          - 4
-          - 8
-          - 16
-          example: 4
-          type: integer
-        disk_bus:
-          description: Disk bus type
-          enum:
-          - sata
-          - virtio
-          example: virtio
+          - device_not_checking_in
+          - device_out_of_date
+          - device_storage_not_healthy
+          - device_storage_space_low
+          - device_storage_space_critical
+          - agent_not_checking_in
+          - agent_not_backing_up
+          - agent_backup_failed
+          - agent_duplicate_connection
+          example: agent_backup_failed
           type: string
-        memory_mb:
-          description: Memory in MB
+        pause_for_minutes:
+          description: Number of minutes to pause alerts (for requests). Use 'resume' to unpause, or one of the predefined durations. Use 'alert_paused_indefinite' to pause indefinitely.
           enum:
-          - 4096
-          - 6144
-          - 8192
-          - 12288
-          - 16384
-          - 24576
-          - 28672
-          - 32768
-          - 49152
-          - 65536
-          - 98304
-          - 131072
-          - 163840
-          - 196608
-          - 229376
-          - 262144
-          example: 8192
+          - 0
+          - 30
+          - 60
+          - 120
+          - 240
+          - 480
+          - 1440
+          - 10080
+          example: 1440
           type: integer
-        network_model:
-          description: Network model
-          enum:
-          - virtio
-          - hypervisor_default
-          - e1000
-          - rtl8139
-          example: virtio
+        paused_until:
+          description: Timestamp when alerts will resume (for responses). RFC3339 format. If null or empty, alerts are not paused.
+          example: '2025-10-31T23:59:59Z'
+          format: date-time
           type: string
+      required:
+      - alert_type
       type: object
-    Passphrase:
-      description: User passphrase. If the agent has a user passphrase, you must provide it here.
-      example: Super Secret Passphrase
-      minLength: 10
-      type: string
-    DeviceID:
-      description: ID of a device
-      example: d_0123456789ab
-      pattern: ^d_[a-z0-9]{12}$
-      type: string
-    SnapshotID:
-      description: ID of a snapshot
-      example: s_0123456789ab
-      pattern: ^s_[a-z0-9]{12}$
-      type: string
-    Timezone:
-      description: Timezone of the agent
-      example: America/New_York
-      pattern: ^[a-zA-Z0-9/_-]+$
-      type: string
-    Volumes:
-      description: Volumes to include in the backup
+    Pagination:
+      properties:
+        next_offset:
+          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
+          example: 10
+          format: uint32
+          type: integer
+      type: object
+    NetworkAddresses:
+      description: List of network addresses
       items:
-        properties:
-          include:
-            description: Whether the volume is included in the backup
-            example: true
-            type: boolean
-          mount_points:
-            description: Mount points for this volume (e.g., ["C:", "D:"]) - present in responses only
-            example:
-            - 'C:'
-            items:
-              type: string
-            type: array
-          volume_id:
-            $ref: '#/components/schemas/VolumeID'
-        required:
-        - volume_id
-        - include
-        type: object
+        $ref: '#/components/schemas/NetworkAddress'
       type: array
     VolumeSetting:
       description: Volume setting configuration
@@ -785,46 +850,42 @@ components:
       - volume_id
       - include
       type: object
-    VolumeID:
-      description: ID of a volume
-      example: v_0123456789ab
-      pattern: ^v_[a-z0-9]{12}$
+    SnapshotID:
+      description: ID of a snapshot
+      example: s_0123456789ab
+      pattern: ^s_[a-z0-9]{12}$
       type: string
-    FileIndexSearch:
-      description: A single file search result
+    BootedAt:
+      description: Boot timestamp
+      example: '2024-08-23T01:25:08Z'
+      format: date-time
+      type: string
+    LocalRetentionPolicy:
+      description: Local retention policy configuration
       properties:
-        modified_time:
-          description: the time when the file was modified in the most recent snapshot
-          example: '2024-08-23T01:40:08Z'
-          format: date-time
-          type: string
-        path:
-          description: path to a file on the protected system
-          example: C:\Users\Administrator\Downloads\SlideAgent.exe
-          type: string
-        size:
-          description: size of the file in bytes
-          example: 614352
-          format: int64
+        retention_policy_max_age_months:
+          description: Maximum snapshot age in months
+          enum:
+          - 1
+          - 3
+          - 6
+          - 12
+          - 24
+          - 36
+          - 84
+          example: 84
           type: integer
-      required:
-      - path
-      - size
-      - modified_time
-      type: object
-    AgentPassphrase:
-      description: User-managed passphrase for the agent
-      properties:
-        agent_passphrase_id:
-          $ref: '#/components/schemas/AgentPassphraseID'
-        name:
-          description: Friendly name to help remember which passphrase this is.
-          type: string
-        passphrase:
-          description: Your secret passphrase that secures the agent's data.
+        retention_policy_name:
+          description: Retention policy name
+          enum:
+          - lean
+          - balanced
+          - comprehensive
+          example: balanced
           type: string
       required:
-      - name
+      - retention_policy_name
+      - retention_policy_max_age_months
       type: object
     PairCode:
       description: Short code used to identify an unpaired agent
@@ -834,53 +895,31 @@ components:
         url: https://docs.slide.tech/getting-started/#step-3-install-slide-agent
       pattern: ^[a-zA-Z0-9]{6}$
       type: string
-    Hostname:
-      description: Hostname of the system
-      example: my-hostname-1
-      maxLength: 63
-      minLength: 1
-      pattern: ^[a-zA-Z0-9][a-zA-Z0-9-]{0,62}$
-      type: string
-    NetworkAddress:
-      properties:
-        ips:
-          items:
-            description: The IP addresses associated with the MAC address.
-            example: 192.168.1.104
-            title: IP Address
-            type: string
-          type: array
-        mac:
-          description: MAC address of the network interface.
-          example: 62:bb:d3:0d:db:7d
-          type: string
-      required:
-      - mac
-      - ips
-      type: object
-    DisplayName:
-      description: Customizable display name
-      example: My First Device
-      maxLength: 128
-      type: string
-    AgentPairCode:
-      description: Agent id and pair code
-      properties:
-        agent_id:
-          $ref: '#/components/schemas/AgentID'
-        display_name:
-          $ref: '#/components/schemas/DisplayName'
-        pair_code:
-          $ref: '#/components/schemas/PairCode'
-      required:
-      - agent_id
-      - display_name
-      - pair_code
-      type: object
-    NetworkAddresses:
-      description: List of network addresses
+    VolumesIncludeDefault:
+      description: Whether the default volume is included in the backup
+      example: true
+      type: boolean
+    Volumes:
+      description: Volumes to include in the backup
       items:
-        $ref: '#/components/schemas/NetworkAddress'
+        properties:
+          include:
+            description: Whether the volume is included in the backup
+            example: true
+            type: boolean
+          mount_points:
+            description: Mount points for this volume (e.g., ["C:", "D:"]) - present in responses only
+            example:
+            - 'C:'
+            items:
+              type: string
+            type: array
+          volume_id:
+            $ref: '#/components/schemas/VolumeID'
+        required:
+        - volume_id
+        - include
+        type: object
       type: array
     IPAddresses:
       deprecated: true
@@ -890,6 +929,20 @@ components:
         format: ipv4
         type: string
       type: array
+    AgentServiceUpdateItem:
+      description: A service configuration update.
+      properties:
+        service_id:
+          description: Unique identifier of the service.
+          example: svc_abc123
+          type: string
+        verify_on_boot:
+          description: Whether this service should be checked during boot verification.
+          type: boolean
+      required:
+      - service_id
+      - verify_on_boot
+      type: object
     BackupSchedule:
       description: Backup schedule configuration
       properties:
@@ -943,112 +996,6 @@ components:
       - start_hour
       - end_hour
       - days
-      type: object
-    BootedAt:
-      description: Boot timestamp
-      example: '2024-08-23T01:25:08Z'
-      format: date-time
-      type: string
-    Comments:
-      description: Comments about the agent
-      example: This is a test agent
-      maxLength: 1024
-      type: string
-    VolumesIncludeDefault:
-      description: Whether the default volume is included in the backup
-      example: true
-      type: boolean
-    AgentVSSWriterConfig:
-      description: VSS writer configuration for the agent.
-      properties:
-        excluded:
-          description: Whether this VSS writer is excluded from participating in backups.
-          type: boolean
-        writer_id:
-          description: VSS writer ID.
-          example: '{a65faa63-5ea8-4ebc-9dbd-a0c4db26912a}'
-          type: string
-        writer_name:
-          description: VSS writer name.
-          example: SqlServerWriter
-          type: string
-      required:
-      - writer_id
-      - excluded
-      type: object
-    Error:
-      description: Error response object that represents an error that occurred during a request.
-      properties:
-        codes:
-          description: List of error codes that occurred during a request.
-          items:
-            description: A unique error code that identifies the error.
-            title: Code
-            type: string
-          title: Codes
-          type: array
-        details:
-          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
-          items:
-            description: Short detail message describing the error.
-            title: Detail
-            type: string
-          title: Details
-          type: array
-        message:
-          description: Short message describing the error.
-          title: Message
-          type: string
-      required:
-      - codes
-      - message
-      - details
-    LocalRetentionPolicy:
-      description: Local retention policy configuration
-      properties:
-        retention_policy_max_age_months:
-          description: Maximum snapshot age in months
-          enum:
-          - 1
-          - 3
-          - 6
-          - 12
-          - 24
-          - 36
-          - 84
-          example: 84
-          type: integer
-        retention_policy_name:
-          description: Retention policy name
-          enum:
-          - lean
-          - balanced
-          - comprehensive
-          example: balanced
-          type: string
-      required:
-      - retention_policy_name
-      - retention_policy_max_age_months
-      type: object
-    PathVersion:
-      description: A single version of a path
-      properties:
-        modified_time:
-          description: the time when the file was last modified in the snapshot
-          example: '2024-08-23T01:40:08Z'
-          format: date-time
-          type: string
-        size:
-          description: size of the file in bytes
-          example: 614352
-          format: int64
-          type: integer
-        snapshot_id:
-          $ref: '#/components/schemas/SnapshotID'
-      required:
-      - snapshot_id
-      - size
-      - modified_time
       type: object
     Agent:
       description: Agent object that represents an agent that is paired to a device.
@@ -1206,112 +1153,167 @@ components:
       - sealed
       - file_index_enabled
       type: object
-    AgentPassphraseID:
-      description: ID of an agent passphrase
-      example: ape_0123456789ab
-      pattern: ^ape_[a-z0-9]{12}$
+    PathVersion:
+      description: A single version of a path
+      properties:
+        modified_time:
+          description: the time when the file was last modified in the snapshot
+          example: '2024-08-23T01:40:08Z'
+          format: date-time
+          type: string
+        size:
+          description: size of the file in bytes
+          example: 614352
+          format: int64
+          type: integer
+        snapshot_id:
+          $ref: '#/components/schemas/SnapshotID'
+      required:
+      - snapshot_id
+      - size
+      - modified_time
+      type: object
+    Error:
+      description: Error response object that represents an error that occurred during a request.
+      properties:
+        codes:
+          description: List of error codes that occurred during a request.
+          items:
+            description: A unique error code that identifies the error.
+            title: Code
+            type: string
+          title: Codes
+          type: array
+        details:
+          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
+          items:
+            description: Short detail message describing the error.
+            title: Detail
+            type: string
+          title: Details
+          type: array
+        message:
+          description: Short message describing the error.
+          title: Message
+          type: string
+      required:
+      - codes
+      - message
+      - details
+    FileIndexEnabled:
+      description: Whether the file index is enabled
+      example: true
+      type: boolean
+    DeviceID:
+      description: ID of a device
+      example: d_0123456789ab
+      pattern: ^d_[a-z0-9]{12}$
+      type: string
+    Comments:
+      description: Comments about the agent
+      example: This is a test agent
+      maxLength: 1024
+      type: string
+    Passphrase:
+      description: User passphrase. If the agent has a user passphrase, you must provide it here.
+      example: Super Secret Passphrase
+      minLength: 10
+      type: string
+    VolumeID:
+      description: ID of a volume
+      example: v_0123456789ab
+      pattern: ^v_[a-z0-9]{12}$
       type: string
     AgentID:
       description: ID of an agent
       example: a_0123456789ab
       pattern: ^a_[a-z0-9]{12}$
       type: string
-    AlertConfig:
-      description: Alert configuration. For requests, use pause_for_minutes, alert_paused_indefinite or alert_resume. For responses, paused_until will be provided.
+    AgentVSSWriterConfig:
+      description: VSS writer configuration for the agent.
       properties:
-        alert_active:
-          description: Whether this alert is active. (for responses only)
+        excluded:
+          description: Whether this VSS writer is excluded from participating in backups.
           type: boolean
-        alert_paused_indefinite:
-          description: Set to true to pause this alert indefinitely.
-          example: false
-          type: boolean
-        alert_resume:
-          description: Set to true to resume this alert (clears paused_until). This takes precedence over paused_until if both are provided.
-          example: true
-          type: boolean
-        alert_type:
-          description: Type of alert
-          enum:
-          - device_not_checking_in
-          - device_out_of_date
-          - device_storage_not_healthy
-          - device_storage_space_low
-          - device_storage_space_critical
-          - agent_not_checking_in
-          - agent_not_backing_up
-          - agent_backup_failed
-          - agent_duplicate_connection
-          example: agent_backup_failed
+        writer_id:
+          description: VSS writer ID.
+          example: '{a65faa63-5ea8-4ebc-9dbd-a0c4db26912a}'
           type: string
-        pause_for_minutes:
-          description: Number of minutes to pause alerts (for requests). Use 'resume' to unpause, or one of the predefined durations. Use 'alert_paused_indefinite' to pause indefinitely.
-          enum:
-          - 0
-          - 30
-          - 60
-          - 120
-          - 240
-          - 480
-          - 1440
-          - 10080
-          example: 1440
-          type: integer
-        paused_until:
-          description: Timestamp when alerts will resume (for responses). RFC3339 format. If null or empty, alerts are not paused.
-          example: '2025-10-31T23:59:59Z'
-          format: date-time
+        writer_name:
+          description: VSS writer name.
+          example: SqlServerWriter
           type: string
       required:
-      - alert_type
+      - writer_id
+      - excluded
       type: object
-    LastSeenAt:
-      description: Last seen timestamp
-      example: '2024-08-23T01:25:08Z'
-      format: date-time
-      type: string
-    AgentServiceUpdateItem:
-      description: A service configuration update.
+    DefaultRestoreSettings:
+      description: Default restore VM settings
       properties:
-        service_id:
-          description: Unique identifier of the service.
-          example: svc_abc123
-          type: string
-        verify_on_boot:
-          description: Whether this service should be checked during boot verification.
-          type: boolean
-      required:
-      - service_id
-      - verify_on_boot
-      type: object
-    Pagination:
-      properties:
-        next_offset:
-          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
-          example: 10
-          format: uint32
+        cpu_count:
+          description: Number of CPUs
+          enum:
+          - 1
+          - 2
+          - 4
+          - 8
+          - 16
+          example: 4
           type: integer
+        disk_bus:
+          description: Disk bus type
+          enum:
+          - sata
+          - virtio
+          example: virtio
+          type: string
+        memory_mb:
+          description: Memory in MB
+          enum:
+          - 4096
+          - 6144
+          - 8192
+          - 12288
+          - 16384
+          - 24576
+          - 28672
+          - 32768
+          - 49152
+          - 65536
+          - 98304
+          - 131072
+          - 163840
+          - 196608
+          - 229376
+          - 262144
+          example: 8192
+          type: integer
+        network_model:
+          description: Network model
+          enum:
+          - virtio
+          - hypervisor_default
+          - e1000
+          - rtl8139
+          example: virtio
+          type: string
       type: object
-    FileIndexEnabled:
-      description: Whether the file index is enabled
-      example: true
-      type: boolean
   responses:
-    '400':
+    '500':
       content:
         application/json:
           examples:
-            err_validation_error:
-              summary: Validation error
+            err_internal_server_error:
+              summary: Internal server error
               value:
                 codes:
-                - err_validation_error
+                - err_internal_server_error
                 details:
-                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
-                message: bad request
+                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
+                message: internal server error
           schema:
             $ref: '#/components/schemas/Error'
-      description: Bad request
+      description: Internal server error
     '401':
       content:
         application/json:
@@ -1335,54 +1337,33 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Unauthorized
-    '500':
-      content:
-        application/json:
-          examples:
-            err_internal_server_error:
-              summary: Internal server error
-              value:
-                codes:
-                - err_internal_server_error
-                details:
-                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
-                message: internal server error
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Internal server error
     '404':
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
       description: Not found
+    '400':
+      content:
+        application/json:
+          examples:
+            err_validation_error:
+              summary: Validation error
+              value:
+                codes:
+                - err_validation_error
+                details:
+                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
+                message: bad request
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Bad request
   parameters:
-    PathAgentID:
-      example: a_0123456789ab
-      in: path
-      name: agent_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/AgentID'
-    QuerySortAsc:
-      description: Sort in ascending order
+    QueryClientID:
       in: query
-      name: sort_asc
+      name: client_id
       schema:
-        default: false
-        type: boolean
-    PathAgentPassphraseID:
-      example: ape_0123456789ab
-      in: path
-      name: agent_passphrase_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/AgentPassphraseID'
-    QueryDeviceID:
-      in: query
-      name: device_id
-      schema:
-        $ref: '#/components/schemas/DeviceID'
+        $ref: '#/components/schemas/ClientID'
     QueryOffset:
       description: Starting index for pagination
       in: query
@@ -1392,6 +1373,25 @@ components:
         format: uint32
         minimum: 0
         type: integer
+    QuerySortAsc:
+      description: Sort in ascending order
+      in: query
+      name: sort_asc
+      schema:
+        default: false
+        type: boolean
+    QueryDeviceID:
+      in: query
+      name: device_id
+      schema:
+        $ref: '#/components/schemas/DeviceID'
+    PathAgentPassphraseID:
+      example: ape_0123456789ab
+      in: path
+      name: agent_passphrase_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/AgentPassphraseID'
     QueryLimit:
       description: Number of items to return for pagination
       in: query
@@ -1402,11 +1402,13 @@ components:
         maximum: 50
         minimum: 1
         type: integer
-    QueryClientID:
-      in: query
-      name: client_id
+    PathAgentID:
+      example: a_0123456789ab
+      in: path
+      name: agent_id
+      required: true
       schema:
-        $ref: '#/components/schemas/ClientID'
+        $ref: '#/components/schemas/AgentID'
   securitySchemes:
     BearerAuth:
       bearerFormat: string

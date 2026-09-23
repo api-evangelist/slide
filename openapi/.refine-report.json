@@ -1,20 +1,7 @@
 {
   "provider": "slide",
   "sources": [
-    "slide-accounts-api-openapi.yml",
-    "slide-agents-api-openapi.yml",
-    "slide-alerts-api-openapi.yml",
-    "slide-audits-api-openapi.yml",
-    "slide-backups-api-openapi.yml",
-    "slide-clients-api-openapi.yml",
-    "slide-devices-api-openapi.yml",
-    "slide-networks-api-openapi.yml",
-    "slide-restores-file-api-openapi.yml",
-    "slide-restores-image-api-openapi.yml",
-    "slide-restores-push-api-openapi.yml",
-    "slide-restores-virtual-machine-api-openapi.yml",
-    "slide-snapshots-api-openapi.yml",
-    "slide-users-api-openapi.yml"
+    "_original/slide-openapi-original.json"
   ],
   "outputs": [
     "slide-accounts-api-openapi.yml",
@@ -35,6 +22,26 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "slide-openapi-original.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "slide-openapi-original.json: declared missing tag: Audits",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "slide-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "slide-agents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "slide-alerts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "slide-audits-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "slide-backups-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "slide-clients-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "slide-devices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "slide-networks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "slide-restores-file-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "slide-restores-image-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "slide-restores-push-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "slide-restores-virtual-machine-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "slide-snapshots-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "slide-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
