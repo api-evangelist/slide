@@ -170,13 +170,115 @@ paths:
       tags:
       - Clients
 components:
+  parameters:
+    QueryCreatedBefore:
+      description: Filter results to before a specific creation timestamp (RFC3339 format)
+      in: query
+      name: created_before
+      schema:
+        format: date-time
+        type: string
+    QueryLimit:
+      description: Number of items to return for pagination
+      in: query
+      name: limit
+      schema:
+        default: 10
+        format: uint32
+        maximum: 50
+        minimum: 1
+        type: integer
+    QueryOffset:
+      description: Starting index for pagination
+      in: query
+      name: offset
+      schema:
+        default: 0
+        format: uint32
+        minimum: 0
+        type: integer
+    PathClientID:
+      example: c_0123456789ab
+      in: path
+      name: client_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/ClientID'
+    QueryCreatedAfter:
+      description: Filter results to after a specific creation timestamp (RFC3339 format)
+      in: query
+      name: created_after
+      schema:
+        format: date-time
+        type: string
+    QuerySortAsc:
+      description: Sort in ascending order
+      in: query
+      name: sort_asc
+      schema:
+        default: false
+        type: boolean
+  responses:
+    '400':
+      content:
+        application/json:
+          examples:
+            err_validation_error:
+              summary: Validation error
+              value:
+                codes:
+                - err_validation_error
+                details:
+                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
+                message: bad request
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Bad request
+    '401':
+      content:
+        application/json:
+          examples:
+            err_missing_authentication:
+              summary: Missing API token
+              value:
+                codes:
+                - err_missing_authentication
+                details:
+                - 'You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. ''Authorization: Bearer YOUR_SECRET_TOKEN'').'
+                message: unauthorized
+            err_unauthorized:
+              summary: Invalid API token
+              value:
+                codes:
+                - err_unauthorized
+                details:
+                - Invalid API token provided or you do not have permission to access this resource.
+                message: unauthorized
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Unauthorized
+    '500':
+      content:
+        application/json:
+          examples:
+            err_internal_server_error:
+              summary: Internal server error
+              value:
+                codes:
+                - err_internal_server_error
+                details:
+                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
+                message: internal server error
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Internal server error
+    '404':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Not found
   schemas:
-    ClientName:
-      description: Name of the client
-      example: Slide Office
-      maxLength: 128
-      minLength: 1
-      type: string
     Pagination:
       properties:
         next_offset:
@@ -185,6 +287,11 @@ components:
           format: uint32
           type: integer
       type: object
+    ClientComments:
+      description: Comments about the client
+      example: This is a client for Slide's office
+      maxLength: 1024
+      type: string
     Client:
       description: Client object to represent an end client (e.g. a customer of the MSP).
       properties:
@@ -201,6 +308,12 @@ components:
       - name
       - comments
       type: object
+    ClientName:
+      description: Name of the client
+      example: Slide Office
+      maxLength: 128
+      minLength: 1
+      type: string
     ClientID:
       description: ID of a client
       example: c_0123456789ab
@@ -233,119 +346,6 @@ components:
       - codes
       - message
       - details
-    ClientComments:
-      description: Comments about the client
-      example: This is a client for Slide's office
-      maxLength: 1024
-      type: string
-  responses:
-    '500':
-      content:
-        application/json:
-          examples:
-            err_internal_server_error:
-              summary: Internal server error
-              value:
-                codes:
-                - err_internal_server_error
-                details:
-                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
-                message: internal server error
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Internal server error
-    '401':
-      content:
-        application/json:
-          examples:
-            err_missing_authentication:
-              summary: Missing API token
-              value:
-                codes:
-                - err_missing_authentication
-                details:
-                - 'You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. ''Authorization: Bearer YOUR_SECRET_TOKEN'').'
-                message: unauthorized
-            err_unauthorized:
-              summary: Invalid API token
-              value:
-                codes:
-                - err_unauthorized
-                details:
-                - Invalid API token provided or you do not have permission to access this resource.
-                message: unauthorized
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Unauthorized
-    '400':
-      content:
-        application/json:
-          examples:
-            err_validation_error:
-              summary: Validation error
-              value:
-                codes:
-                - err_validation_error
-                details:
-                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
-                message: bad request
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Bad request
-    '404':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not found
-  parameters:
-    QueryCreatedAfter:
-      description: Filter results to after a specific creation timestamp (RFC3339 format)
-      in: query
-      name: created_after
-      schema:
-        format: date-time
-        type: string
-    QueryCreatedBefore:
-      description: Filter results to before a specific creation timestamp (RFC3339 format)
-      in: query
-      name: created_before
-      schema:
-        format: date-time
-        type: string
-    PathClientID:
-      example: c_0123456789ab
-      in: path
-      name: client_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/ClientID'
-    QueryOffset:
-      description: Starting index for pagination
-      in: query
-      name: offset
-      schema:
-        default: 0
-        format: uint32
-        minimum: 0
-        type: integer
-    QuerySortAsc:
-      description: Sort in ascending order
-      in: query
-      name: sort_asc
-      schema:
-        default: false
-        type: boolean
-    QueryLimit:
-      description: Number of items to return for pagination
-      in: query
-      name: limit
-      schema:
-        default: 10
-        format: uint32
-        maximum: 50
-        minimum: 1
-        type: integer
   securitySchemes:
     BearerAuth:
       bearerFormat: string

@@ -154,6 +154,37 @@ components:
       name: snapshot_id
       schema:
         $ref: '#/components/schemas/SnapshotID'
+    QueryBackupStartedBefore:
+      description: Filter snapshots created before a specific backup start time (RFC3339 format)
+      in: query
+      name: backup_started_before
+      schema:
+        format: date-time
+        type: string
+    QueryBackupEndedAfter:
+      description: Filter snapshots completed after a specific backup end time (RFC3339 format)
+      in: query
+      name: backup_ended_after
+      schema:
+        format: date-time
+        type: string
+    PathBackupID:
+      example: b_0123456789ab
+      in: path
+      name: backup_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/BackupID'
+    QueryLimit:
+      description: Number of items to return for pagination
+      in: query
+      name: limit
+      schema:
+        default: 10
+        format: uint32
+        maximum: 50
+        minimum: 1
+        type: integer
     QueryBackupStartedAfter:
       description: Filter snapshots created after a specific backup start time (RFC3339 format)
       in: query
@@ -177,48 +208,54 @@ components:
       schema:
         default: false
         type: boolean
-    QueryBackupEndedAfter:
-      description: Filter snapshots completed after a specific backup end time (RFC3339 format)
-      in: query
-      name: backup_ended_after
-      schema:
-        format: date-time
-        type: string
     QueryDeviceID:
       in: query
       name: device_id
       schema:
         $ref: '#/components/schemas/DeviceID'
-    PathBackupID:
-      example: b_0123456789ab
-      in: path
-      name: backup_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/BackupID'
-    QueryLimit:
-      description: Number of items to return for pagination
-      in: query
-      name: limit
-      schema:
-        default: 10
-        format: uint32
-        maximum: 50
-        minimum: 1
-        type: integer
-    QueryBackupStartedBefore:
-      description: Filter snapshots created before a specific backup start time (RFC3339 format)
-      in: query
-      name: backup_started_before
-      schema:
-        format: date-time
-        type: string
     QueryAgentID:
       in: query
       name: agent_id
       schema:
         $ref: '#/components/schemas/AgentID'
   schemas:
+    AgentID:
+      description: ID of an agent
+      example: a_0123456789ab
+      pattern: ^a_[a-z0-9]{12}$
+      type: string
+    Error:
+      description: Error response object that represents an error that occurred during a request.
+      properties:
+        codes:
+          description: List of error codes that occurred during a request.
+          items:
+            description: A unique error code that identifies the error.
+            title: Code
+            type: string
+          title: Codes
+          type: array
+        details:
+          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
+          items:
+            description: Short detail message describing the error.
+            title: Detail
+            type: string
+          title: Details
+          type: array
+        message:
+          description: Short message describing the error.
+          title: Message
+          type: string
+      required:
+      - codes
+      - message
+      - details
+    SnapshotID:
+      description: ID of a snapshot
+      example: s_0123456789ab
+      pattern: ^s_[a-z0-9]{12}$
+      type: string
     Backup:
       description: Backup object that represents a backup attempt that may have succeeded or failed.
       properties:
@@ -277,6 +314,11 @@ components:
       - started_at
       - status
       type: object
+    DeviceID:
+      description: ID of a device
+      example: d_0123456789ab
+      pattern: ^d_[a-z0-9]{12}$
+      type: string
     Pagination:
       properties:
         next_offset:
@@ -285,75 +327,12 @@ components:
           format: uint32
           type: integer
       type: object
-    SnapshotID:
-      description: ID of a snapshot
-      example: s_0123456789ab
-      pattern: ^s_[a-z0-9]{12}$
-      type: string
-    Error:
-      description: Error response object that represents an error that occurred during a request.
-      properties:
-        codes:
-          description: List of error codes that occurred during a request.
-          items:
-            description: A unique error code that identifies the error.
-            title: Code
-            type: string
-          title: Codes
-          type: array
-        details:
-          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
-          items:
-            description: Short detail message describing the error.
-            title: Detail
-            type: string
-          title: Details
-          type: array
-        message:
-          description: Short message describing the error.
-          title: Message
-          type: string
-      required:
-      - codes
-      - message
-      - details
     BackupID:
       description: ID of a backup attempt
       example: b_0123456789ab
       pattern: ^b_[a-z0-9]{12}$
       type: string
-    DeviceID:
-      description: ID of a device
-      example: d_0123456789ab
-      pattern: ^d_[a-z0-9]{12}$
-      type: string
-    AgentID:
-      description: ID of an agent
-      example: a_0123456789ab
-      pattern: ^a_[a-z0-9]{12}$
-      type: string
   responses:
-    '500':
-      content:
-        application/json:
-          examples:
-            err_internal_server_error:
-              summary: Internal server error
-              value:
-                codes:
-                - err_internal_server_error
-                details:
-                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
-                message: internal server error
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Internal server error
-    '409':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Conflict
     '401':
       content:
         application/json:
@@ -377,12 +356,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Unauthorized
-    '404':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not found
     '400':
       content:
         application/json:
@@ -398,6 +371,33 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Bad request
+    '500':
+      content:
+        application/json:
+          examples:
+            err_internal_server_error:
+              summary: Internal server error
+              value:
+                codes:
+                - err_internal_server_error
+                details:
+                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
+                message: internal server error
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Internal server error
+    '404':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Not found
+    '409':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Conflict
   securitySchemes:
     BearerAuth:
       bearerFormat: string

@@ -616,151 +616,17 @@ paths:
       - Networks
 components:
   schemas:
-    DisasterNetworkName:
-      description: Name of the network
-      example: Bridge to LAN Network
-      maxLength: 128
-      minLength: 1
+    IPSecID:
+      description: ID of an IPsec connection
+      example: ipsec_0123456789ab
+      pattern: ^ipsec_[a-z0-9]{12}$
       type: string
-    ClientID:
-      description: ID of a client
-      example: c_0123456789ab
-      pattern: ^c_[a-z0-9]{12}$
-      type: string
-    RemoteNetworks:
-      description: List of remote networks
-      items:
-        example: 10.80.0.0/24
-        format: ipv4
-        type: string
-      type: array
-    Pagination:
-      properties:
-        next_offset:
-          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
-          example: 10
-          format: uint32
-          type: integer
-      type: object
-    NetworkPortForward:
-      description: NetworkPortForward object that represents a port forwarding.
-      properties:
-        dest:
-          description: Destination IP address and port pair
-          example: 10.0.0.100:80
-          type: string
-        endpoint:
-          description: Public host:port pair of the public gateway of the port forward
-          example: use1-prod-gateway-1.slide.tech:25881
-          pattern: ^[0-9a-zA-Z.-]+:[0-9]+$
-          type: string
-        port:
-          description: Listen port number on the public gateway
-          example: 25881
-          type: integer
-        port_forward_id:
-          $ref: '#/components/schemas/PortForwardID'
-        proto:
-          description: Protocol, tcp or udp
-          example: tcp
-          type: string
-      required:
-      - port_forward_id
-      - proto
-      - port
-      - dest
-      type: object
-    PortForwardID:
-      description: ID of a port forward definition
-      example: pfw_0123456789ab
-      pattern: ^pfw_[a-z0-9]{12}$
-      type: string
-    NetworkIPSecConn:
-      description: NetworkIPsecConn object that represents an IPsec connection into a network.
-      properties:
-        ipsec_id:
-          $ref: '#/components/schemas/IPSecID'
-        local_addrs:
-          description: Public IP addresses of the Slide Cloud gateway that manages the IPsec connection
-          items:
-            description: Public IP address of the Slide Cloud gateway
-            example: 1.2.3.4
-            title: Public IP Address
-            type: string
-          type: array
-        local_id:
-          description: Identifier for the Slide Cloud-side of the IPsec connection
-          example: ipsec_0123456789ab_slide
-          type: string
-        local_networks:
-          description: List of Slide-side networks that are accessible through the IPsec connection
-          items:
-            example: 10.0.0.0/24
-            title: Network in CIDR format
-            type: string
-          type: array
-        name:
-          description: Name of the IPsec connection
-          example: Dental Associates, Main Office
-          type: string
-        psk:
-          description: Pre-shared key for the IPsec connection
-          example: buRAPDIX5SMlPlzLsLO8WVaWeFXam1Aa
-          type: string
-        remote_addrs:
-          description: Public IP addresses of the partner-side of the router/firewall
-          items:
-            description: Public IP address used to connect to the Slide Cloud network's IPsec connection
-            example: 1.2.3.4
-            title: Public IP Address
-            type: string
-          type: array
-        remote_id:
-          description: Identifier for the partner-side of the IPsec connection
-          example: ipsec_0123456789ab_partner
-          type: string
-        remote_networks:
-          description: List of partner-side networks that are accessible through the IPsec connection
-          items:
-            example: 10.0.0.0/24
-            title: Network in CIDR format
-            type: string
-          type: array
-      required:
-      - ipsec_id
-      - name
-      - psk
-      - local_id
-      - local_addrs
-      - local_networks
-      - remote_id
-      - remote_addrs
-      - remote_networks
-      type: object
     DisasterNetworkType:
       description: Network type of the disaster network
       enum:
       - standard
       - bridge-lan
       example: standard
-      type: string
-    NetworkID:
-      description: ID of an network
-      example: net_012345
-      pattern: ^net_[a-z0-9]{6}$
-      type: string
-    ClientIDOrEmpty:
-      description: ID of a client or an empty string
-      example: c_0123456789ab
-      pattern: ^(c_[a-z0-9]{12}|)$
-      type: string
-    VirtID:
-      description: ID of a virtual machine
-      example: virt_0123456789ab
-      externalDocs:
-        description: See our console documentation for more information on virtual machines
-        url: https://docs.slide.tech/restores/#virtualization
-      pattern: ^virt_[a-z0-9]{12}$
       type: string
     Error:
       description: Error response object that represents an error that occurred during a request.
@@ -789,21 +655,69 @@ components:
       - codes
       - message
       - details
-    DeviceID:
-      description: ID of a device
-      example: d_0123456789ab
-      pattern: ^d_[a-z0-9]{12}$
+    WGPeerID:
+      description: ID of a WireGuard peer
+      example: wgp_0123456789ab
+      pattern: ^wgp_[a-z0-9]{12}$
       type: string
     NetworkComments:
       description: Comments about the network
       example: This is a network for a client's disaster
       maxLength: 1024
       type: string
-    IPSecID:
-      description: ID of an IPsec connection
-      example: ipsec_0123456789ab
-      pattern: ^ipsec_[a-z0-9]{12}$
+    ClientIDOrEmpty:
+      description: ID of a client or an empty string
+      example: c_0123456789ab
+      pattern: ^(c_[a-z0-9]{12}|)$
       type: string
+    NetworkWGPeer:
+      description: NetworkWGPeer object that represents a WireGuard client.
+      properties:
+        peer_name:
+          description: Name of the WireGuard client
+          example: My PC
+          type: string
+        remote_networks:
+          $ref: '#/components/schemas/RemoteNetworks'
+        wg_address:
+          description: WireGuard address of this peer, part of the network defined in wg_prefix
+          example: 10.0.0.100
+          type: string
+        wg_endpoint:
+          description: Address of the WireGuard endpoint that this peer connects to
+          example: use1-prod-gateway-1.slide.tech:51820
+          type: string
+        wg_peer_id:
+          $ref: '#/components/schemas/WGPeerID'
+        wg_private_key:
+          description: WireGuard private key of this peer
+          example: INRPOJHOzuMiRzim2tzzU2OU7Z3jNOIS4HRVA32NzUY
+          type: string
+        wg_public_key:
+          description: WireGuard public key of this peer
+          example: buRAPDIX5SMlPlzLsLO8WVaWe+1+FXf+TKk26e4Vkm8=
+          type: string
+      required:
+      - wg_peer_id
+      - peer_name
+      - wg_public_key
+      - wg_private_key
+      - wg_address
+      - wg_endpoint
+      - remote_networks
+      type: object
+    ClientID:
+      description: ID of a client
+      example: c_0123456789ab
+      pattern: ^c_[a-z0-9]{12}$
+      type: string
+    RemoteNetworks:
+      description: List of remote networks
+      items:
+        example: 10.80.0.0/24
+        format: ipv4
+        type: string
+      type: array
     Network:
       description: Network object that represents a network.
       properties:
@@ -889,90 +803,134 @@ components:
       - comments
       - connected_virt_ids
       type: object
-    WGPeerID:
-      description: ID of a WireGuard peer
-      example: wgp_0123456789ab
-      pattern: ^wgp_[a-z0-9]{12}$
+    DeviceID:
+      description: ID of a device
+      example: d_0123456789ab
+      pattern: ^d_[a-z0-9]{12}$
       type: string
-    NetworkWGPeer:
-      description: NetworkWGPeer object that represents a WireGuard client.
+    Pagination:
       properties:
-        peer_name:
-          description: Name of the WireGuard client
-          example: My PC
+        next_offset:
+          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
+          example: 10
+          format: uint32
+          type: integer
+      type: object
+    DisasterNetworkName:
+      description: Name of the network
+      example: Bridge to LAN Network
+      maxLength: 128
+      minLength: 1
+      type: string
+    NetworkIPSecConn:
+      description: NetworkIPsecConn object that represents an IPsec connection into a network.
+      properties:
+        ipsec_id:
+          $ref: '#/components/schemas/IPSecID'
+        local_addrs:
+          description: Public IP addresses of the Slide Cloud gateway that manages the IPsec connection
+          items:
+            description: Public IP address of the Slide Cloud gateway
+            example: 1.2.3.4
+            title: Public IP Address
+            type: string
+          type: array
+        local_id:
+          description: Identifier for the Slide Cloud-side of the IPsec connection
+          example: ipsec_0123456789ab_slide
+          type: string
+        local_networks:
+          description: List of Slide-side networks that are accessible through the IPsec connection
+          items:
+            example: 10.0.0.0/24
+            title: Network in CIDR format
+            type: string
+          type: array
+        name:
+          description: Name of the IPsec connection
+          example: Dental Associates, Main Office
+          type: string
+        psk:
+          description: Pre-shared key for the IPsec connection
+          example: buRAPDIX5SMlPlzLsLO8WVaWeFXam1Aa
+          type: string
+        remote_addrs:
+          description: Public IP addresses of the partner-side of the router/firewall
+          items:
+            description: Public IP address used to connect to the Slide Cloud network's IPsec connection
+            example: 1.2.3.4
+            title: Public IP Address
+            type: string
+          type: array
+        remote_id:
+          description: Identifier for the partner-side of the IPsec connection
+          example: ipsec_0123456789ab_partner
           type: string
         remote_networks:
-          $ref: '#/components/schemas/RemoteNetworks'
-        wg_address:
-          description: WireGuard address of this peer, part of the network defined in wg_prefix
-          example: 10.0.0.100
-          type: string
-        wg_endpoint:
-          description: Address of the WireGuard endpoint that this peer connects to
-          example: use1-prod-gateway-1.slide.tech:51820
-          type: string
-        wg_peer_id:
-          $ref: '#/components/schemas/WGPeerID'
-        wg_private_key:
-          description: WireGuard private key of this peer
-          example: INRPOJHOzuMiRzim2tzzU2OU7Z3jNOIS4HRVA32NzUY
-          type: string
-        wg_public_key:
-          description: WireGuard public key of this peer
-          example: buRAPDIX5SMlPlzLsLO8WVaWe+1+FXf+TKk26e4Vkm8=
-          type: string
+          description: List of partner-side networks that are accessible through the IPsec connection
+          items:
+            example: 10.0.0.0/24
+            title: Network in CIDR format
+            type: string
+          type: array
       required:
-      - wg_peer_id
-      - peer_name
-      - wg_public_key
-      - wg_private_key
-      - wg_address
-      - wg_endpoint
+      - ipsec_id
+      - name
+      - psk
+      - local_id
+      - local_addrs
+      - local_networks
+      - remote_id
+      - remote_addrs
       - remote_networks
       type: object
-  parameters:
-    PathIPSecID:
-      example: ipsec_0123456789ab
-      in: path
-      name: ipsec_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/IPSecID'
-    QueryClientID:
-      in: query
-      name: client_id
-      schema:
-        $ref: '#/components/schemas/ClientID'
-    QueryOffset:
-      description: Starting index for pagination
-      in: query
-      name: offset
-      schema:
-        default: 0
-        format: uint32
-        minimum: 0
-        type: integer
-    QuerySortAsc:
-      description: Sort in ascending order
-      in: query
-      name: sort_asc
-      schema:
-        default: false
-        type: boolean
-    PathWGPeerID:
-      example: wgp_0123456789ab
-      in: path
-      name: wg_peer_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/WGPeerID'
-    PathNetworkID:
+    NetworkPortForward:
+      description: NetworkPortForward object that represents a port forwarding.
+      properties:
+        dest:
+          description: Destination IP address and port pair
+          example: 10.0.0.100:80
+          type: string
+        endpoint:
+          description: Public host:port pair of the public gateway of the port forward
+          example: use1-prod-gateway-1.slide.tech:25881
+          pattern: ^[0-9a-zA-Z.-]+:[0-9]+$
+          type: string
+        port:
+          description: Listen port number on the public gateway
+          example: 25881
+          type: integer
+        port_forward_id:
+          $ref: '#/components/schemas/PortForwardID'
+        proto:
+          description: Protocol, tcp or udp
+          example: tcp
+          type: string
+      required:
+      - port_forward_id
+      - proto
+      - port
+      - dest
+      type: object
+    NetworkID:
+      description: ID of an network
       example: net_012345
-      in: path
-      name: network_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/NetworkID'
+      pattern: ^net_[a-z0-9]{6}$
+      type: string
+    PortForwardID:
+      description: ID of a port forward definition
+      example: pfw_0123456789ab
+      pattern: ^pfw_[a-z0-9]{12}$
+      type: string
+    VirtID:
+      description: ID of a virtual machine
+      example: virt_0123456789ab
+      externalDocs:
+        description: See our console documentation for more information on virtual machines
+        url: https://docs.slide.tech/restores/#virtualization
+      pattern: ^virt_[a-z0-9]{12}$
+      type: string
+  parameters:
     QueryLimit:
       description: Number of items to return for pagination
       in: query
@@ -983,20 +941,36 @@ components:
         maximum: 50
         minimum: 1
         type: integer
-    QueryCreatedAfter:
-      description: Filter results to after a specific creation timestamp (RFC3339 format)
-      in: query
-      name: created_after
+    PathNetworkID:
+      example: net_012345
+      in: path
+      name: network_id
+      required: true
       schema:
-        format: date-time
-        type: string
-    QueryCreatedBefore:
-      description: Filter results to before a specific creation timestamp (RFC3339 format)
+        $ref: '#/components/schemas/NetworkID'
+    QueryOffset:
+      description: Starting index for pagination
       in: query
-      name: created_before
+      name: offset
       schema:
-        format: date-time
-        type: string
+        default: 0
+        format: uint32
+        minimum: 0
+        type: integer
+    PathIPSecID:
+      example: ipsec_0123456789ab
+      in: path
+      name: ipsec_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/IPSecID'
+    QuerySortAsc:
+      description: Sort in ascending order
+      in: query
+      name: sort_asc
+      schema:
+        default: false
+        type: boolean
     PathPortForwardID:
       example: pfw_0123456789ab
       in: path
@@ -1004,28 +978,33 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/PortForwardID'
+    QueryCreatedBefore:
+      description: Filter results to before a specific creation timestamp (RFC3339 format)
+      in: query
+      name: created_before
+      schema:
+        format: date-time
+        type: string
+    PathWGPeerID:
+      example: wgp_0123456789ab
+      in: path
+      name: wg_peer_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/WGPeerID'
+    QueryClientID:
+      in: query
+      name: client_id
+      schema:
+        $ref: '#/components/schemas/ClientID'
+    QueryCreatedAfter:
+      description: Filter results to after a specific creation timestamp (RFC3339 format)
+      in: query
+      name: created_after
+      schema:
+        format: date-time
+        type: string
   responses:
-    '500':
-      content:
-        application/json:
-          examples:
-            err_internal_server_error:
-              summary: Internal server error
-              value:
-                codes:
-                - err_internal_server_error
-                details:
-                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
-                message: internal server error
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Internal server error
-    '409':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Conflict
     '401':
       content:
         application/json:
@@ -1049,12 +1028,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Unauthorized
-    '404':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not found
     '400':
       content:
         application/json:
@@ -1070,6 +1043,33 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Bad request
+    '500':
+      content:
+        application/json:
+          examples:
+            err_internal_server_error:
+              summary: Internal server error
+              value:
+                codes:
+                - err_internal_server_error
+                details:
+                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
+                message: internal server error
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Internal server error
+    '404':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Not found
+    '409':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Conflict
   securitySchemes:
     BearerAuth:
       bearerFormat: string

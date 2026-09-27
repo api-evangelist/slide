@@ -194,22 +194,63 @@ paths:
       tags:
       - Restores (Push)
 components:
+  parameters:
+    PathFileRestorePushID:
+      example: frp_0123456789ab
+      in: path
+      name: file_restore_push_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/FileRestorePushID'
+    QueryLimit:
+      description: Number of items to return for pagination
+      in: query
+      name: limit
+      schema:
+        default: 10
+        format: uint32
+        maximum: 50
+        minimum: 1
+        type: integer
+    PathFileRestoreID:
+      example: fr_0123456789ab
+      in: path
+      name: file_restore_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/FileRestoreID'
+    QueryOffset:
+      description: Starting index for pagination
+      in: query
+      name: offset
+      schema:
+        default: 0
+        format: uint32
+        minimum: 0
+        type: integer
+    QuerySortAsc:
+      description: Sort in ascending order
+      in: query
+      name: sort_asc
+      schema:
+        default: false
+        type: boolean
   responses:
-    '500':
+    '400':
       content:
         application/json:
           examples:
-            err_internal_server_error:
-              summary: Internal server error
+            err_validation_error:
+              summary: Validation error
               value:
                 codes:
-                - err_internal_server_error
+                - err_validation_error
                 details:
-                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
-                message: internal server error
+                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
+                message: bad request
           schema:
             $ref: '#/components/schemas/Error'
-      description: Internal server error
+      description: Bad request
     '401':
       content:
         application/json:
@@ -233,36 +274,28 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Unauthorized
+    '500':
+      content:
+        application/json:
+          examples:
+            err_internal_server_error:
+              summary: Internal server error
+              value:
+                codes:
+                - err_internal_server_error
+                details:
+                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
+                message: internal server error
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Internal server error
     '404':
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
       description: Not found
-    '400':
-      content:
-        application/json:
-          examples:
-            err_validation_error:
-              summary: Validation error
-              value:
-                codes:
-                - err_validation_error
-                details:
-                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
-                message: bad request
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Bad request
   schemas:
-    FileRestoreID:
-      description: ID of a file restore
-      example: fr_0123456789ab
-      externalDocs:
-        description: See our console documentation for more information on file restores
-        url: https://docs.slide.tech/restores/#file-restore
-      pattern: ^fr_[a-z0-9]{12}$
-      type: string
     Pagination:
       properties:
         next_offset:
@@ -291,45 +324,6 @@ components:
         description: See our console documentation for more information on pushing files to protected systems
         url: https://docs.slide.tech/restores/#push-to-protected-system
       pattern: ^frp_[a-z0-9]{12}$
-      type: string
-    Error:
-      description: Error response object that represents an error that occurred during a request.
-      properties:
-        codes:
-          description: List of error codes that occurred during a request.
-          items:
-            description: A unique error code that identifies the error.
-            title: Code
-            type: string
-          title: Codes
-          type: array
-        details:
-          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
-          items:
-            description: Short detail message describing the error.
-            title: Detail
-            type: string
-          title: Details
-          type: array
-        message:
-          description: Short message describing the error.
-          title: Message
-          type: string
-      required:
-      - codes
-      - message
-      - details
-    PushSourceFilePath:
-      description: 'Path of the file as it appears inside the mounted file restore — not the file''s path on the protected system.
-
-        The leading path component is the source volume''s identifier (the drive letter for Windows, e.g. `C`, or `root` for the
-
-        root mount on Linux), followed by forward-slash-separated path components (e.g. `C/Users/Administrator/Documents/ImportantFile.docx`
-
-        for a Windows C: drive, or `root/home/admin/important.txt` for a Linux root mount).
-
-        '
-      example: C/Users/Administrator/Documents/ImportantFile.docx
       type: string
     FileRestorePush:
       description: File restore push object that represents an attempt to restore a file to a protected system.
@@ -366,6 +360,53 @@ components:
       - source_file_path
       - destination_folder
       type: object
+    PushSourceFilePath:
+      description: 'Path of the file as it appears inside the mounted file restore — not the file''s path on the protected system.
+
+        The leading path component is the source volume''s identifier (the drive letter for Windows, e.g. `C`, or `root` for the
+
+        root mount on Linux), followed by forward-slash-separated path components (e.g. `C/Users/Administrator/Documents/ImportantFile.docx`
+
+        for a Windows C: drive, or `root/home/admin/important.txt` for a Linux root mount).
+
+        '
+      example: C/Users/Administrator/Documents/ImportantFile.docx
+      type: string
+    Error:
+      description: Error response object that represents an error that occurred during a request.
+      properties:
+        codes:
+          description: List of error codes that occurred during a request.
+          items:
+            description: A unique error code that identifies the error.
+            title: Code
+            type: string
+          title: Codes
+          type: array
+        details:
+          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
+          items:
+            description: Short detail message describing the error.
+            title: Detail
+            type: string
+          title: Details
+          type: array
+        message:
+          description: Short message describing the error.
+          title: Message
+          type: string
+      required:
+      - codes
+      - message
+      - details
+    FileRestoreID:
+      description: ID of a file restore
+      example: fr_0123456789ab
+      externalDocs:
+        description: See our console documentation for more information on file restores
+        url: https://docs.slide.tech/restores/#file-restore
+      pattern: ^fr_[a-z0-9]{12}$
+      type: string
     PushState:
       description: Current state of the push operation
       enum:
@@ -376,47 +417,6 @@ components:
       - canceled
       example: completed
       type: string
-  parameters:
-    PathFileRestoreID:
-      example: fr_0123456789ab
-      in: path
-      name: file_restore_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/FileRestoreID'
-    QueryOffset:
-      description: Starting index for pagination
-      in: query
-      name: offset
-      schema:
-        default: 0
-        format: uint32
-        minimum: 0
-        type: integer
-    QuerySortAsc:
-      description: Sort in ascending order
-      in: query
-      name: sort_asc
-      schema:
-        default: false
-        type: boolean
-    PathFileRestorePushID:
-      example: frp_0123456789ab
-      in: path
-      name: file_restore_push_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/FileRestorePushID'
-    QueryLimit:
-      description: Number of items to return for pagination
-      in: query
-      name: limit
-      schema:
-        default: 10
-        format: uint32
-        maximum: 50
-        minimum: 1
-        type: integer
   securitySchemes:
     BearerAuth:
       bearerFormat: string

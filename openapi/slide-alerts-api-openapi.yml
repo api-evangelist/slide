@@ -122,91 +122,42 @@ paths:
       tags:
       - Alerts
 components:
-  parameters:
-    QueryResolved:
-      in: query
-      name: resolved
-      schema:
-        $ref: '#/components/schemas/Resolved'
-    QueryOffset:
-      description: Starting index for pagination
-      in: query
-      name: offset
-      schema:
-        default: 0
-        format: uint32
-        minimum: 0
-        type: integer
-    QuerySortAsc:
-      description: Sort in ascending order
-      in: query
-      name: sort_asc
-      schema:
-        default: false
-        type: boolean
-    QueryDeviceID:
-      in: query
-      name: device_id
-      schema:
-        $ref: '#/components/schemas/DeviceID'
-    QueryLimit:
-      description: Number of items to return for pagination
-      in: query
-      name: limit
-      schema:
-        default: 10
-        format: uint32
-        maximum: 50
-        minimum: 1
-        type: integer
-    QueryCreatedAfter:
-      description: Filter results to after a specific creation timestamp (RFC3339 format)
-      in: query
-      name: created_after
-      schema:
-        format: date-time
-        type: string
-    QueryCreatedBefore:
-      description: Filter results to before a specific creation timestamp (RFC3339 format)
-      in: query
-      name: created_before
-      schema:
-        format: date-time
-        type: string
-    PathAlertID:
-      example: a_0123456789ab
-      in: path
-      name: alert_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/AlertID'
-    QueryAgentID:
-      in: query
-      name: agent_id
-      schema:
-        $ref: '#/components/schemas/AgentID'
   schemas:
-    ResolvedAt:
-      description: Timestamp at which an alert was resolved
-      example: '2024-08-23T01:25:08Z'
-      format: date-time
+    AgentID:
+      description: ID of an agent
+      example: a_0123456789ab
+      pattern: ^a_[a-z0-9]{12}$
       type: string
+    Error:
+      description: Error response object that represents an error that occurred during a request.
+      properties:
+        codes:
+          description: List of error codes that occurred during a request.
+          items:
+            description: A unique error code that identifies the error.
+            title: Code
+            type: string
+          title: Codes
+          type: array
+        details:
+          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
+          items:
+            description: Short detail message describing the error.
+            title: Detail
+            type: string
+          title: Details
+          type: array
+        message:
+          description: Short message describing the error.
+          title: Message
+          type: string
+      required:
+      - codes
+      - message
+      - details
     ResolvedBy:
       description: Name of the person who resolved the alert, or "auto" if resolved automatically
       example: John Smith
-      type: string
-    Pagination:
-      properties:
-        next_offset:
-          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
-          example: 10
-          format: uint32
-          type: integer
-      type: object
-    CreatedAt:
-      description: Creation timestamp
-      example: '2024-08-23T01:25:08Z'
-      format: date-time
       type: string
     Alert:
       description: Alert object that represents an alert that has been triggered due to some condition.
@@ -249,68 +200,102 @@ components:
       - created_at
       - resolved
       type: object
-    Error:
-      description: Error response object that represents an error that occurred during a request.
-      properties:
-        codes:
-          description: List of error codes that occurred during a request.
-          items:
-            description: A unique error code that identifies the error.
-            title: Code
-            type: string
-          title: Codes
-          type: array
-        details:
-          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
-          items:
-            description: Short detail message describing the error.
-            title: Detail
-            type: string
-          title: Details
-          type: array
-        message:
-          description: Short message describing the error.
-          title: Message
-          type: string
-      required:
-      - codes
-      - message
-      - details
-    DeviceID:
-      description: ID of a device
-      example: d_0123456789ab
-      pattern: ^d_[a-z0-9]{12}$
-      type: string
-    AgentID:
-      description: ID of an agent
-      example: a_0123456789ab
-      pattern: ^a_[a-z0-9]{12}$
-      type: string
     AlertID:
       description: ID of an alert
       example: al_0123456789ab
       pattern: ^al_[a-z0-9]{12}$
       type: string
+    DeviceID:
+      description: ID of a device
+      example: d_0123456789ab
+      pattern: ^d_[a-z0-9]{12}$
+      type: string
+    Pagination:
+      properties:
+        next_offset:
+          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
+          example: 10
+          format: uint32
+          type: integer
+      type: object
     Resolved:
       description: Whether the alert has been resolved
       example: false
       type: boolean
+    CreatedAt:
+      description: Creation timestamp
+      example: '2024-08-23T01:25:08Z'
+      format: date-time
+      type: string
+    ResolvedAt:
+      description: Timestamp at which an alert was resolved
+      example: '2024-08-23T01:25:08Z'
+      format: date-time
+      type: string
+  parameters:
+    PathAlertID:
+      example: a_0123456789ab
+      in: path
+      name: alert_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/AlertID'
+    QueryLimit:
+      description: Number of items to return for pagination
+      in: query
+      name: limit
+      schema:
+        default: 10
+        format: uint32
+        maximum: 50
+        minimum: 1
+        type: integer
+    QueryResolved:
+      in: query
+      name: resolved
+      schema:
+        $ref: '#/components/schemas/Resolved'
+    QueryOffset:
+      description: Starting index for pagination
+      in: query
+      name: offset
+      schema:
+        default: 0
+        format: uint32
+        minimum: 0
+        type: integer
+    QuerySortAsc:
+      description: Sort in ascending order
+      in: query
+      name: sort_asc
+      schema:
+        default: false
+        type: boolean
+    QueryCreatedBefore:
+      description: Filter results to before a specific creation timestamp (RFC3339 format)
+      in: query
+      name: created_before
+      schema:
+        format: date-time
+        type: string
+    QueryCreatedAfter:
+      description: Filter results to after a specific creation timestamp (RFC3339 format)
+      in: query
+      name: created_after
+      schema:
+        format: date-time
+        type: string
+    QueryDeviceID:
+      in: query
+      name: device_id
+      schema:
+        $ref: '#/components/schemas/DeviceID'
+    QueryAgentID:
+      in: query
+      name: agent_id
+      schema:
+        $ref: '#/components/schemas/AgentID'
   responses:
-    '500':
-      content:
-        application/json:
-          examples:
-            err_internal_server_error:
-              summary: Internal server error
-              value:
-                codes:
-                - err_internal_server_error
-                details:
-                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
-                message: internal server error
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Internal server error
     '401':
       content:
         application/json:
@@ -334,12 +319,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Unauthorized
-    '404':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not found
     '400':
       content:
         application/json:
@@ -355,6 +334,27 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Bad request
+    '500':
+      content:
+        application/json:
+          examples:
+            err_internal_server_error:
+              summary: Internal server error
+              value:
+                codes:
+                - err_internal_server_error
+                details:
+                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
+                message: internal server error
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Internal server error
+    '404':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Not found
   securitySchemes:
     BearerAuth:
       bearerFormat: string
