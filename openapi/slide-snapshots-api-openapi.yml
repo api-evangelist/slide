@@ -133,6 +133,59 @@ paths:
       - Snapshots
 components:
   schemas:
+    ServiceVerificationResult:
+      description: Result of verifying a single service during boot verification.
+      properties:
+        name:
+          description: Internal name of the Windows service.
+          example: wuauserv
+          type: string
+        service_id:
+          description: Unique identifier of the service.
+          example: svc_abc123
+          type: string
+        state:
+          description: State of the service at verification time.
+          example: Running
+          type: string
+      required:
+      - service_id
+      - name
+      - state
+      type: object
+    FirstAndLastName:
+      description: First and last name of a user
+      example: John Smith
+      maxLength: 128
+      minLength: 1
+      type: string
+    Error:
+      description: Error response object that represents an error that occurred during a request.
+      properties:
+        codes:
+          description: List of error codes that occurred during a request.
+          items:
+            description: A unique error code that identifies the error.
+            title: Code
+            type: string
+          title: Codes
+          type: array
+        details:
+          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
+          items:
+            description: Short detail message describing the error.
+            title: Detail
+            type: string
+          title: Details
+          type: array
+        message:
+          description: Short message describing the error.
+          title: Message
+          type: string
+      required:
+      - codes
+      - message
+      - details
     Deletion:
       description: Deletion details
       properties:
@@ -152,12 +205,43 @@ components:
       - deleted
       - deleted_by
       type: object
-    FirstAndLastName:
-      description: First and last name of a user
-      example: John Smith
-      maxLength: 128
-      minLength: 1
+    SnapshotLocation:
+      description: 'Filter snapshots by location or deleted status.
+
+
+        **Enum Values:**
+
+        - `exists_local`: Snapshots that exist on the local device storage
+
+        - `exists_cloud`: Snapshots that exist in cloud storage
+
+        - `exists_deleted`: Any deleted snapshots (includes all deletion types)
+
+        - `exists_deleted_retention`: Snapshots deleted by retention policy
+
+        - `exists_deleted_manual`: Snapshots manually deleted by users
+
+        - `exists_deleted_other`: Snapshots deleted by other processes/systems
+
+        - `location_any`: Snapshots in any location (local, cloud, including deleted)
+
+        - If you do not specify a location, the default is local and cloud not including deleted.
+
+        '
+      enum:
+      - exists_local
+      - exists_cloud
+      - exists_deleted
+      - exists_deleted_retention
+      - exists_deleted_manual
+      - exists_deleted_other
+      - location_any
       type: string
+    Deletions:
+      description: List of deletion details
+      items:
+        $ref: '#/components/schemas/Deletion'
+      type: array
     Snapshot:
       description: Snapshot object that represents a snapshot that was taken as part of a successful backup.
       properties:
@@ -237,99 +321,11 @@ components:
       example: a_0123456789ab
       pattern: ^a_[a-z0-9]{12}$
       type: string
-    Error:
-      description: Error response object that represents an error that occurred during a request.
-      properties:
-        codes:
-          description: List of error codes that occurred during a request.
-          items:
-            description: A unique error code that identifies the error.
-            title: Code
-            type: string
-          title: Codes
-          type: array
-        details:
-          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
-          items:
-            description: Short detail message describing the error.
-            title: Detail
-            type: string
-          title: Details
-          type: array
-        message:
-          description: Short message describing the error.
-          title: Message
-          type: string
-      required:
-      - codes
-      - message
-      - details
-    ServiceVerificationResult:
-      description: Result of verifying a single service during boot verification.
-      properties:
-        name:
-          description: Internal name of the Windows service.
-          example: wuauserv
-          type: string
-        service_id:
-          description: Unique identifier of the service.
-          example: svc_abc123
-          type: string
-        state:
-          description: State of the service at verification time.
-          example: Running
-          type: string
-      required:
-      - service_id
-      - name
-      - state
-      type: object
-    SnapshotID:
-      description: ID of a snapshot
-      example: s_0123456789ab
-      pattern: ^s_[a-z0-9]{12}$
-      type: string
-    Deletions:
-      description: List of deletion details
-      items:
-        $ref: '#/components/schemas/Deletion'
-      type: array
-    SnapshotLocation:
-      description: 'Filter snapshots by location or deleted status.
-
-
-        **Enum Values:**
-
-        - `exists_local`: Snapshots that exist on the local device storage
-
-        - `exists_cloud`: Snapshots that exist in cloud storage
-
-        - `exists_deleted`: Any deleted snapshots (includes all deletion types)
-
-        - `exists_deleted_retention`: Snapshots deleted by retention policy
-
-        - `exists_deleted_manual`: Snapshots manually deleted by users
-
-        - `exists_deleted_other`: Snapshots deleted by other processes/systems
-
-        - `location_any`: Snapshots in any location (local, cloud, including deleted)
-
-        - If you do not specify a location, the default is local and cloud not including deleted.
-
-        '
+    LocationType:
+      description: Type of the location
       enum:
-      - exists_local
-      - exists_cloud
-      - exists_deleted
-      - exists_deleted_retention
-      - exists_deleted_manual
-      - exists_deleted_other
-      - location_any
-      type: string
-    DeviceID:
-      description: ID of a device
-      example: d_0123456789ab
-      pattern: ^d_[a-z0-9]{12}$
+      - local
+      - cloud
       type: string
     Pagination:
       properties:
@@ -339,6 +335,11 @@ components:
           format: uint32
           type: integer
       type: object
+    SnapshotID:
+      description: ID of a snapshot
+      example: s_0123456789ab
+      pattern: ^s_[a-z0-9]{12}$
+      type: string
     SnapshotDeletedBy:
       description: Name of the person or system that deleted the snapshot
       example:
@@ -346,12 +347,6 @@ components:
           value: John Smith
         example2:
           value: Retention
-      type: string
-    LocationType:
-      description: Type of the location
-      enum:
-      - local
-      - cloud
       type: string
     Location:
       description: Location object that represents a location where a snapshot is stored. This may be on the local device or in the cloud.
@@ -369,6 +364,11 @@ components:
       - device_id
       title: Location
       type: object
+    DeviceID:
+      description: ID of a device
+      example: d_0123456789ab
+      pattern: ^d_[a-z0-9]{12}$
+      type: string
   parameters:
     QueryBackupEndedBefore:
       description: Filter snapshots completed before a specific backup end time (RFC3339 format)
@@ -384,46 +384,6 @@ components:
       schema:
         format: date-time
         type: string
-    QueryBackupEndedAfter:
-      description: Filter snapshots completed after a specific backup end time (RFC3339 format)
-      in: query
-      name: backup_ended_after
-      schema:
-        format: date-time
-        type: string
-    QueryLimit:
-      description: Number of items to return for pagination
-      in: query
-      name: limit
-      schema:
-        default: 10
-        format: uint32
-        maximum: 50
-        minimum: 1
-        type: integer
-    QueryBackupStartedAfter:
-      description: Filter snapshots created after a specific backup start time (RFC3339 format)
-      in: query
-      name: backup_started_after
-      schema:
-        format: date-time
-        type: string
-    QueryOffset:
-      description: Starting index for pagination
-      in: query
-      name: offset
-      schema:
-        default: 0
-        format: uint32
-        minimum: 0
-        type: integer
-    PathSnapshotID:
-      example: s_0123456789ab
-      in: path
-      name: snapshot_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/SnapshotID'
     QuerySortAsc:
       description: Sort in ascending order
       in: query
@@ -442,7 +402,62 @@ components:
       name: agent_id
       schema:
         $ref: '#/components/schemas/AgentID'
+    PathSnapshotID:
+      example: s_0123456789ab
+      in: path
+      name: snapshot_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/SnapshotID'
+    QueryBackupStartedAfter:
+      description: Filter snapshots created after a specific backup start time (RFC3339 format)
+      in: query
+      name: backup_started_after
+      schema:
+        format: date-time
+        type: string
+    QueryBackupEndedAfter:
+      description: Filter snapshots completed after a specific backup end time (RFC3339 format)
+      in: query
+      name: backup_ended_after
+      schema:
+        format: date-time
+        type: string
+    QueryOffset:
+      description: Starting index for pagination
+      in: query
+      name: offset
+      schema:
+        default: 0
+        format: uint32
+        minimum: 0
+        type: integer
+    QueryLimit:
+      description: Number of items to return for pagination
+      in: query
+      name: limit
+      schema:
+        default: 10
+        format: uint32
+        maximum: 50
+        minimum: 1
+        type: integer
   responses:
+    '400':
+      content:
+        application/json:
+          examples:
+            err_validation_error:
+              summary: Validation error
+              value:
+                codes:
+                - err_validation_error
+                details:
+                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
+                message: bad request
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Bad request
     '401':
       content:
         application/json:
@@ -466,21 +481,12 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Unauthorized
-    '400':
+    '404':
       content:
         application/json:
-          examples:
-            err_validation_error:
-              summary: Validation error
-              value:
-                codes:
-                - err_validation_error
-                details:
-                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
-                message: bad request
           schema:
             $ref: '#/components/schemas/Error'
-      description: Bad request
+      description: Not found
     '500':
       content:
         application/json:
@@ -496,12 +502,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Internal server error
-    '404':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not found
   securitySchemes:
     BearerAuth:
       bearerFormat: string

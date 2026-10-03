@@ -120,12 +120,6 @@ paths:
       - Accounts
 components:
   schemas:
-    PrimaryContact:
-      description: Name of the primary contact
-      example: John Smith
-      maxLength: 128
-      minLength: 1
-      type: string
     Error:
       description: Error response object that represents an error that occurred during a request.
       properties:
@@ -153,16 +147,35 @@ components:
       - codes
       - message
       - details
-    AccountName:
-      description: Name of the account
-      example: Slide Inc.
-      maxLength: 128
-      minLength: 1
-      type: string
-    PrimaryEmail:
-      description: Email of the primary contact
-      example: john.doe@gmail.com
-      format: email
+    Account:
+      description: Account object that represents an Account
+      properties:
+        account_id:
+          $ref: '#/components/schemas/AccountID'
+        account_name:
+          $ref: '#/components/schemas/AccountName'
+        alert_emails:
+          $ref: '#/components/schemas/AlertEmails'
+        billing_address:
+          $ref: '#/components/schemas/PostalAddress'
+        primary_contact:
+          $ref: '#/components/schemas/PrimaryContact'
+        primary_email:
+          $ref: '#/components/schemas/PrimaryEmail'
+        primary_phone:
+          $ref: '#/components/schemas/PrimaryPhone'
+      required:
+      - account_id
+      - account_name
+      - primary_contact
+      - primary_email
+      - primary_phone
+      - billing_address
+      - alert_emails
+      type: object
+    PrimaryPhone:
+      description: Phone number of the primary contact
+      example: +1 555-555-5555
       type: string
     AlertEmails:
       description: List of email addresses to send alert emails to
@@ -175,6 +188,22 @@ components:
         type: string
       maxItems: 10
       type: array
+    PrimaryContact:
+      description: Name of the primary contact
+      example: John Smith
+      maxLength: 128
+      minLength: 1
+      type: string
+    PrimaryEmail:
+      description: Email of the primary contact
+      example: john.doe@gmail.com
+      format: email
+      type: string
+    AccountID:
+      description: ID of an account
+      example: act_0123456789ab
+      pattern: ^act_[a-z0-9]{12}$
+      type: string
     Pagination:
       properties:
         next_offset:
@@ -183,10 +212,11 @@ components:
           format: uint32
           type: integer
       type: object
-    AccountID:
-      description: ID of an account
-      example: act_0123456789ab
-      pattern: ^act_[a-z0-9]{12}$
+    AccountName:
+      description: Name of the account
+      example: Slide Inc.
+      maxLength: 128
+      minLength: 1
       type: string
     PostalAddress:
       description: Postal address details
@@ -222,63 +252,7 @@ components:
       - PostalCode
       - Country
       type: object
-    Account:
-      description: Account object that represents an Account
-      properties:
-        account_id:
-          $ref: '#/components/schemas/AccountID'
-        account_name:
-          $ref: '#/components/schemas/AccountName'
-        alert_emails:
-          $ref: '#/components/schemas/AlertEmails'
-        billing_address:
-          $ref: '#/components/schemas/PostalAddress'
-        primary_contact:
-          $ref: '#/components/schemas/PrimaryContact'
-        primary_email:
-          $ref: '#/components/schemas/PrimaryEmail'
-        primary_phone:
-          $ref: '#/components/schemas/PrimaryPhone'
-      required:
-      - account_id
-      - account_name
-      - primary_contact
-      - primary_email
-      - primary_phone
-      - billing_address
-      - alert_emails
-      type: object
-    PrimaryPhone:
-      description: Phone number of the primary contact
-      example: +1 555-555-5555
-      type: string
   parameters:
-    QueryLimit:
-      description: Number of items to return for pagination
-      in: query
-      name: limit
-      schema:
-        default: 10
-        format: uint32
-        maximum: 50
-        minimum: 1
-        type: integer
-    PathAccountID:
-      example: act_0123456789ab
-      in: path
-      name: account_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/AccountID'
-    QueryOffset:
-      description: Starting index for pagination
-      in: query
-      name: offset
-      schema:
-        default: 0
-        format: uint32
-        minimum: 0
-        type: integer
     QuerySortAsc:
       description: Sort in ascending order
       in: query
@@ -300,7 +274,48 @@ components:
       schema:
         format: date-time
         type: string
+    QueryOffset:
+      description: Starting index for pagination
+      in: query
+      name: offset
+      schema:
+        default: 0
+        format: uint32
+        minimum: 0
+        type: integer
+    QueryLimit:
+      description: Number of items to return for pagination
+      in: query
+      name: limit
+      schema:
+        default: 10
+        format: uint32
+        maximum: 50
+        minimum: 1
+        type: integer
+    PathAccountID:
+      example: act_0123456789ab
+      in: path
+      name: account_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/AccountID'
   responses:
+    '400':
+      content:
+        application/json:
+          examples:
+            err_validation_error:
+              summary: Validation error
+              value:
+                codes:
+                - err_validation_error
+                details:
+                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
+                message: bad request
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Bad request
     '401':
       content:
         application/json:
@@ -324,21 +339,12 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Unauthorized
-    '400':
+    '404':
       content:
         application/json:
-          examples:
-            err_validation_error:
-              summary: Validation error
-              value:
-                codes:
-                - err_validation_error
-                details:
-                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
-                message: bad request
           schema:
             $ref: '#/components/schemas/Error'
-      description: Bad request
+      description: Not found
     '500':
       content:
         application/json:
@@ -354,12 +360,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Internal server error
-    '404':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not found
   securitySchemes:
     BearerAuth:
       bearerFormat: string

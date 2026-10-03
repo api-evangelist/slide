@@ -149,25 +149,6 @@ components:
       schema:
         format: date-time
         type: string
-    QuerySnapshotID:
-      in: query
-      name: snapshot_id
-      schema:
-        $ref: '#/components/schemas/SnapshotID'
-    QueryBackupStartedBefore:
-      description: Filter snapshots created before a specific backup start time (RFC3339 format)
-      in: query
-      name: backup_started_before
-      schema:
-        format: date-time
-        type: string
-    QueryBackupEndedAfter:
-      description: Filter snapshots completed after a specific backup end time (RFC3339 format)
-      in: query
-      name: backup_ended_after
-      schema:
-        format: date-time
-        type: string
     PathBackupID:
       example: b_0123456789ab
       in: path
@@ -175,20 +156,41 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/BackupID'
-    QueryLimit:
-      description: Number of items to return for pagination
+    QueryBackupStartedBefore:
+      description: Filter snapshots created before a specific backup start time (RFC3339 format)
       in: query
-      name: limit
+      name: backup_started_before
       schema:
-        default: 10
-        format: uint32
-        maximum: 50
-        minimum: 1
-        type: integer
+        format: date-time
+        type: string
+    QuerySortAsc:
+      description: Sort in ascending order
+      in: query
+      name: sort_asc
+      schema:
+        default: false
+        type: boolean
+    QuerySnapshotID:
+      in: query
+      name: snapshot_id
+      schema:
+        $ref: '#/components/schemas/SnapshotID'
+    QueryAgentID:
+      in: query
+      name: agent_id
+      schema:
+        $ref: '#/components/schemas/AgentID'
     QueryBackupStartedAfter:
       description: Filter snapshots created after a specific backup start time (RFC3339 format)
       in: query
       name: backup_started_after
+      schema:
+        format: date-time
+        type: string
+    QueryBackupEndedAfter:
+      description: Filter snapshots completed after a specific backup end time (RFC3339 format)
+      in: query
+      name: backup_ended_after
       schema:
         format: date-time
         type: string
@@ -201,29 +203,88 @@ components:
         format: uint32
         minimum: 0
         type: integer
-    QuerySortAsc:
-      description: Sort in ascending order
+    QueryLimit:
+      description: Number of items to return for pagination
       in: query
-      name: sort_asc
+      name: limit
       schema:
-        default: false
-        type: boolean
+        default: 10
+        format: uint32
+        maximum: 50
+        minimum: 1
+        type: integer
     QueryDeviceID:
       in: query
       name: device_id
       schema:
         $ref: '#/components/schemas/DeviceID'
-    QueryAgentID:
-      in: query
-      name: agent_id
-      schema:
-        $ref: '#/components/schemas/AgentID'
+  responses:
+    '409':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Conflict
+    '400':
+      content:
+        application/json:
+          examples:
+            err_validation_error:
+              summary: Validation error
+              value:
+                codes:
+                - err_validation_error
+                details:
+                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
+                message: bad request
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Bad request
+    '401':
+      content:
+        application/json:
+          examples:
+            err_missing_authentication:
+              summary: Missing API token
+              value:
+                codes:
+                - err_missing_authentication
+                details:
+                - 'You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. ''Authorization: Bearer YOUR_SECRET_TOKEN'').'
+                message: unauthorized
+            err_unauthorized:
+              summary: Invalid API token
+              value:
+                codes:
+                - err_unauthorized
+                details:
+                - Invalid API token provided or you do not have permission to access this resource.
+                message: unauthorized
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Unauthorized
+    '404':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Not found
+    '500':
+      content:
+        application/json:
+          examples:
+            err_internal_server_error:
+              summary: Internal server error
+              value:
+                codes:
+                - err_internal_server_error
+                details:
+                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
+                message: internal server error
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Internal server error
   schemas:
-    AgentID:
-      description: ID of an agent
-      example: a_0123456789ab
-      pattern: ^a_[a-z0-9]{12}$
-      type: string
     Error:
       description: Error response object that represents an error that occurred during a request.
       properties:
@@ -251,6 +312,24 @@ components:
       - codes
       - message
       - details
+    BackupID:
+      description: ID of a backup attempt
+      example: b_0123456789ab
+      pattern: ^b_[a-z0-9]{12}$
+      type: string
+    AgentID:
+      description: ID of an agent
+      example: a_0123456789ab
+      pattern: ^a_[a-z0-9]{12}$
+      type: string
+    Pagination:
+      properties:
+        next_offset:
+          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
+          example: 10
+          format: uint32
+          type: integer
+      type: object
     SnapshotID:
       description: ID of a snapshot
       example: s_0123456789ab
@@ -319,85 +398,6 @@ components:
       example: d_0123456789ab
       pattern: ^d_[a-z0-9]{12}$
       type: string
-    Pagination:
-      properties:
-        next_offset:
-          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
-          example: 10
-          format: uint32
-          type: integer
-      type: object
-    BackupID:
-      description: ID of a backup attempt
-      example: b_0123456789ab
-      pattern: ^b_[a-z0-9]{12}$
-      type: string
-  responses:
-    '401':
-      content:
-        application/json:
-          examples:
-            err_missing_authentication:
-              summary: Missing API token
-              value:
-                codes:
-                - err_missing_authentication
-                details:
-                - 'You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. ''Authorization: Bearer YOUR_SECRET_TOKEN'').'
-                message: unauthorized
-            err_unauthorized:
-              summary: Invalid API token
-              value:
-                codes:
-                - err_unauthorized
-                details:
-                - Invalid API token provided or you do not have permission to access this resource.
-                message: unauthorized
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Unauthorized
-    '400':
-      content:
-        application/json:
-          examples:
-            err_validation_error:
-              summary: Validation error
-              value:
-                codes:
-                - err_validation_error
-                details:
-                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
-                message: bad request
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Bad request
-    '500':
-      content:
-        application/json:
-          examples:
-            err_internal_server_error:
-              summary: Internal server error
-              value:
-                codes:
-                - err_internal_server_error
-                details:
-                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
-                message: internal server error
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Internal server error
-    '404':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not found
-    '409':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Conflict
   securitySchemes:
     BearerAuth:
       bearerFormat: string

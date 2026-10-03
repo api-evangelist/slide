@@ -189,53 +189,16 @@ paths:
       tags:
       - Audits
 components:
-  parameters:
-    QueryAuditActionName:
-      in: query
-      name: audit_action_name
-      schema:
-        $ref: '#/components/schemas/AuditActionName'
-    PathAuditID:
-      example: aud_0123456789ab
-      in: path
-      name: audit_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/AuditID'
-    QueryLimit:
-      description: Number of items to return for pagination
-      in: query
-      name: limit
-      schema:
-        default: 10
-        format: uint32
-        maximum: 50
-        minimum: 1
-        type: integer
-    QueryOffset:
-      description: Starting index for pagination
-      in: query
-      name: offset
-      schema:
-        default: 0
-        format: uint32
-        minimum: 0
-        type: integer
-    QueryAuditResourceTypeName:
-      in: query
-      name: audit_resource_type_name
-      schema:
-        $ref: '#/components/schemas/AuditResourceTypeName'
-    QuerySortAsc:
-      description: Sort in ascending order
-      in: query
-      name: sort_asc
-      schema:
-        default: false
-        type: boolean
   schemas:
-    AuditResourceTypeName:
-      description: Audit resource type
+    ClientIDOrEmpty:
+      description: ID of a client or an empty string
+      example: c_0123456789ab
+      pattern: ^(c_[a-z0-9]{12}|)$
+      type: string
+    UserIDOrEmpty:
+      description: ID of a user or an empty string
+      example: u_0123456789ab
+      pattern: ^u_[a-z0-9]{12}$
       type: string
     Error:
       description: Error response object that represents an error that occurred during a request.
@@ -264,16 +227,6 @@ components:
       - codes
       - message
       - details
-    ClientIDOrEmpty:
-      description: ID of a client or an empty string
-      example: c_0123456789ab
-      pattern: ^(c_[a-z0-9]{12}|)$
-      type: string
-    UserIDOrEmpty:
-      description: ID of a user or an empty string
-      example: u_0123456789ab
-      pattern: ^u_[a-z0-9]{12}$
-      type: string
     Audit:
       description: Audit object that represents an audit log.
       properties:
@@ -332,37 +285,12 @@ components:
       - action_fields_json
       - description
       type: object
-    AuditResourceType:
-      description: Audit resource type object to represent an audit resource type.
-      properties:
-        name:
-          description: Name of the audit resource type
-          example: user
-          type: string
-      required:
-      - name
-      type: object
-    Pagination:
-      properties:
-        next_offset:
-          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
-          example: 10
-          format: uint32
-          type: integer
-      type: object
+    AuditResourceTypeName:
+      description: Audit resource type
+      type: string
     AuditActionName:
       description: Audit action
       example: user_created
-      type: string
-    AccountID:
-      description: ID of an account
-      example: act_0123456789ab
-      pattern: ^act_[a-z0-9]{12}$
-      type: string
-    AuditID:
-      description: ID of an audit log
-      example: aud_0123456789ab
-      pattern: ^aud_[a-z0-9]{12}$
       type: string
     AuditAction:
       description: Audit action object to represent an audit action.
@@ -379,7 +307,94 @@ components:
       - name
       - description
       type: object
+    AuditID:
+      description: ID of an audit log
+      example: aud_0123456789ab
+      pattern: ^aud_[a-z0-9]{12}$
+      type: string
+    AccountID:
+      description: ID of an account
+      example: act_0123456789ab
+      pattern: ^act_[a-z0-9]{12}$
+      type: string
+    Pagination:
+      properties:
+        next_offset:
+          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
+          example: 10
+          format: uint32
+          type: integer
+      type: object
+    AuditResourceType:
+      description: Audit resource type object to represent an audit resource type.
+      properties:
+        name:
+          description: Name of the audit resource type
+          example: user
+          type: string
+      required:
+      - name
+      type: object
+  parameters:
+    QuerySortAsc:
+      description: Sort in ascending order
+      in: query
+      name: sort_asc
+      schema:
+        default: false
+        type: boolean
+    PathAuditID:
+      example: aud_0123456789ab
+      in: path
+      name: audit_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/AuditID'
+    QueryAuditResourceTypeName:
+      in: query
+      name: audit_resource_type_name
+      schema:
+        $ref: '#/components/schemas/AuditResourceTypeName'
+    QueryAuditActionName:
+      in: query
+      name: audit_action_name
+      schema:
+        $ref: '#/components/schemas/AuditActionName'
+    QueryOffset:
+      description: Starting index for pagination
+      in: query
+      name: offset
+      schema:
+        default: 0
+        format: uint32
+        minimum: 0
+        type: integer
+    QueryLimit:
+      description: Number of items to return for pagination
+      in: query
+      name: limit
+      schema:
+        default: 10
+        format: uint32
+        maximum: 50
+        minimum: 1
+        type: integer
   responses:
+    '400':
+      content:
+        application/json:
+          examples:
+            err_validation_error:
+              summary: Validation error
+              value:
+                codes:
+                - err_validation_error
+                details:
+                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
+                message: bad request
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Bad request
     '401':
       content:
         application/json:
@@ -403,21 +418,12 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Unauthorized
-    '400':
+    '404':
       content:
         application/json:
-          examples:
-            err_validation_error:
-              summary: Validation error
-              value:
-                codes:
-                - err_validation_error
-                details:
-                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
-                message: bad request
           schema:
             $ref: '#/components/schemas/Error'
-      description: Bad request
+      description: Not found
     '500':
       content:
         application/json:
@@ -433,12 +439,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Internal server error
-    '404':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not found
   securitySchemes:
     BearerAuth:
       bearerFormat: string

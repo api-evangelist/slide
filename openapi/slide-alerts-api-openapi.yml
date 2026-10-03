@@ -123,10 +123,10 @@ paths:
       - Alerts
 components:
   schemas:
-    AgentID:
-      description: ID of an agent
-      example: a_0123456789ab
-      pattern: ^a_[a-z0-9]{12}$
+    ResolvedAt:
+      description: Timestamp at which an alert was resolved
+      example: '2024-08-23T01:25:08Z'
+      format: date-time
       type: string
     Error:
       description: Error response object that represents an error that occurred during a request.
@@ -155,10 +155,6 @@ components:
       - codes
       - message
       - details
-    ResolvedBy:
-      description: Name of the person who resolved the alert, or "auto" if resolved automatically
-      example: John Smith
-      type: string
     Alert:
       description: Alert object that represents an alert that has been triggered due to some condition.
       properties:
@@ -200,15 +196,24 @@ components:
       - created_at
       - resolved
       type: object
+    ResolvedBy:
+      description: Name of the person who resolved the alert, or "auto" if resolved automatically
+      example: John Smith
+      type: string
     AlertID:
       description: ID of an alert
       example: al_0123456789ab
       pattern: ^al_[a-z0-9]{12}$
       type: string
-    DeviceID:
-      description: ID of a device
-      example: d_0123456789ab
-      pattern: ^d_[a-z0-9]{12}$
+    CreatedAt:
+      description: Creation timestamp
+      example: '2024-08-23T01:25:08Z'
+      format: date-time
+      type: string
+    AgentID:
+      description: ID of an agent
+      example: a_0123456789ab
+      pattern: ^a_[a-z0-9]{12}$
       type: string
     Pagination:
       properties:
@@ -222,17 +227,17 @@ components:
       description: Whether the alert has been resolved
       example: false
       type: boolean
-    CreatedAt:
-      description: Creation timestamp
-      example: '2024-08-23T01:25:08Z'
-      format: date-time
-      type: string
-    ResolvedAt:
-      description: Timestamp at which an alert was resolved
-      example: '2024-08-23T01:25:08Z'
-      format: date-time
+    DeviceID:
+      description: ID of a device
+      example: d_0123456789ab
+      pattern: ^d_[a-z0-9]{12}$
       type: string
   parameters:
+    QueryResolved:
+      in: query
+      name: resolved
+      schema:
+        $ref: '#/components/schemas/Resolved'
     PathAlertID:
       example: a_0123456789ab
       in: path
@@ -240,30 +245,6 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/AlertID'
-    QueryLimit:
-      description: Number of items to return for pagination
-      in: query
-      name: limit
-      schema:
-        default: 10
-        format: uint32
-        maximum: 50
-        minimum: 1
-        type: integer
-    QueryResolved:
-      in: query
-      name: resolved
-      schema:
-        $ref: '#/components/schemas/Resolved'
-    QueryOffset:
-      description: Starting index for pagination
-      in: query
-      name: offset
-      schema:
-        default: 0
-        format: uint32
-        minimum: 0
-        type: integer
     QuerySortAsc:
       description: Sort in ascending order
       in: query
@@ -278,6 +259,11 @@ components:
       schema:
         format: date-time
         type: string
+    QueryAgentID:
+      in: query
+      name: agent_id
+      schema:
+        $ref: '#/components/schemas/AgentID'
     QueryCreatedAfter:
       description: Filter results to after a specific creation timestamp (RFC3339 format)
       in: query
@@ -285,17 +271,46 @@ components:
       schema:
         format: date-time
         type: string
+    QueryOffset:
+      description: Starting index for pagination
+      in: query
+      name: offset
+      schema:
+        default: 0
+        format: uint32
+        minimum: 0
+        type: integer
+    QueryLimit:
+      description: Number of items to return for pagination
+      in: query
+      name: limit
+      schema:
+        default: 10
+        format: uint32
+        maximum: 50
+        minimum: 1
+        type: integer
     QueryDeviceID:
       in: query
       name: device_id
       schema:
         $ref: '#/components/schemas/DeviceID'
-    QueryAgentID:
-      in: query
-      name: agent_id
-      schema:
-        $ref: '#/components/schemas/AgentID'
   responses:
+    '400':
+      content:
+        application/json:
+          examples:
+            err_validation_error:
+              summary: Validation error
+              value:
+                codes:
+                - err_validation_error
+                details:
+                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
+                message: bad request
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Bad request
     '401':
       content:
         application/json:
@@ -319,21 +334,12 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Unauthorized
-    '400':
+    '404':
       content:
         application/json:
-          examples:
-            err_validation_error:
-              summary: Validation error
-              value:
-                codes:
-                - err_validation_error
-                details:
-                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
-                message: bad request
           schema:
             $ref: '#/components/schemas/Error'
-      description: Bad request
+      description: Not found
     '500':
       content:
         application/json:
@@ -349,12 +355,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Internal server error
-    '404':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not found
   securitySchemes:
     BearerAuth:
       bearerFormat: string

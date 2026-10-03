@@ -195,6 +195,13 @@ paths:
       - Restores (Push)
 components:
   parameters:
+    PathFileRestoreID:
+      example: fr_0123456789ab
+      in: path
+      name: file_restore_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/FileRestoreID'
     PathFileRestorePushID:
       example: frp_0123456789ab
       in: path
@@ -202,6 +209,15 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/FileRestorePushID'
+    QueryOffset:
+      description: Starting index for pagination
+      in: query
+      name: offset
+      schema:
+        default: 0
+        format: uint32
+        minimum: 0
+        type: integer
     QueryLimit:
       description: Number of items to return for pagination
       in: query
@@ -212,22 +228,6 @@ components:
         maximum: 50
         minimum: 1
         type: integer
-    PathFileRestoreID:
-      example: fr_0123456789ab
-      in: path
-      name: file_restore_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/FileRestoreID'
-    QueryOffset:
-      description: Starting index for pagination
-      in: query
-      name: offset
-      schema:
-        default: 0
-        format: uint32
-        minimum: 0
-        type: integer
     QuerySortAsc:
       description: Sort in ascending order
       in: query
@@ -236,21 +236,6 @@ components:
         default: false
         type: boolean
   responses:
-    '400':
-      content:
-        application/json:
-          examples:
-            err_validation_error:
-              summary: Validation error
-              value:
-                codes:
-                - err_validation_error
-                details:
-                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
-                message: bad request
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Bad request
     '401':
       content:
         application/json:
@@ -274,6 +259,12 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Unauthorized
+    '404':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Not found
     '500':
       content:
         application/json:
@@ -289,41 +280,31 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Internal server error
-    '404':
+    '400':
       content:
         application/json:
+          examples:
+            err_validation_error:
+              summary: Validation error
+              value:
+                codes:
+                - err_validation_error
+                details:
+                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
+                message: bad request
           schema:
             $ref: '#/components/schemas/Error'
-      description: Not found
+      description: Bad request
   schemas:
-    Pagination:
-      properties:
-        next_offset:
-          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
-          example: 10
-          format: uint32
-          type: integer
-      type: object
-    PushDestinationFolder:
-      description: 'The folder on the protected system where the pushed file is restored.
-
-        For security reasons, restores are only permitted to a `SlideRestore` folder rooted at a known mount point on the agent:
-
-        for Windows agents, the root of a drive (e.g. `C:\SlideRestore`); for Linux agents, an absolute path under a mounted
-
-        volume that ends in `/SlideRestore` (e.g. `/SlideRestore` for the root mount, or `/data/SlideRestore` for a `/data` mount).
-
-        '
-      example: C:\SlideRestore
-      pattern: ^([A-Z]:\\SlideRestore|(/[^/]+)*/SlideRestore)$
-      type: string
-    FileRestorePushID:
-      description: ID of a file restore push
-      example: frp_0123456789ab
-      externalDocs:
-        description: See our console documentation for more information on pushing files to protected systems
-        url: https://docs.slide.tech/restores/#push-to-protected-system
-      pattern: ^frp_[a-z0-9]{12}$
+    PushState:
+      description: Current state of the push operation
+      enum:
+      - created
+      - in_progress
+      - completed
+      - failed
+      - canceled
+      example: completed
       type: string
     FileRestorePush:
       description: File restore push object that represents an attempt to restore a file to a protected system.
@@ -360,17 +341,13 @@ components:
       - source_file_path
       - destination_folder
       type: object
-    PushSourceFilePath:
-      description: 'Path of the file as it appears inside the mounted file restore — not the file''s path on the protected system.
-
-        The leading path component is the source volume''s identifier (the drive letter for Windows, e.g. `C`, or `root` for the
-
-        root mount on Linux), followed by forward-slash-separated path components (e.g. `C/Users/Administrator/Documents/ImportantFile.docx`
-
-        for a Windows C: drive, or `root/home/admin/important.txt` for a Linux root mount).
-
-        '
-      example: C/Users/Administrator/Documents/ImportantFile.docx
+    FileRestorePushID:
+      description: ID of a file restore push
+      example: frp_0123456789ab
+      externalDocs:
+        description: See our console documentation for more information on pushing files to protected systems
+        url: https://docs.slide.tech/restores/#push-to-protected-system
+      pattern: ^frp_[a-z0-9]{12}$
       type: string
     Error:
       description: Error response object that represents an error that occurred during a request.
@@ -399,6 +376,31 @@ components:
       - codes
       - message
       - details
+    PushDestinationFolder:
+      description: 'The folder on the protected system where the pushed file is restored.
+
+        For security reasons, restores are only permitted to a `SlideRestore` folder rooted at a known mount point on the agent:
+
+        for Windows agents, the root of a drive (e.g. `C:\SlideRestore`); for Linux agents, an absolute path under a mounted
+
+        volume that ends in `/SlideRestore` (e.g. `/SlideRestore` for the root mount, or `/data/SlideRestore` for a `/data` mount).
+
+        '
+      example: C:\SlideRestore
+      pattern: ^([A-Z]:\\SlideRestore|(/[^/]+)*/SlideRestore)$
+      type: string
+    PushSourceFilePath:
+      description: 'Path of the file as it appears inside the mounted file restore — not the file''s path on the protected system.
+
+        The leading path component is the source volume''s identifier (the drive letter for Windows, e.g. `C`, or `root` for the
+
+        root mount on Linux), followed by forward-slash-separated path components (e.g. `C/Users/Administrator/Documents/ImportantFile.docx`
+
+        for a Windows C: drive, or `root/home/admin/important.txt` for a Linux root mount).
+
+        '
+      example: C/Users/Administrator/Documents/ImportantFile.docx
+      type: string
     FileRestoreID:
       description: ID of a file restore
       example: fr_0123456789ab
@@ -407,16 +409,14 @@ components:
         url: https://docs.slide.tech/restores/#file-restore
       pattern: ^fr_[a-z0-9]{12}$
       type: string
-    PushState:
-      description: Current state of the push operation
-      enum:
-      - created
-      - in_progress
-      - completed
-      - failed
-      - canceled
-      example: completed
-      type: string
+    Pagination:
+      properties:
+        next_offset:
+          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
+          example: 10
+          format: uint32
+          type: integer
+      type: object
   securitySchemes:
     BearerAuth:
       bearerFormat: string
