@@ -387,6 +387,36 @@ components:
       example: c_0123456789ab
       pattern: ^(c_[a-z0-9]{12}|)$
       type: string
+    DeviceNetworkUpdate:
+      description: Device network configuration update
+      properties:
+        dns_server_primary:
+          $ref: '#/components/schemas/DNSServerPrimary'
+        dns_server_secondary:
+          $ref: '#/components/schemas/DNSServerSecondary'
+        network_address:
+          $ref: '#/components/schemas/DeviceNetworkAddress'
+        network_gateway:
+          $ref: '#/components/schemas/DeviceNetworkGateway'
+        network_mode:
+          $ref: '#/components/schemas/NetworkMode'
+      type: object
+    DeviceNetworkAddress:
+      description: IP address and network mask in CIDR notation (e.g., "192.168.1.100/24"). Required when network_mode is "static".
+      example: 192.168.1.100/24
+      type: string
+    Hostname:
+      description: Hostname of the system
+      example: my-hostname-1
+      maxLength: 63
+      minLength: 1
+      pattern: ^[a-zA-Z0-9][a-zA-Z0-9-]{0,62}$
+      type: string
+    DNSServerPrimary:
+      description: Primary DNS server IP address. Required when network_mode is "static".
+      example: 1.1.1.1
+      format: ipv4
+      type: string
     DeviceVLANCreate:
       description: Device virtual interface (VLAN) creation request
       properties:
@@ -409,6 +439,33 @@ components:
       - vlan_tag
       - network_mode
       type: object
+    DeviceVLAN:
+      description: Device virtual interface (VLAN) configuration
+      properties:
+        gateway:
+          $ref: '#/components/schemas/VLANGateway'
+        ip_address:
+          $ref: '#/components/schemas/VLANIPAddress'
+        name:
+          $ref: '#/components/schemas/VLANName'
+        network_mode:
+          $ref: '#/components/schemas/NetworkMode'
+        network_update_pending:
+          description: Returned in response only, to indicate that the network update is in progress.
+          example: false
+          type: boolean
+        vlan_id:
+          description: Unique identifier for the VLAN
+          example: vlan_012345
+          type: string
+        vlan_tag:
+          $ref: '#/components/schemas/VLANTag'
+      required:
+      - vlan_id
+      - name
+      - vlan_tag
+      - network_mode
+      type: object
     DeviceVLANUpdate:
       description: Device virtual interface (VLAN) update request
       properties:
@@ -427,16 +484,116 @@ components:
         vlan_tag:
           $ref: '#/components/schemas/VLANTag'
       type: object
+    VLANIPAddress:
+      description: IP address and network mask in CIDR notation (e.g., "192.168.100.1/24"). Required when network_mode is "static".
+      example: 192.168.100.1/24
+      type: string
     DisplayName:
       description: Customizable display name
       example: My First Device
       maxLength: 128
       type: string
+    VLANTag:
+      description: 802.1Q VLAN tag (1-4094)
+      example: 100
+      format: uint32
+      maximum: 4094
+      minimum: 1
+      type: integer
     LastSeenAt:
       description: Last seen timestamp
       example: '2024-08-23T01:25:08Z'
       format: date-time
       type: string
+    DeviceNetworkGateway:
+      description: Gateway IP address. Required when network_mode is "static".
+      example: 192.168.1.1
+      format: ipv4
+      type: string
+    ClientID:
+      description: ID of a client
+      example: c_0123456789ab
+      pattern: ^c_[a-z0-9]{12}$
+      type: string
+    DeviceNetwork:
+      description: Device network configuration
+      properties:
+        dns_server_primary:
+          $ref: '#/components/schemas/DNSServerPrimary'
+        dns_server_secondary:
+          $ref: '#/components/schemas/DNSServerSecondary'
+        network_address:
+          $ref: '#/components/schemas/DeviceNetworkAddress'
+        network_gateway:
+          $ref: '#/components/schemas/DeviceNetworkGateway'
+        network_mode:
+          $ref: '#/components/schemas/NetworkMode'
+        network_update_pending:
+          description: Returned in response only, to indicate that the network update is in progress.
+          example: false
+          type: boolean
+      required:
+      - network_mode
+      type: object
+    VLANGateway:
+      description: Gateway IP address. Required when network_mode is "static".
+      example: 192.168.100.1
+      format: ipv4
+      type: string
+    NetworkAddress:
+      properties:
+        ips:
+          items:
+            description: The IP addresses associated with the MAC address.
+            example: 192.168.1.104
+            title: IP Address
+            type: string
+          type: array
+        mac:
+          description: MAC address of the network interface.
+          example: 62:bb:d3:0d:db:7d
+          type: string
+      required:
+      - mac
+      - ips
+      type: object
+    Pagination:
+      properties:
+        next_offset:
+          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
+          example: 10
+          format: uint32
+          type: integer
+      type: object
+    VLANName:
+      description: Display name for the virtual interface
+      example: vlan100
+      maxLength: 32
+      minLength: 1
+      type: string
+    IPAddresses:
+      deprecated: true
+      description: This field is deprecated and will be removed in the future.
+      items:
+        example: 192.168.3.53
+        format: ipv4
+        type: string
+      type: array
+    BootedAt:
+      description: Boot timestamp
+      example: '2024-08-23T01:25:08Z'
+      format: date-time
+      type: string
+    DeviceID:
+      description: ID of a device
+      example: d_0123456789ab
+      pattern: ^d_[a-z0-9]{12}$
+      type: string
+    NetworkAddresses:
+      description: List of network addresses
+      items:
+        $ref: '#/components/schemas/NetworkAddress'
+      type: array
     Error:
       description: Error response object that represents an error that occurred during a request.
       properties:
@@ -464,17 +621,16 @@ components:
       - codes
       - message
       - details
-    IPAddresses:
-      deprecated: true
-      description: This field is deprecated and will be removed in the future.
-      items:
-        example: 192.168.3.53
-        format: ipv4
-        type: string
-      type: array
-    VLANGateway:
-      description: Gateway IP address. Required when network_mode is "static".
-      example: 192.168.100.1
+    NetworkMode:
+      description: Network mode (DHCP or static IP)
+      enum:
+      - dhcp
+      - static
+      example: static
+      type: string
+    DNSServerSecondary:
+      description: Secondary DNS server IP address. Optional when network_mode is "static".
+      example: 8.8.8.8
       format: ipv4
       type: string
     Device:
@@ -582,184 +738,68 @@ components:
       - service_status
       - nfr
       type: object
-    NetworkMode:
-      description: Network mode (DHCP or static IP)
-      enum:
-      - dhcp
-      - static
-      example: static
-      type: string
-    VLANIPAddress:
-      description: IP address and network mask in CIDR notation (e.g., "192.168.100.1/24"). Required when network_mode is "static".
-      example: 192.168.100.1/24
-      type: string
-    Hostname:
-      description: Hostname of the system
-      example: my-hostname-1
-      maxLength: 63
-      minLength: 1
-      pattern: ^[a-zA-Z0-9][a-zA-Z0-9-]{0,62}$
-      type: string
-    DNSServerPrimary:
-      description: Primary DNS server IP address. Required when network_mode is "static".
-      example: 1.1.1.1
-      format: ipv4
-      type: string
-    ClientID:
-      description: ID of a client
-      example: c_0123456789ab
-      pattern: ^c_[a-z0-9]{12}$
-      type: string
-    NetworkAddress:
-      properties:
-        ips:
-          items:
-            description: The IP addresses associated with the MAC address.
-            example: 192.168.1.104
-            title: IP Address
-            type: string
-          type: array
-        mac:
-          description: MAC address of the network interface.
-          example: 62:bb:d3:0d:db:7d
-          type: string
-      required:
-      - mac
-      - ips
-      type: object
-    DeviceNetworkAddress:
-      description: IP address and network mask in CIDR notation (e.g., "192.168.1.100/24"). Required when network_mode is "static".
-      example: 192.168.1.100/24
-      type: string
-    DeviceNetwork:
-      description: Device network configuration
-      properties:
-        dns_server_primary:
-          $ref: '#/components/schemas/DNSServerPrimary'
-        dns_server_secondary:
-          $ref: '#/components/schemas/DNSServerSecondary'
-        network_address:
-          $ref: '#/components/schemas/DeviceNetworkAddress'
-        network_gateway:
-          $ref: '#/components/schemas/DeviceNetworkGateway'
-        network_mode:
-          $ref: '#/components/schemas/NetworkMode'
-        network_update_pending:
-          description: Returned in response only, to indicate that the network update is in progress.
-          example: false
-          type: boolean
-      required:
-      - network_mode
-      type: object
-    DNSServerSecondary:
-      description: Secondary DNS server IP address. Optional when network_mode is "static".
-      example: 8.8.8.8
-      format: ipv4
-      type: string
-    VLANName:
-      description: Display name for the virtual interface
-      example: vlan100
-      maxLength: 32
-      minLength: 1
-      type: string
-    DeviceNetworkUpdate:
-      description: Device network configuration update
-      properties:
-        dns_server_primary:
-          $ref: '#/components/schemas/DNSServerPrimary'
-        dns_server_secondary:
-          $ref: '#/components/schemas/DNSServerSecondary'
-        network_address:
-          $ref: '#/components/schemas/DeviceNetworkAddress'
-        network_gateway:
-          $ref: '#/components/schemas/DeviceNetworkGateway'
-        network_mode:
-          $ref: '#/components/schemas/NetworkMode'
-      type: object
-    Pagination:
-      properties:
-        next_offset:
-          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
-          example: 10
-          format: uint32
-          type: integer
-      type: object
-    DeviceVLAN:
-      description: Device virtual interface (VLAN) configuration
-      properties:
-        gateway:
-          $ref: '#/components/schemas/VLANGateway'
-        ip_address:
-          $ref: '#/components/schemas/VLANIPAddress'
-        name:
-          $ref: '#/components/schemas/VLANName'
-        network_mode:
-          $ref: '#/components/schemas/NetworkMode'
-        network_update_pending:
-          description: Returned in response only, to indicate that the network update is in progress.
-          example: false
-          type: boolean
-        vlan_id:
-          description: Unique identifier for the VLAN
-          example: vlan_012345
-          type: string
-        vlan_tag:
-          $ref: '#/components/schemas/VLANTag'
-      required:
-      - vlan_id
-      - name
-      - vlan_tag
-      - network_mode
-      type: object
-    VLANTag:
-      description: 802.1Q VLAN tag (1-4094)
-      example: 100
-      format: uint32
-      maximum: 4094
-      minimum: 1
-      type: integer
-    NetworkAddresses:
-      description: List of network addresses
-      items:
-        $ref: '#/components/schemas/NetworkAddress'
-      type: array
-    BootedAt:
-      description: Boot timestamp
-      example: '2024-08-23T01:25:08Z'
-      format: date-time
-      type: string
-    DeviceNetworkGateway:
-      description: Gateway IP address. Required when network_mode is "static".
-      example: 192.168.1.1
-      format: ipv4
-      type: string
-    DeviceID:
-      description: ID of a device
+  parameters:
+    QueryCreatedBefore:
+      description: Filter results to before a specific creation timestamp (RFC3339 format)
+      in: query
+      name: created_before
+      schema:
+        format: date-time
+        type: string
+    QuerySortAsc:
+      description: Sort in ascending order
+      in: query
+      name: sort_asc
+      schema:
+        default: false
+        type: boolean
+    QueryCreatedAfter:
+      description: Filter results to after a specific creation timestamp (RFC3339 format)
+      in: query
+      name: created_after
+      schema:
+        format: date-time
+        type: string
+    PathVLANID:
+      example: vlan_012345
+      in: path
+      name: vlan_id
+      required: true
+      schema:
+        description: The ID of the VLAN
+        type: string
+    QueryLimit:
+      description: Number of items to return for pagination
+      in: query
+      name: limit
+      schema:
+        default: 10
+        format: uint32
+        maximum: 50
+        minimum: 1
+        type: integer
+    QueryOffset:
+      description: Starting index for pagination
+      in: query
+      name: offset
+      schema:
+        default: 0
+        format: uint32
+        minimum: 0
+        type: integer
+    QueryClientID:
+      in: query
+      name: client_id
+      schema:
+        $ref: '#/components/schemas/ClientID'
+    PathDeviceID:
       example: d_0123456789ab
-      pattern: ^d_[a-z0-9]{12}$
-      type: string
+      in: path
+      name: device_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/DeviceID'
   responses:
-    '409':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Conflict
-    '400':
-      content:
-        application/json:
-          examples:
-            err_validation_error:
-              summary: Validation error
-              value:
-                codes:
-                - err_validation_error
-                details:
-                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
-                message: bad request
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Bad request
     '401':
       content:
         application/json:
@@ -783,12 +823,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Unauthorized
-    '404':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not found
     '500':
       content:
         application/json:
@@ -804,67 +838,33 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Internal server error
-  parameters:
-    QuerySortAsc:
-      description: Sort in ascending order
-      in: query
-      name: sort_asc
-      schema:
-        default: false
-        type: boolean
-    QueryCreatedBefore:
-      description: Filter results to before a specific creation timestamp (RFC3339 format)
-      in: query
-      name: created_before
-      schema:
-        format: date-time
-        type: string
-    QueryCreatedAfter:
-      description: Filter results to after a specific creation timestamp (RFC3339 format)
-      in: query
-      name: created_after
-      schema:
-        format: date-time
-        type: string
-    PathDeviceID:
-      example: d_0123456789ab
-      in: path
-      name: device_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/DeviceID'
-    QueryClientID:
-      in: query
-      name: client_id
-      schema:
-        $ref: '#/components/schemas/ClientID'
-    PathVLANID:
-      example: vlan_012345
-      in: path
-      name: vlan_id
-      required: true
-      schema:
-        description: The ID of the VLAN
-        type: string
-    QueryOffset:
-      description: Starting index for pagination
-      in: query
-      name: offset
-      schema:
-        default: 0
-        format: uint32
-        minimum: 0
-        type: integer
-    QueryLimit:
-      description: Number of items to return for pagination
-      in: query
-      name: limit
-      schema:
-        default: 10
-        format: uint32
-        maximum: 50
-        minimum: 1
-        type: integer
+    '404':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Not found
+    '409':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Conflict
+    '400':
+      content:
+        application/json:
+          examples:
+            err_validation_error:
+              summary: Validation error
+              value:
+                codes:
+                - err_validation_error
+                details:
+                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
+                message: bad request
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Bad request
   securitySchemes:
     BearerAuth:
       bearerFormat: string

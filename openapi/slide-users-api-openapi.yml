@@ -111,104 +111,55 @@ paths:
       tags:
       - Users
 components:
-  responses:
-    '401':
-      content:
-        application/json:
-          examples:
-            err_missing_authentication:
-              summary: Missing API token
-              value:
-                codes:
-                - err_missing_authentication
-                details:
-                - 'You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. ''Authorization: Bearer YOUR_SECRET_TOKEN'').'
-                message: unauthorized
-            err_unauthorized:
-              summary: Invalid API token
-              value:
-                codes:
-                - err_unauthorized
-                details:
-                - Invalid API token provided or you do not have permission to access this resource.
-                message: unauthorized
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Unauthorized
-    '404':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not found
-    '500':
-      content:
-        application/json:
-          examples:
-            err_internal_server_error:
-              summary: Internal server error
-              value:
-                codes:
-                - err_internal_server_error
-                details:
-                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
-                message: internal server error
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Internal server error
-    '400':
-      content:
-        application/json:
-          examples:
-            err_validation_error:
-              summary: Validation error
-              value:
-                codes:
-                - err_validation_error
-                details:
-                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
-                message: bad request
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Bad request
-  schemas:
-    UserID:
-      description: ID of a user
+  parameters:
+    QueryOffset:
+      description: Starting index for pagination
+      in: query
+      name: offset
+      schema:
+        default: 0
+        format: uint32
+        minimum: 0
+        type: integer
+    QueryCreatedBefore:
+      description: Filter results to before a specific creation timestamp (RFC3339 format)
+      in: query
+      name: created_before
+      schema:
+        format: date-time
+        type: string
+    PathUserID:
       example: u_0123456789ab
-      pattern: ^u_[a-z0-9]{12}$
-      type: string
-    DisplayName:
-      description: Customizable display name
-      example: My First Device
-      maxLength: 128
-      type: string
-    Error:
-      description: Error response object that represents an error that occurred during a request.
-      properties:
-        codes:
-          description: List of error codes that occurred during a request.
-          items:
-            description: A unique error code that identifies the error.
-            title: Code
-            type: string
-          title: Codes
-          type: array
-        details:
-          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
-          items:
-            description: Short detail message describing the error.
-            title: Detail
-            type: string
-          title: Details
-          type: array
-        message:
-          description: Short message describing the error.
-          title: Message
-          type: string
-      required:
-      - codes
-      - message
-      - details
+      in: path
+      name: user_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/UserID'
+    QuerySortAsc:
+      description: Sort in ascending order
+      in: query
+      name: sort_asc
+      schema:
+        default: false
+        type: boolean
+    QueryLimit:
+      description: Number of items to return for pagination
+      in: query
+      name: limit
+      schema:
+        default: 10
+        format: uint32
+        maximum: 50
+        minimum: 1
+        type: integer
+    QueryCreatedAfter:
+      description: Filter results to after a specific creation timestamp (RFC3339 format)
+      in: query
+      name: created_after
+      schema:
+        format: date-time
+        type: string
+  schemas:
     Avatar:
       description: Avatar image for a user, encoded as a data URL.
       properties:
@@ -220,6 +171,16 @@ components:
       required:
       - avatar
       type: object
+    DisplayName:
+      description: Customizable display name
+      example: My First Device
+      maxLength: 128
+      type: string
+    UserID:
+      description: ID of a user
+      example: u_0123456789ab
+      pattern: ^u_[a-z0-9]{12}$
+      type: string
     User:
       description: User object that represents a user.
       properties:
@@ -250,14 +211,33 @@ components:
       - email
       - role_id
       type: object
-    Pagination:
+    Error:
+      description: Error response object that represents an error that occurred during a request.
       properties:
-        next_offset:
-          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
-          example: 10
-          format: uint32
-          type: integer
-      type: object
+        codes:
+          description: List of error codes that occurred during a request.
+          items:
+            description: A unique error code that identifies the error.
+            title: Code
+            type: string
+          title: Codes
+          type: array
+        details:
+          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
+          items:
+            description: Short detail message describing the error.
+            title: Detail
+            type: string
+          title: Details
+          type: array
+        message:
+          description: Short message describing the error.
+          title: Message
+          type: string
+      required:
+      - codes
+      - message
+      - details
     RoleID:
       description: ID of a role
       enum:
@@ -268,54 +248,74 @@ components:
       - r_account_readonly
       example: r_account_owner
       type: string
-  parameters:
-    QueryCreatedBefore:
-      description: Filter results to before a specific creation timestamp (RFC3339 format)
-      in: query
-      name: created_before
-      schema:
-        format: date-time
-        type: string
-    QueryOffset:
-      description: Starting index for pagination
-      in: query
-      name: offset
-      schema:
-        default: 0
-        format: uint32
-        minimum: 0
-        type: integer
-    QueryLimit:
-      description: Number of items to return for pagination
-      in: query
-      name: limit
-      schema:
-        default: 10
-        format: uint32
-        maximum: 50
-        minimum: 1
-        type: integer
-    QueryCreatedAfter:
-      description: Filter results to after a specific creation timestamp (RFC3339 format)
-      in: query
-      name: created_after
-      schema:
-        format: date-time
-        type: string
-    QuerySortAsc:
-      description: Sort in ascending order
-      in: query
-      name: sort_asc
-      schema:
-        default: false
-        type: boolean
-    PathUserID:
-      example: u_0123456789ab
-      in: path
-      name: user_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/UserID'
+    Pagination:
+      properties:
+        next_offset:
+          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
+          example: 10
+          format: uint32
+          type: integer
+      type: object
+  responses:
+    '400':
+      content:
+        application/json:
+          examples:
+            err_validation_error:
+              summary: Validation error
+              value:
+                codes:
+                - err_validation_error
+                details:
+                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
+                message: bad request
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Bad request
+    '500':
+      content:
+        application/json:
+          examples:
+            err_internal_server_error:
+              summary: Internal server error
+              value:
+                codes:
+                - err_internal_server_error
+                details:
+                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
+                message: internal server error
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Internal server error
+    '401':
+      content:
+        application/json:
+          examples:
+            err_missing_authentication:
+              summary: Missing API token
+              value:
+                codes:
+                - err_missing_authentication
+                details:
+                - 'You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. ''Authorization: Bearer YOUR_SECRET_TOKEN'').'
+                message: unauthorized
+            err_unauthorized:
+              summary: Invalid API token
+              value:
+                codes:
+                - err_unauthorized
+                details:
+                - Invalid API token provided or you do not have permission to access this resource.
+                message: unauthorized
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Unauthorized
+    '404':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Not found
   securitySchemes:
     BearerAuth:
       bearerFormat: string

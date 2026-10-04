@@ -170,75 +170,85 @@ paths:
       tags:
       - Clients
 components:
-  schemas:
-    Client:
-      description: Client object to represent an end client (e.g. a customer of the MSP).
-      properties:
-        client_id:
-          $ref: '#/components/schemas/ClientID'
-        comments:
-          description: Comments about the client
-          example: This is a test client
-          type: string
-        name:
-          $ref: '#/components/schemas/ClientName'
-      required:
-      - client_id
-      - name
-      - comments
-      type: object
-    ClientID:
-      description: ID of a client
+  parameters:
+    QueryOffset:
+      description: Starting index for pagination
+      in: query
+      name: offset
+      schema:
+        default: 0
+        format: uint32
+        minimum: 0
+        type: integer
+    QueryCreatedBefore:
+      description: Filter results to before a specific creation timestamp (RFC3339 format)
+      in: query
+      name: created_before
+      schema:
+        format: date-time
+        type: string
+    PathClientID:
       example: c_0123456789ab
-      pattern: ^c_[a-z0-9]{12}$
-      type: string
-    ClientComments:
-      description: Comments about the client
-      example: This is a client for Slide's office
-      maxLength: 1024
-      type: string
-    Error:
-      description: Error response object that represents an error that occurred during a request.
-      properties:
-        codes:
-          description: List of error codes that occurred during a request.
-          items:
-            description: A unique error code that identifies the error.
-            title: Code
-            type: string
-          title: Codes
-          type: array
-        details:
-          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
-          items:
-            description: Short detail message describing the error.
-            title: Detail
-            type: string
-          title: Details
-          type: array
-        message:
-          description: Short message describing the error.
-          title: Message
-          type: string
-      required:
-      - codes
-      - message
-      - details
-    ClientName:
-      description: Name of the client
-      example: Slide Office
-      maxLength: 128
-      minLength: 1
-      type: string
-    Pagination:
-      properties:
-        next_offset:
-          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
-          example: 10
-          format: uint32
-          type: integer
-      type: object
+      in: path
+      name: client_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/ClientID'
+    QuerySortAsc:
+      description: Sort in ascending order
+      in: query
+      name: sort_asc
+      schema:
+        default: false
+        type: boolean
+    QueryLimit:
+      description: Number of items to return for pagination
+      in: query
+      name: limit
+      schema:
+        default: 10
+        format: uint32
+        maximum: 50
+        minimum: 1
+        type: integer
+    QueryCreatedAfter:
+      description: Filter results to after a specific creation timestamp (RFC3339 format)
+      in: query
+      name: created_after
+      schema:
+        format: date-time
+        type: string
   responses:
+    '400':
+      content:
+        application/json:
+          examples:
+            err_validation_error:
+              summary: Validation error
+              value:
+                codes:
+                - err_validation_error
+                details:
+                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
+                message: bad request
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Bad request
+    '500':
+      content:
+        application/json:
+          examples:
+            err_internal_server_error:
+              summary: Internal server error
+              value:
+                codes:
+                - err_internal_server_error
+                details:
+                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
+                message: internal server error
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Internal server error
     '401':
       content:
         application/json:
@@ -268,84 +278,74 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Not found
-    '500':
-      content:
-        application/json:
-          examples:
-            err_internal_server_error:
-              summary: Internal server error
-              value:
-                codes:
-                - err_internal_server_error
-                details:
-                - Something went wrong processing your request. See https://docs.slide.tech/api/#description/errors for more information.
-                message: internal server error
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Internal server error
-    '400':
-      content:
-        application/json:
-          examples:
-            err_validation_error:
-              summary: Validation error
-              value:
-                codes:
-                - err_validation_error
-                details:
-                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
-                message: bad request
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Bad request
-  parameters:
-    QueryCreatedBefore:
-      description: Filter results to before a specific creation timestamp (RFC3339 format)
-      in: query
-      name: created_before
-      schema:
-        format: date-time
-        type: string
-    QueryOffset:
-      description: Starting index for pagination
-      in: query
-      name: offset
-      schema:
-        default: 0
-        format: uint32
-        minimum: 0
-        type: integer
-    QueryCreatedAfter:
-      description: Filter results to after a specific creation timestamp (RFC3339 format)
-      in: query
-      name: created_after
-      schema:
-        format: date-time
-        type: string
-    QueryLimit:
-      description: Number of items to return for pagination
-      in: query
-      name: limit
-      schema:
-        default: 10
-        format: uint32
-        maximum: 50
-        minimum: 1
-        type: integer
-    QuerySortAsc:
-      description: Sort in ascending order
-      in: query
-      name: sort_asc
-      schema:
-        default: false
-        type: boolean
-    PathClientID:
+  schemas:
+    ClientID:
+      description: ID of a client
       example: c_0123456789ab
-      in: path
-      name: client_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/ClientID'
+      pattern: ^c_[a-z0-9]{12}$
+      type: string
+    ClientName:
+      description: Name of the client
+      example: Slide Office
+      maxLength: 128
+      minLength: 1
+      type: string
+    ClientComments:
+      description: Comments about the client
+      example: This is a client for Slide's office
+      maxLength: 1024
+      type: string
+    Client:
+      description: Client object to represent an end client (e.g. a customer of the MSP).
+      properties:
+        client_id:
+          $ref: '#/components/schemas/ClientID'
+        comments:
+          description: Comments about the client
+          example: This is a test client
+          type: string
+        name:
+          $ref: '#/components/schemas/ClientName'
+      required:
+      - client_id
+      - name
+      - comments
+      type: object
+    Error:
+      description: Error response object that represents an error that occurred during a request.
+      properties:
+        codes:
+          description: List of error codes that occurred during a request.
+          items:
+            description: A unique error code that identifies the error.
+            title: Code
+            type: string
+          title: Codes
+          type: array
+        details:
+          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
+          items:
+            description: Short detail message describing the error.
+            title: Detail
+            type: string
+          title: Details
+          type: array
+        message:
+          description: Short message describing the error.
+          title: Message
+          type: string
+      required:
+      - codes
+      - message
+      - details
+    Pagination:
+      properties:
+        next_offset:
+          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
+          example: 10
+          format: uint32
+          type: integer
+      type: object
   securitySchemes:
     BearerAuth:
       bearerFormat: string

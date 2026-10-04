@@ -198,7 +198,65 @@ paths:
       tags:
       - Restores (File)
 components:
+  parameters:
+    QueryCreatedBefore:
+      description: Filter results to before a specific creation timestamp (RFC3339 format)
+      in: query
+      name: created_before
+      schema:
+        format: date-time
+        type: string
+    QuerySortAsc:
+      description: Sort in ascending order
+      in: query
+      name: sort_asc
+      schema:
+        default: false
+        type: boolean
+    QueryCreatedAfter:
+      description: Filter results to after a specific creation timestamp (RFC3339 format)
+      in: query
+      name: created_after
+      schema:
+        format: date-time
+        type: string
+    QueryLimit:
+      description: Number of items to return for pagination
+      in: query
+      name: limit
+      schema:
+        default: 10
+        format: uint32
+        maximum: 50
+        minimum: 1
+        type: integer
+    QueryOffset:
+      description: Starting index for pagination
+      in: query
+      name: offset
+      schema:
+        default: 0
+        format: uint32
+        minimum: 0
+        type: integer
+    PathFileRestoreID:
+      example: fr_0123456789ab
+      in: path
+      name: file_restore_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/FileRestoreID'
   schemas:
+    Passphrase:
+      description: User passphrase. If the agent has a user passphrase, you must provide it here.
+      example: Super Secret Passphrase
+      minLength: 10
+      type: string
+    ExpiresAt:
+      description: Expiration timestamp
+      example: '2024-08-23T01:25:08Z'
+      format: date-time
+      type: string
     Purpose:
       description: Purpose for creating the virtual machine or file restore. If this is set to disaster, Slide Support will recieve a notification that you are in a disaster. File restores not created by the slide box for file system verification will have this field set to disaster.
       enum:
@@ -206,91 +264,14 @@ components:
       - disaster
       example: disaster
       type: string
-    Error:
-      description: Error response object that represents an error that occurred during a request.
+    Pagination:
       properties:
-        codes:
-          description: List of error codes that occurred during a request.
-          items:
-            description: A unique error code that identifies the error.
-            title: Code
-            type: string
-          title: Codes
-          type: array
-        details:
-          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
-          items:
-            description: Short detail message describing the error.
-            title: Detail
-            type: string
-          title: Details
-          type: array
-        message:
-          description: Short message describing the error.
-          title: Message
-          type: string
-      required:
-      - codes
-      - message
-      - details
-    ExpiresAt:
-      description: Expiration timestamp
-      example: '2024-08-23T01:25:08Z'
-      format: date-time
-      type: string
-    FileRestore:
-      description: File restore object that represents a snapshot that has been restored and files exposed.
-      properties:
-        agent_id:
-          $ref: '#/components/schemas/AgentID'
-        created_at:
-          $ref: '#/components/schemas/CreatedAt'
-        device_id:
-          $ref: '#/components/schemas/DeviceID'
-        expires_at:
-          $ref: '#/components/schemas/ExpiresAt'
-        file_restore_id:
-          $ref: '#/components/schemas/FileRestoreID'
-        purpose:
-          $ref: '#/components/schemas/Purpose'
-        snapshot_id:
-          $ref: '#/components/schemas/SnapshotID'
-      required:
-      - file_restore_id
-      - device_id
-      - agent_id
-      - snapshot_id
-      - created_at
-      - purpose
+        next_offset:
+          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
+          example: 10
+          format: uint32
+          type: integer
       type: object
-    CreatedAt:
-      description: Creation timestamp
-      example: '2024-08-23T01:25:08Z'
-      format: date-time
-      type: string
-    FileRestoreID:
-      description: ID of a file restore
-      example: fr_0123456789ab
-      externalDocs:
-        description: See our console documentation for more information on file restores
-        url: https://docs.slide.tech/restores/#file-restore
-      pattern: ^fr_[a-z0-9]{12}$
-      type: string
-    DownloadURIs:
-      description: List of URIs to download the item. If you have network connectivity to the local device, use a local URI. Otherwise, use a cloud URI to proxy the download through the Slide Cloud.
-      items:
-        $ref: '#/components/schemas/DownloadURI'
-      type: array
-    Passphrase:
-      description: User passphrase. If the agent has a user passphrase, you must provide it here.
-      example: Super Secret Passphrase
-      minLength: 10
-      type: string
-    AgentID:
-      description: ID of an agent
-      example: a_0123456789ab
-      pattern: ^a_[a-z0-9]{12}$
-      type: string
     FileRestoreEntry:
       description: File restore entry
       properties:
@@ -341,18 +322,18 @@ components:
       - local
       - cloud
       type: string
-    Pagination:
-      properties:
-        next_offset:
-          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
-          example: 10
-          format: uint32
-          type: integer
-      type: object
-    SnapshotID:
-      description: ID of a snapshot
-      example: s_0123456789ab
-      pattern: ^s_[a-z0-9]{12}$
+    AgentID:
+      description: ID of an agent
+      example: a_0123456789ab
+      pattern: ^a_[a-z0-9]{12}$
+      type: string
+    FileRestoreID:
+      description: ID of a file restore
+      example: fr_0123456789ab
+      externalDocs:
+        description: See our console documentation for more information on file restores
+        url: https://docs.slide.tech/restores/#file-restore
+      pattern: ^fr_[a-z0-9]{12}$
       type: string
     DownloadURI:
       properties:
@@ -365,75 +346,79 @@ components:
       - type
       - uri
       type: object
+    CreatedAt:
+      description: Creation timestamp
+      example: '2024-08-23T01:25:08Z'
+      format: date-time
+      type: string
     DeviceID:
       description: ID of a device
       example: d_0123456789ab
       pattern: ^d_[a-z0-9]{12}$
       type: string
-  parameters:
-    QuerySortAsc:
-      description: Sort in ascending order
-      in: query
-      name: sort_asc
-      schema:
-        default: false
-        type: boolean
-    QueryCreatedBefore:
-      description: Filter results to before a specific creation timestamp (RFC3339 format)
-      in: query
-      name: created_before
-      schema:
-        format: date-time
-        type: string
-    QueryCreatedAfter:
-      description: Filter results to after a specific creation timestamp (RFC3339 format)
-      in: query
-      name: created_after
-      schema:
-        format: date-time
-        type: string
-    PathFileRestoreID:
-      example: fr_0123456789ab
-      in: path
-      name: file_restore_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/FileRestoreID'
-    QueryOffset:
-      description: Starting index for pagination
-      in: query
-      name: offset
-      schema:
-        default: 0
-        format: uint32
-        minimum: 0
-        type: integer
-    QueryLimit:
-      description: Number of items to return for pagination
-      in: query
-      name: limit
-      schema:
-        default: 10
-        format: uint32
-        maximum: 50
-        minimum: 1
-        type: integer
+    SnapshotID:
+      description: ID of a snapshot
+      example: s_0123456789ab
+      pattern: ^s_[a-z0-9]{12}$
+      type: string
+    Error:
+      description: Error response object that represents an error that occurred during a request.
+      properties:
+        codes:
+          description: List of error codes that occurred during a request.
+          items:
+            description: A unique error code that identifies the error.
+            title: Code
+            type: string
+          title: Codes
+          type: array
+        details:
+          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
+          items:
+            description: Short detail message describing the error.
+            title: Detail
+            type: string
+          title: Details
+          type: array
+        message:
+          description: Short message describing the error.
+          title: Message
+          type: string
+      required:
+      - codes
+      - message
+      - details
+    FileRestore:
+      description: File restore object that represents a snapshot that has been restored and files exposed.
+      properties:
+        agent_id:
+          $ref: '#/components/schemas/AgentID'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        device_id:
+          $ref: '#/components/schemas/DeviceID'
+        expires_at:
+          $ref: '#/components/schemas/ExpiresAt'
+        file_restore_id:
+          $ref: '#/components/schemas/FileRestoreID'
+        purpose:
+          $ref: '#/components/schemas/Purpose'
+        snapshot_id:
+          $ref: '#/components/schemas/SnapshotID'
+      required:
+      - file_restore_id
+      - device_id
+      - agent_id
+      - snapshot_id
+      - created_at
+      - purpose
+      type: object
+    DownloadURIs:
+      description: List of URIs to download the item. If you have network connectivity to the local device, use a local URI. Otherwise, use a cloud URI to proxy the download through the Slide Cloud.
+      items:
+        $ref: '#/components/schemas/DownloadURI'
+      type: array
   responses:
-    '400':
-      content:
-        application/json:
-          examples:
-            err_validation_error:
-              summary: Validation error
-              value:
-                codes:
-                - err_validation_error
-                details:
-                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
-                message: bad request
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Bad request
     '401':
       content:
         application/json:
@@ -457,12 +442,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Unauthorized
-    '404':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not found
     '500':
       content:
         application/json:
@@ -478,6 +457,27 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Internal server error
+    '404':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Not found
+    '400':
+      content:
+        application/json:
+          examples:
+            err_validation_error:
+              summary: Validation error
+              value:
+                codes:
+                - err_validation_error
+                details:
+                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
+                message: bad request
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Bad request
   securitySchemes:
     BearerAuth:
       bearerFormat: string

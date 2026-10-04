@@ -243,13 +243,15 @@ paths:
       - Restores (Virtual Machine)
 components:
   schemas:
-    BootMods:
-      description: Optional boot mods to enable on the restore
-      items:
-        enum:
-        - passwordless_admin_user
-        type: string
-      type: array
+    ForceBootMenu:
+      description: Whether to force the VM to boot to the menu
+      example: false
+      type: boolean
+    Passphrase:
+      description: User passphrase. If the agent has a user passphrase, you must provide it here.
+      example: Super Secret Passphrase
+      minLength: 10
+      type: string
     CPUCount:
       description: Number of CPUs
       example: 2
@@ -259,69 +261,8 @@ components:
       type:
       - integer
       - 'null'
-    VirtualMachineState:
-      description: State of the virtual machine
-      enum:
-      - running
-      - stopped
-      - paused
-      example: running
-      type: string
-    Purpose:
-      description: Purpose for creating the virtual machine or file restore. If this is set to disaster, Slide Support will recieve a notification that you are in a disaster. File restores not created by the slide box for file system verification will have this field set to disaster.
-      enum:
-      - test
-      - disaster
-      example: disaster
-      type: string
-    Error:
-      description: Error response object that represents an error that occurred during a request.
-      properties:
-        codes:
-          description: List of error codes that occurred during a request.
-          items:
-            description: A unique error code that identifies the error.
-            title: Code
-            type: string
-          title: Codes
-          type: array
-        details:
-          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
-          items:
-            description: Short detail message describing the error.
-            title: Detail
-            type: string
-          title: Details
-          type: array
-        message:
-          description: Short message describing the error.
-          title: Message
-          type: string
-      required:
-      - codes
-      - message
-      - details
-    NetworkID:
-      description: ID of an network
-      example: net_012345
-      pattern: ^net_[a-z0-9]{6}$
-      type: string
-    MemoryInMB:
-      description: Memory in MB
-      example: 4096
-      format: uint32
-      maximum: 131072
-      minimum: 1024
-      type:
-      - integer
-      - 'null'
     ExpiresAt:
       description: Expiration timestamp
-      example: '2024-08-23T01:25:08Z'
-      format: date-time
-      type: string
-    CreatedAt:
-      description: Creation timestamp
       example: '2024-08-23T01:25:08Z'
       format: date-time
       type: string
@@ -336,64 +277,13 @@ components:
       - network-id
       example: bridge
       type: string
-    ForceBootMenu:
-      description: Whether to force the VM to boot to the menu
-      example: false
-      type: boolean
-    Passphrase:
-      description: User passphrase. If the agent has a user passphrase, you must provide it here.
-      example: Super Secret Passphrase
-      minLength: 10
-      type: string
-    DiskBus:
-      description: Disk bus of the virtual machine
-      enum:
-      - sata
-      - virtio
-      example: virtio
-      type: string
-    NetworkModel:
-      description: Network model of the virtual machine
-      enum:
-      - hypervisor_default
-      - e1000
-      - rtl8139
-      - virtio
-      example: virtio
-      type: string
-    VirtID:
-      description: ID of a virtual machine
-      example: virt_0123456789ab
-      externalDocs:
-        description: See our console documentation for more information on virtual machines
-        url: https://docs.slide.tech/restores/#virtualization
-      pattern: ^virt_[a-z0-9]{12}$
-      type: string
-    AgentID:
-      description: ID of an agent
-      example: a_0123456789ab
-      pattern: ^a_[a-z0-9]{12}$
-      type: string
-    LocationType:
-      description: Type of the location
-      enum:
-      - local
-      - cloud
-      type: string
-    VNCEnabled:
-      description: Whether VNC access is enabled
-      example: false
-      type:
-      - boolean
-      - 'null'
-    Pagination:
-      properties:
-        next_offset:
-          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
-          example: 10
-          format: uint32
-          type: integer
-      type: object
+    BootMods:
+      description: Optional boot mods to enable on the restore
+      items:
+        enum:
+        - passwordless_admin_user
+        type: string
+      type: array
     VirtualMachine:
       description: Virtual machine object that represents a virtual machine that has been created from a snapshot.
       properties:
@@ -464,10 +354,67 @@ components:
       - vnc_password
       - purpose
       type: object
-    SnapshotID:
-      description: ID of a snapshot
-      example: s_0123456789ab
-      pattern: ^s_[a-z0-9]{12}$
+    Purpose:
+      description: Purpose for creating the virtual machine or file restore. If this is set to disaster, Slide Support will recieve a notification that you are in a disaster. File restores not created by the slide box for file system verification will have this field set to disaster.
+      enum:
+      - test
+      - disaster
+      example: disaster
+      type: string
+    VNCEnabled:
+      description: Whether VNC access is enabled
+      example: false
+      type:
+      - boolean
+      - 'null'
+    NetworkID:
+      description: ID of an network
+      example: net_012345
+      pattern: ^net_[a-z0-9]{6}$
+      type: string
+    Pagination:
+      properties:
+        next_offset:
+          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
+          example: 10
+          format: uint32
+          type: integer
+      type: object
+    DiskBus:
+      description: Disk bus of the virtual machine
+      enum:
+      - sata
+      - virtio
+      example: virtio
+      type: string
+    LocationType:
+      description: Type of the location
+      enum:
+      - local
+      - cloud
+      type: string
+    AgentID:
+      description: ID of an agent
+      example: a_0123456789ab
+      pattern: ^a_[a-z0-9]{12}$
+      type: string
+    VirtualMachineState:
+      description: State of the virtual machine
+      enum:
+      - running
+      - stopped
+      - paused
+      example: running
+      type: string
+    CreatedAt:
+      description: Creation timestamp
+      example: '2024-08-23T01:25:08Z'
+      format: date-time
+      type: string
+    DeviceID:
+      description: ID of a device
+      example: d_0123456789ab
+      pattern: ^d_[a-z0-9]{12}$
       type: string
     VNC:
       description: VNC server object. Use this to connect to the virtual machine using a VNC client.
@@ -490,19 +437,65 @@ components:
       required:
       - type
       type: object
-    DeviceID:
-      description: ID of a device
-      example: d_0123456789ab
-      pattern: ^d_[a-z0-9]{12}$
+    SnapshotID:
+      description: ID of a snapshot
+      example: s_0123456789ab
+      pattern: ^s_[a-z0-9]{12}$
+      type: string
+    MemoryInMB:
+      description: Memory in MB
+      example: 4096
+      format: uint32
+      maximum: 131072
+      minimum: 1024
+      type:
+      - integer
+      - 'null'
+    NetworkModel:
+      description: Network model of the virtual machine
+      enum:
+      - hypervisor_default
+      - e1000
+      - rtl8139
+      - virtio
+      example: virtio
+      type: string
+    Error:
+      description: Error response object that represents an error that occurred during a request.
+      properties:
+        codes:
+          description: List of error codes that occurred during a request.
+          items:
+            description: A unique error code that identifies the error.
+            title: Code
+            type: string
+          title: Codes
+          type: array
+        details:
+          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
+          items:
+            description: Short detail message describing the error.
+            title: Detail
+            type: string
+          title: Details
+          type: array
+        message:
+          description: Short message describing the error.
+          title: Message
+          type: string
+      required:
+      - codes
+      - message
+      - details
+    VirtID:
+      description: ID of a virtual machine
+      example: virt_0123456789ab
+      externalDocs:
+        description: See our console documentation for more information on virtual machines
+        url: https://docs.slide.tech/restores/#virtualization
+      pattern: ^virt_[a-z0-9]{12}$
       type: string
   parameters:
-    QuerySortAsc:
-      description: Sort in ascending order
-      in: query
-      name: sort_asc
-      schema:
-        default: false
-        type: boolean
     QueryCreatedBefore:
       description: Filter results to before a specific creation timestamp (RFC3339 format)
       in: query
@@ -510,6 +503,13 @@ components:
       schema:
         format: date-time
         type: string
+    QuerySortAsc:
+      description: Sort in ascending order
+      in: query
+      name: sort_asc
+      schema:
+        default: false
+        type: boolean
     QueryCreatedAfter:
       description: Filter results to after a specific creation timestamp (RFC3339 format)
       in: query
@@ -517,22 +517,6 @@ components:
       schema:
         format: date-time
         type: string
-    PathVirtID:
-      example: v_0123456789ab
-      in: path
-      name: virt_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/VirtID'
-    QueryOffset:
-      description: Starting index for pagination
-      in: query
-      name: offset
-      schema:
-        default: 0
-        format: uint32
-        minimum: 0
-        type: integer
     QueryLimit:
       description: Number of items to return for pagination
       in: query
@@ -543,22 +527,23 @@ components:
         maximum: 50
         minimum: 1
         type: integer
+    QueryOffset:
+      description: Starting index for pagination
+      in: query
+      name: offset
+      schema:
+        default: 0
+        format: uint32
+        minimum: 0
+        type: integer
+    PathVirtID:
+      example: v_0123456789ab
+      in: path
+      name: virt_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/VirtID'
   responses:
-    '400':
-      content:
-        application/json:
-          examples:
-            err_validation_error:
-              summary: Validation error
-              value:
-                codes:
-                - err_validation_error
-                details:
-                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
-                message: bad request
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Bad request
     '401':
       content:
         application/json:
@@ -582,12 +567,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Unauthorized
-    '404':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not found
     '500':
       content:
         application/json:
@@ -603,6 +582,27 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Internal server error
+    '404':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Not found
+    '400':
+      content:
+        application/json:
+          examples:
+            err_validation_error:
+              summary: Validation error
+              value:
+                codes:
+                - err_validation_error
+                details:
+                - 'parameter "device_id" in path has an error: string doesn''t match the regular expression "^d_[a-z0-9]{12}$"'
+                message: bad request
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Bad request
   securitySchemes:
     BearerAuth:
       bearerFormat: string
