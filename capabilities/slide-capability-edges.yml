@@ -1,0 +1,92 @@
+slug: slide
+provider: Slide
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 8
+edges:
+- tag: Backups
+  spec_file: slide-backups-api-openapi.yml
+  capability_id: BC-160.20
+  capability_id_l1: BC-160
+  capability_name: Disaster Recovery Management
+  confidence: 0.85
+  evidence: POST /v1/backup "Start backup"; vendor is a "Business Continuity and Disaster Recovery (BCDR)
+    platform" delivering "block-level backup"
+  reason: Operations initiate and track backups of protected systems — the backup leg of IT disaster recovery,
+    squarely BC-160.20.
+- tag: Restores (File)
+  spec_file: slide-restores-file-api-openapi.yml
+  capability_id: BC-160.20
+  capability_id_l1: BC-160
+  capability_name: Disaster Recovery Management
+  confidence: 0.85
+  evidence: POST /v1/restore/file "Create file restore"; GET /v1/restore/file/{file_restore_id}/browse
+    "Browse file restore"
+  reason: Restoring files from backup snapshots is core IT disaster recovery execution.
+- tag: Restores (Image)
+  spec_file: slide-restores-image-api-openapi.yml
+  capability_id: BC-160.20
+  capability_id_l1: BC-160
+  capability_name: Disaster Recovery Management
+  confidence: 0.85
+  evidence: POST /v1/restore/image "Create image export"; schemas ImageExport, SnapshotID, ISCSI, NFS
+  reason: Image-level export/restore from backup snapshots — IT disaster recovery restore operations.
+- tag: Restores (Virtual Machine)
+  spec_file: slide-restores-virtual-machine-api-openapi.yml
+  capability_id: BC-160.20
+  capability_id_l1: BC-160
+  capability_name: Disaster Recovery Management
+  confidence: 0.85
+  evidence: POST /v1/restore/virt "Create virtual machine"; schemas VirtualMachineState, BootMods, Passphrase,
+    AgentID
+  reason: Spin-up of virtual machines from backups (virtualization-based recovery/failover) — IT disaster
+    recovery.
+- tag: Restores (Push)
+  spec_file: slide-restores-push-api-openapi.yml
+  capability_id: BC-160.20
+  capability_id_l1: BC-160
+  capability_name: Disaster Recovery Management
+  confidence: 0.8
+  evidence: POST /v1/restore/file/{file_restore_id}/push "Push a file to the protected system"; schemas
+    PushDestinationFolder, PushState
+  reason: Pushing recovered files back to the protected system is part of the restore/recovery workflow
+    of the BCDR platform.
+- tag: Snapshots
+  spec_file: slide-snapshots-api-openapi.yml
+  capability_id: BC-160.20
+  capability_id_l1: BC-160
+  capability_name: Disaster Recovery Management
+  confidence: 0.8
+  evidence: GET /v1/snapshot "List snapshots"; GET /v1/snapshot/{snapshot_id}/service-verification "Get
+    service verification results for a snapshot"
+  reason: Snapshot inventory and verification of recoverability for the BCDR platform — recovery-point
+    management and restore validation.
+- tag: Devices
+  spec_file: slide-devices-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.75
+  evidence: PATCH /v1/device/{device_id}/network "Update device network configuration"; POST .../shutdown/reboot
+    "Reboot a device"; POST .../vlan "Create device VLAN"
+  reason: Management of on-premise Slide Box appliances including network config, VLANs and power control
+    — infrastructure (compute/network) estate management.
+- tag: Networks
+  spec_file: slide-networks-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.75
+  evidence: POST /v1/network/{network_id}/ipsec "Create IPsec connection"; "Create port forward"; "Create
+    WireGuard peer"; schema DisasterNetworkType
+  reason: Configuration of virtual networks, VPN tunnels and port forwarding used for recovery environments
+    — network infrastructure management.

@@ -272,6 +272,9 @@ apis:
   - type: APIReference
     url: https://docs.slide.tech/api/
 common:
+- type: CapabilityMap
+  url: capabilities/slide-capability-edges.yml
+  name: Slide Business Capability Map
 - type: DomainSecurity
   url: security/slide-domain-security.yml
 - type: Authentication
