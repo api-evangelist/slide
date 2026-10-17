@@ -616,11 +616,6 @@ paths:
       - Networks
 components:
   schemas:
-    ClientIDOrEmpty:
-      description: ID of a client or an empty string
-      example: c_0123456789ab
-      pattern: ^(c_[a-z0-9]{12}|)$
-      type: string
     NetworkWGPeer:
       description: NetworkWGPeer object that represents a WireGuard client.
       properties:
@@ -657,10 +652,20 @@ components:
       - wg_endpoint
       - remote_networks
       type: object
-    WGPeerID:
-      description: ID of a WireGuard peer
-      example: wgp_0123456789ab
-      pattern: ^wgp_[a-z0-9]{12}$
+    PortForwardID:
+      description: ID of a port forward definition
+      example: pfw_0123456789ab
+      pattern: ^pfw_[a-z0-9]{12}$
+      type: string
+    ClientID:
+      description: ID of a client
+      example: c_0123456789ab
+      pattern: ^c_[a-z0-9]{12}$
+      type: string
+    DeviceID:
+      description: ID of a device
+      example: d_0123456789ab
+      pattern: ^d_[a-z0-9]{12}$
       type: string
     NetworkIPSecConn:
       description: NetworkIPsecConn object that represents an IPsec connection into a network.
@@ -724,6 +729,70 @@ components:
       - remote_addrs
       - remote_networks
       type: object
+    Pagination:
+      properties:
+        next_offset:
+          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
+          example: 10
+          format: uint32
+          type: integer
+      type: object
+    NetworkComments:
+      description: Comments about the network
+      example: This is a network for a client's disaster
+      maxLength: 1024
+      type: string
+    Error:
+      description: Error response object that represents an error that occurred during a request.
+      properties:
+        codes:
+          description: List of error codes that occurred during a request.
+          items:
+            description: A unique error code that identifies the error.
+            title: Code
+            type: string
+          title: Codes
+          type: array
+        details:
+          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
+          items:
+            description: Short detail message describing the error.
+            title: Detail
+            type: string
+          title: Details
+          type: array
+        message:
+          description: Short message describing the error.
+          title: Message
+          type: string
+      required:
+      - codes
+      - message
+      - details
+    VirtID:
+      description: ID of a virtual machine
+      example: virt_0123456789ab
+      externalDocs:
+        description: See our console documentation for more information on virtual machines
+        url: https://docs.slide.tech/restores/#virtualization
+      pattern: ^virt_[a-z0-9]{12}$
+      type: string
+    DisasterNetworkName:
+      description: Name of the network
+      example: Bridge to LAN Network
+      maxLength: 128
+      minLength: 1
+      type: string
+    IPSecID:
+      description: ID of an IPsec connection
+      example: ipsec_0123456789ab
+      pattern: ^ipsec_[a-z0-9]{12}$
+      type: string
+    WGPeerID:
+      description: ID of a WireGuard peer
+      example: wgp_0123456789ab
+      pattern: ^wgp_[a-z0-9]{12}$
+      type: string
     DisasterNetworkType:
       description: Network type of the disaster network
       enum:
@@ -731,18 +800,6 @@ components:
       - bridge-lan
       example: standard
       type: string
-    ClientID:
-      description: ID of a client
-      example: c_0123456789ab
-      pattern: ^c_[a-z0-9]{12}$
-      type: string
-    RemoteNetworks:
-      description: List of remote networks
-      items:
-        example: 10.80.0.0/24
-        format: ipv4
-        type: string
-      type: array
     Network:
       description: Network object that represents a network.
       properties:
@@ -833,24 +890,17 @@ components:
       example: net_012345
       pattern: ^net_[a-z0-9]{6}$
       type: string
-    Pagination:
-      properties:
-        next_offset:
-          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
-          example: 10
-          format: uint32
-          type: integer
-      type: object
-    IPSecID:
-      description: ID of an IPsec connection
-      example: ipsec_0123456789ab
-      pattern: ^ipsec_[a-z0-9]{12}$
-      type: string
-    DisasterNetworkName:
-      description: Name of the network
-      example: Bridge to LAN Network
-      maxLength: 128
-      minLength: 1
+    RemoteNetworks:
+      description: List of remote networks
+      items:
+        example: 10.80.0.0/24
+        format: ipv4
+        type: string
+      type: array
+    ClientIDOrEmpty:
+      description: ID of a client or an empty string
+      example: c_0123456789ab
+      pattern: ^(c_[a-z0-9]{12}|)$
       type: string
     NetworkPortForward:
       description: NetworkPortForward object that represents a port forwarding.
@@ -880,92 +930,7 @@ components:
       - port
       - dest
       type: object
-    NetworkComments:
-      description: Comments about the network
-      example: This is a network for a client's disaster
-      maxLength: 1024
-      type: string
-    DeviceID:
-      description: ID of a device
-      example: d_0123456789ab
-      pattern: ^d_[a-z0-9]{12}$
-      type: string
-    Error:
-      description: Error response object that represents an error that occurred during a request.
-      properties:
-        codes:
-          description: List of error codes that occurred during a request.
-          items:
-            description: A unique error code that identifies the error.
-            title: Code
-            type: string
-          title: Codes
-          type: array
-        details:
-          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
-          items:
-            description: Short detail message describing the error.
-            title: Detail
-            type: string
-          title: Details
-          type: array
-        message:
-          description: Short message describing the error.
-          title: Message
-          type: string
-      required:
-      - codes
-      - message
-      - details
-    PortForwardID:
-      description: ID of a port forward definition
-      example: pfw_0123456789ab
-      pattern: ^pfw_[a-z0-9]{12}$
-      type: string
-    VirtID:
-      description: ID of a virtual machine
-      example: virt_0123456789ab
-      externalDocs:
-        description: See our console documentation for more information on virtual machines
-        url: https://docs.slide.tech/restores/#virtualization
-      pattern: ^virt_[a-z0-9]{12}$
-      type: string
   parameters:
-    QueryCreatedBefore:
-      description: Filter results to before a specific creation timestamp (RFC3339 format)
-      in: query
-      name: created_before
-      schema:
-        format: date-time
-        type: string
-    PathNetworkID:
-      example: net_012345
-      in: path
-      name: network_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/NetworkID'
-    PathIPSecID:
-      example: ipsec_0123456789ab
-      in: path
-      name: ipsec_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/IPSecID'
-    PathWGPeerID:
-      example: wgp_0123456789ab
-      in: path
-      name: wg_peer_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/WGPeerID'
-    QuerySortAsc:
-      description: Sort in ascending order
-      in: query
-      name: sort_asc
-      schema:
-        default: false
-        type: boolean
     QueryCreatedAfter:
       description: Filter results to after a specific creation timestamp (RFC3339 format)
       in: query
@@ -983,15 +948,13 @@ components:
         maximum: 50
         minimum: 1
         type: integer
-    QueryOffset:
-      description: Starting index for pagination
+    QueryCreatedBefore:
+      description: Filter results to before a specific creation timestamp (RFC3339 format)
       in: query
-      name: offset
+      name: created_before
       schema:
-        default: 0
-        format: uint32
-        minimum: 0
-        type: integer
+        format: date-time
+        type: string
     QueryClientID:
       in: query
       name: client_id
@@ -1004,7 +967,56 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/PortForwardID'
+    QuerySortAsc:
+      description: Sort in ascending order
+      in: query
+      name: sort_asc
+      schema:
+        default: false
+        type: boolean
+    PathWGPeerID:
+      example: wgp_0123456789ab
+      in: path
+      name: wg_peer_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/WGPeerID'
+    QueryOffset:
+      description: Starting index for pagination
+      in: query
+      name: offset
+      schema:
+        default: 0
+        format: uint32
+        minimum: 0
+        type: integer
+    PathIPSecID:
+      example: ipsec_0123456789ab
+      in: path
+      name: ipsec_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/IPSecID'
+    PathNetworkID:
+      example: net_012345
+      in: path
+      name: network_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/NetworkID'
   responses:
+    '404':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Not found
+    '409':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Conflict
     '401':
       content:
         application/json:
@@ -1043,18 +1055,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Internal server error
-    '404':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not found
-    '409':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Conflict
     '400':
       content:
         application/json:

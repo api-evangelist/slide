@@ -205,45 +205,54 @@ components:
       - name
       - description
       type: object
-    ClientIDOrEmpty:
-      description: ID of a client or an empty string
-      example: c_0123456789ab
-      pattern: ^(c_[a-z0-9]{12}|)$
-      type: string
-    AuditResourceType:
-      description: Audit resource type object to represent an audit resource type.
-      properties:
-        name:
-          description: Name of the audit resource type
-          example: user
-          type: string
-      required:
-      - name
-      type: object
-    AuditID:
-      description: ID of an audit log
-      example: aud_0123456789ab
-      pattern: ^aud_[a-z0-9]{12}$
+    UserIDOrEmpty:
+      description: ID of a user or an empty string
+      example: u_0123456789ab
+      pattern: ^u_[a-z0-9]{12}$
       type: string
     AccountID:
       description: ID of an account
       example: act_0123456789ab
       pattern: ^act_[a-z0-9]{12}$
       type: string
+    AuditID:
+      description: ID of an audit log
+      example: aud_0123456789ab
+      pattern: ^aud_[a-z0-9]{12}$
+      type: string
+    AuditResourceTypeName:
+      description: Audit resource type
+      type: string
+    Error:
+      description: Error response object that represents an error that occurred during a request.
+      properties:
+        codes:
+          description: List of error codes that occurred during a request.
+          items:
+            description: A unique error code that identifies the error.
+            title: Code
+            type: string
+          title: Codes
+          type: array
+        details:
+          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
+          items:
+            description: Short detail message describing the error.
+            title: Detail
+            type: string
+          title: Details
+          type: array
+        message:
+          description: Short message describing the error.
+          title: Message
+          type: string
+      required:
+      - codes
+      - message
+      - details
     AuditActionName:
       description: Audit action
       example: user_created
-      type: string
-    Pagination:
-      properties:
-        next_offset:
-          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
-          example: 10
-          format: uint32
-          type: integer
-      type: object
-    AuditResourceTypeName:
-      description: Audit resource type
       type: string
     Audit:
       description: Audit object that represents an audit log.
@@ -303,63 +312,35 @@ components:
       - action_fields_json
       - description
       type: object
-    UserIDOrEmpty:
-      description: ID of a user or an empty string
-      example: u_0123456789ab
-      pattern: ^u_[a-z0-9]{12}$
-      type: string
-    Error:
-      description: Error response object that represents an error that occurred during a request.
+    AuditResourceType:
+      description: Audit resource type object to represent an audit resource type.
       properties:
-        codes:
-          description: List of error codes that occurred during a request.
-          items:
-            description: A unique error code that identifies the error.
-            title: Code
-            type: string
-          title: Codes
-          type: array
-        details:
-          description: List of error details that occurred during a request. This may contain action(s) that need to be taken before retrying the request.
-          items:
-            description: Short detail message describing the error.
-            title: Detail
-            type: string
-          title: Details
-          type: array
-        message:
-          description: Short message describing the error.
-          title: Message
+        name:
+          description: Name of the audit resource type
+          example: user
           type: string
       required:
-      - codes
-      - message
-      - details
+      - name
+      type: object
+    ClientIDOrEmpty:
+      description: ID of a client or an empty string
+      example: c_0123456789ab
+      pattern: ^(c_[a-z0-9]{12}|)$
+      type: string
+    Pagination:
+      properties:
+        next_offset:
+          description: Next offset to use for pagination. If this field is not present, that indicates there are no more items to fetch.
+          example: 10
+          format: uint32
+          type: integer
+      type: object
   parameters:
-    PathAuditID:
-      example: aud_0123456789ab
-      in: path
-      name: audit_id
-      required: true
-      schema:
-        $ref: '#/components/schemas/AuditID'
     QueryAuditActionName:
       in: query
       name: audit_action_name
       schema:
         $ref: '#/components/schemas/AuditActionName'
-    QueryAuditResourceTypeName:
-      in: query
-      name: audit_resource_type_name
-      schema:
-        $ref: '#/components/schemas/AuditResourceTypeName'
-    QuerySortAsc:
-      description: Sort in ascending order
-      in: query
-      name: sort_asc
-      schema:
-        default: false
-        type: boolean
     QueryLimit:
       description: Number of items to return for pagination
       in: query
@@ -370,6 +351,20 @@ components:
         maximum: 50
         minimum: 1
         type: integer
+    PathAuditID:
+      example: aud_0123456789ab
+      in: path
+      name: audit_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/AuditID'
+    QuerySortAsc:
+      description: Sort in ascending order
+      in: query
+      name: sort_asc
+      schema:
+        default: false
+        type: boolean
     QueryOffset:
       description: Starting index for pagination
       in: query
@@ -379,7 +374,18 @@ components:
         format: uint32
         minimum: 0
         type: integer
+    QueryAuditResourceTypeName:
+      in: query
+      name: audit_resource_type_name
+      schema:
+        $ref: '#/components/schemas/AuditResourceTypeName'
   responses:
+    '404':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Not found
     '401':
       content:
         application/json:
@@ -418,12 +424,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Internal server error
-    '404':
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not found
     '400':
       content:
         application/json:
