@@ -64,6 +64,141 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Slide is a company surfaced as a portfolio company of general-catalyst and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+Slide is a modern, security-first Business Continuity and Disaster Recovery (BCDR) platform built exclusively for Managed Service Providers (MSPs). Founded by Datto creator Austin McChord, Slide pairs on-premise Slide Box appliances with the Slide Cloud to deliver always-encrypted, block-level backup, snapshot management, file and image restores, and virtualization. Its open REST API (api.slide.tech) gives MSPs full programmatic control to integrate, extend, and automate agents, devices, backups, snapshots, restores, networks, clients, users, alerts, and audit logs within their existing tooling. The platform uses AES-256 and ZFS native encryption, offers month-to-month subscriptions, and is SOC 2 Type 1 certified.
 
-Backed by: general-catalyst
+**Areas:** Company · Backup · Disaster Recovery · Business Continuity · BCDR · Managed Service Providers · MSP · Data Protection · Cloud Storage · Virtualization
+
+## Slide on APIs.io
+
+Everything profiled for Slide is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/slide/](https://apis.io/providers/slide/)** — or go straight to one of the APIs or properties below.
+
+### APIs (14)
+
+- [Slide Accounts API](https://apis.io/apis/slide/slide-accounts-api/) — Everything about [accounts](#model/account)
+- [Slide Agents API](https://apis.io/apis/slide/slide-agents-api/) — Everything about [agents](#model/agent)
+- [Slide Alerts API](https://apis.io/apis/slide/slide-alerts-api/) — Everything about [alerts](#model/alert)
+- [Slide Audits API](https://apis.io/apis/slide/slide-audits-api/) — The Audits API from Slide — 4 operation(s) for audits.
+- [Slide Backups API](https://apis.io/apis/slide/slide-backups-api/) — Everything about [backups](#model/backup)
+- [Slide Clients API](https://apis.io/apis/slide/slide-clients-api/) — Everything about [clients](#model/client)
+- [Slide Devices API](https://apis.io/apis/slide/slide-devices-api/) — Everything about [devices](#model/device)
+- [Slide Networks API](https://apis.io/apis/slide/slide-networks-api/) — Everything about [networks](#model/network)
+- [Slide Restores (File) API](https://apis.io/apis/slide/slide-restores-file-api/) — Everything about [file restores](#model/filerestore)
+- [Slide Restores (Image) API](https://apis.io/apis/slide/slide-restores-image-api/) — Everything about [image exports](#model/imageexport)
+- [Slide Restores (Push) API](https://apis.io/apis/slide/slide-restores-push-api/) — Everything about [push file restores](#model/filerestorepush)
+- [Slide Restores (Virtual Machine) API](https://apis.io/apis/slide/slide-restores-virtual-machine-api/) — Everything about [virtual machines](#model/virtualmachine)
+- [Slide Snapshots API](https://apis.io/apis/slide/slide-snapshots-api/) — Everything about [snapshots](#model/snapshot)
+- [Slide Users API](https://apis.io/apis/slide/slide-users-api/) — Everything about [users](#model/user)
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [slide](https://apis.io/servers/slide/slide/)
+
+#### Collections (14)
+
+Postman and Open Collection request collections.
+
+- [Slide Accounts API](https://apis.io/collections/slide/open-slide-accounts-api/)
+- [Slide Accounts Agents API](https://apis.io/collections/slide/open-slide-agents-api/)
+- [Slide Accounts Alerts API](https://apis.io/collections/slide/open-slide-alerts-api/)
+- [Slide Accounts Audits API](https://apis.io/collections/slide/open-slide-audits-api/)
+- [Slide Accounts Backups API](https://apis.io/collections/slide/open-slide-backups-api/)
+- [Slide Accounts Clients API](https://apis.io/collections/slide/open-slide-clients-api/)
+- [Slide Accounts Devices API](https://apis.io/collections/slide/open-slide-devices-api/)
+- [Slide Accounts Networks API](https://apis.io/collections/slide/open-slide-networks-api/)
+- [Slide Accounts Restores (File) API](https://apis.io/collections/slide/open-slide-restores-file-api/)
+- [Slide Accounts Restores (Image) API](https://apis.io/collections/slide/open-slide-restores-image-api/)
+- [Slide Accounts Restores (Push) API](https://apis.io/collections/slide/open-slide-restores-push-api/)
+- [Slide Accounts Restores (Virtual Machine) API](https://apis.io/collections/slide/open-slide-restores-virtual-machine-api/)
+- [Slide Accounts Snapshots API](https://apis.io/collections/slide/open-slide-snapshots-api/)
+- [Slide Accounts Users API](https://apis.io/collections/slide/open-slide-users-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Slide Openapi Overlay](https://apis.io/overlays/slide/slide-openapi-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Slide Authentication](https://apis.io/security/slide/slide-authentication/)
+- [Slide Domain Security](https://apis.io/security/slide/slide-domain-security/)
+- [Slide Trust Center](https://apis.io/security/slide/slide-trust-center/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://slide.tech)
+- [Documentation](https://docs.slide.tech)
+- [Getting started](https://docs.slide.tech/getting-started/)
+- [API reference](https://docs.slide.tech/api/)
+- [Support](https://discord.com/invite/Ggb3xv3kWG)
+- [Changelog](https://docs.slide.tech/releases/)
+- [Blog](https://slide.tech/news)
+- [Compliance](https://docs.slide.tech/security-and-trust/)
+- [Terms of service](https://slide.tech/legal/terms-and-conditions)
+- [Privacy policy](https://slide.tech/legal/privacy-policy)
+- [Status](https://status.slide.tech)
+
+## API Evangelist rating
+
+**Kin Score 48.3** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 53.8 |
+| Contract governance | 4.5 |
+| Operational transparency | 39.5 |
+| Developer ergonomics | 58.9 |
+| Access clarity | 43.4 |
+
+**Agent readiness 25.6** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | paginated |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 29.4** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/slide/](https://apis.io/providers/slide/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Slide: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/slide/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
